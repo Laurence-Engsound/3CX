@@ -52,6 +52,12 @@ const xapiApiProbe = ref<{
 const xapiProbeAll = ref<
   { endpoint: string; status: number; text: string }[] | null
 >(null)
+const presenceResult = ref<{
+  ok: boolean
+  endpoint: string
+  status: number
+  error?: string
+} | null>(null)
 
 // WebSocket state + log lives in Pinia store, not local — so navigating
 // between settings/phone/history doesn't reset the log.
@@ -147,6 +153,38 @@ async function testXapi() {
         ok: false,
         message: `連線失敗：${result.error ?? 'unknown'}`
       }
+    }
+  } catch (err) {
+    xapiResult.value = {
+      ok: false,
+      message: err instanceof Error ? err.message : String(err)
+    }
+  } finally {
+    xapiBusy.value = false
+  }
+}
+
+async function testSetPresence(profile: string) {
+  presenceResult.value = null
+  const client = getXapiClient()
+  if (!client) {
+    xapiResult.value = {
+      ok: false,
+      message: '請先按「測試連線」完成 OAuth'
+    }
+    return
+  }
+  xapiBusy.value = true
+  try {
+    // Hardcoded UserId=29 from the admin URL /office/users/edit/29 for Laurence Lin 1000.
+    // Phase 4 polish will store this in the profile after discovery.
+    const result = await client.setUserProfile(29, profile)
+    presenceResult.value = result
+    xapiResult.value = {
+      ok: result.ok,
+      message: result.ok
+        ? `設定成功：${result.endpoint} → HTTP ${result.status}`
+        : `全部嘗試失敗。最後一個：${result.endpoint} → ${result.error ?? 'unknown'}`
     }
   } catch (err) {
     xapiResult.value = {
@@ -403,6 +441,37 @@ async function probeApi() {
           >
             查看 API 資料
           </button>
+          <button
+            type="button"
+            class="rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50"
+            :disabled="xapiBusy"
+            @click="testSetPresence('Away')"
+          >
+            試設 Away
+          </button>
+          <button
+            type="button"
+            class="rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50"
+            :disabled="xapiBusy"
+            @click="testSetPresence('Available')"
+          >
+            試設 Available
+          </button>
+        </div>
+
+        <div
+          v-if="presenceResult"
+          class="rounded-md border px-3 py-2 text-xs font-mono"
+          :class="
+            presenceResult.ok
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+              : 'border-rose-200 bg-rose-50 text-rose-700'
+          "
+        >
+          <div>{{ presenceResult.endpoint }} → HTTP {{ presenceResult.status }}</div>
+          <div v-if="presenceResult.error" class="mt-1 break-all">
+            {{ presenceResult.error }}
+          </div>
         </div>
 
         <div

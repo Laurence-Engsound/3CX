@@ -248,18 +248,158 @@ export class XapiClient {
    * returned by getMe (the client-credentials account) — this will need
    * re-visiting if we want per-agent presence later.
    */
+  /**
+   * Try to set a user's current profile (presence).
+   *
+   * 3CX V20 doesn't formally document a dedicated SetPresence endpoint in
+   * the XAPI guide, but the User entity exposes `CurrentProfileName`
+   * (values: "Available", "Away", "Lunch", "Business Trip", "Out of Office").
+   * We try OData PATCH first; if the PBX rejects it (401/403/405), fall
+   * back to the Pbx.SetProfile action convention seen for other entities.
+   *
+   * Returns { ok, endpoint, status, error? } — callers should surface the
+   * error string to the user when ok=false so they can adjust.
+   */
+  async setUserProfile(
+    userId: number | string,
+    profileName: string
+  ): Promise<{
+    ok: boolean
+    endpoint: string
+    status: number
+    error?: string
+  }> {
+    const attempts: {
+      method: string
+      path: string
+      body: Record<string, unknown>
+    }[] = [
+      {
+        method: 'PATCH',
+        path: `/xapi/v1/Users(${userId})`,
+        body: { Id: userId, CurrentProfileName: profileName }
+      },
+      {
+        method: 'PATCH',
+        path: `/xapi/v1/Users(${userId})`,
+        body: { CurrentProfileName: profileName }
+      },
+      {
+        method: 'POST',
+        path: `/xapi/v1/Users(${userId})/Pbx.SetProfile`,
+        body: { profileName }
+      },
+      {
+        method: 'POST',
+        path: `/xapi/v1/Users(${userId})/Pbx.SetCurrentProfileByName`,
+        body: { profileName }
+      }
+    ]
+    let last = { status: 0, error: 'no attempt', endpoint: '' }
+    for (const a of attempts) {
+      try {
+        const res = await this.authFetch(a.path, {
+          method: a.method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(a.body)
+        })
+        if (res.status >= 200 && res.status < 300) {
+          return { ok: true, endpoint: `${a.method} ${a.path}`, status: res.status }
+        }
+        const text = await res.text().catch(() => '')
+        last = {
+          status: res.status,
+          error: `${res.status} ${res.statusText}${text ? ': ' + text.slice(0, 200) : ''}`,
+          endpoint: `${a.method} ${a.path}`
+        }
+      } catch (err) {
+        last = {
+          status: 0,
+          error: err instanceof Error ? err.message : String(err),
+          endpoint: `${a.method} ${a.path}`
+        }
+      }
+    }
+    return { ok: false, ...last }
+  }
+
+  /** Try to find a user by extension number; returns the User record. */
+  async findUserByExtension(extension: string): Promise<unknown | null> {
+    const res = await this.authFetch(
+      `/xapi/v1/Users?$filter=${encodeURIComponent(`Number eq '${extension}'`)}&$select=Id,Number,FirstName,LastName,CurrentProfileName`
+    )
+    if (!res.ok) return null
+    const body = (await res.json().catch(() => null)) as
+      | { value?: unknown[] }
+      | null
+    return body?.value?.[0] ?? null
+  }
+
+  /** Back-compat alias for earlier callers. */
   async setPresence(status: string): Promise<void> {
     throw new Error(
-      `Not implemented in Phase 4 bootstrap; will land once event stream verified. Requested status: ${status}`
+      `setPresence deprecated — use setUserProfile(userId, "${status}") instead.`
     )
   }
 
   /**
-   * List CDR (Call Detail Records) for a date range.
-   * Signature is a placeholder until Phase 4 CDR task.
+   * List Call Detail Records (CDR).
+   *
+   * 3CX V20 exposes CDR via OData. The exact collection name has varied
+   * between Updates (`ReportCallLogData`, `CallHistoryView`, `CallHistory`),
+   * so we try a few and return the first one that answers 2xx. Consumers
+   * get `{ endpoint, entries }` and can format the raw entries.
+   *
+   * `extension` filters to a specific DN if provided. `top` caps the result
+   * count (OData `$top`).
    */
+  async listCallHistory(
+    options: { extension?: string; top?: number } = {}
+  ): Promise<{
+    endpoint: string
+    entries: unknown[]
+  }> {
+    const top = options.top ?? 50
+    const extFilter = options.extension
+      ? `&$filter=${encodeURIComponent(
+          `(SourceCallerId eq '${options.extension}') or (DestinationCallerId eq '${options.extension}')`
+        )}`
+      : ''
+    const candidates = [
+      `/xapi/v1/ReportCallLogData?$top=${top}&$orderby=StartTime desc${extFilter}`,
+      `/xapi/v1/ReportCallLogData?$top=${top}`,
+      `/xapi/v1/CallHistoryView?$top=${top}&$orderby=StartTime desc`,
+      `/xapi/v1/CallHistoryView?$top=${top}`,
+      `/xapi/v1/CallHistory?$top=${top}`,
+      `/xapi/v1/CdrList?$top=${top}`
+    ]
+    for (const path of candidates) {
+      try {
+        const res = await this.authFetch(path)
+        if (!res.ok) continue
+        const ctype = res.headers.get('content-type') ?? ''
+        if (!ctype.includes('application/json')) continue
+        const body = (await res.json().catch(() => null)) as
+          | { value?: unknown[] }
+          | unknown[]
+          | null
+        const entries = Array.isArray(body)
+          ? body
+          : ((body as { value?: unknown[] } | null)?.value ?? [])
+        return { endpoint: path, entries }
+      } catch {
+        // try next
+      }
+    }
+    throw new Error(
+      'No known CDR endpoint responded 2xx. Check Admin role or use /xapi/v1/$metadata to find the correct collection.'
+    )
+  }
+
+  /** Deprecated alias; kept for earlier callers. */
   async listCdr(_fromIso: string, _toIso: string): Promise<unknown[]> {
-    throw new Error('Not implemented yet')
+    const result = await this.listCallHistory()
+    return result.entries
   }
 
   /** The current access token header value, or null if unauthenticated. */
