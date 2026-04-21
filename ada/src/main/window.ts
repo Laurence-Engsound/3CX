@@ -1,7 +1,16 @@
-import { BrowserWindow, session, shell } from 'electron'
+import { BrowserWindow, ipcMain, session, shell } from 'electron'
 import { join } from 'node:path'
 
 const isDev = !!process.env.ELECTRON_RENDERER_URL
+
+/**
+ * Bearer token for WebSocket upgrade requests to 3CX Call Control API.
+ *
+ * The browser WebSocket API cannot set custom headers, but Electron's
+ * session webRequest hooks CAN inject them on the WS upgrade HTTP request.
+ * Renderer calls `xapi.set-ws-token` via IPC before opening the socket.
+ */
+let xapiWsToken: string | null = null
 
 export function createMainWindow(): BrowserWindow {
   registerPermissionHandlers()
@@ -111,4 +120,30 @@ function registerPermissionHandlers(): void {
       callback({ responseHeaders: headers })
     }
   )
+
+  // Inject Authorization header on the WebSocket upgrade request for
+  // /callcontrol/ws. Browsers cannot set this header via `new WebSocket()`,
+  // but Electron's webRequest runs below that layer.
+  session.defaultSession.webRequest.onBeforeSendHeaders(
+    (details, callback) => {
+      const isPbx = PBX_HOSTS.some((h) => details.url.startsWith(h))
+      const isCallControl =
+        isPbx && details.url.includes('/callcontrol')
+      if (isCallControl && xapiWsToken) {
+        callback({
+          requestHeaders: {
+            ...details.requestHeaders,
+            Authorization: `Bearer ${xapiWsToken}`
+          }
+        })
+      } else {
+        callback({ requestHeaders: details.requestHeaders })
+      }
+    }
+  )
+
+  // Renderer → Main: current XAPI bearer token for header injection.
+  ipcMain.handle('xapi:set-ws-token', (_e, token: string | null) => {
+    xapiWsToken = token && token.length > 0 ? token : null
+  })
 }

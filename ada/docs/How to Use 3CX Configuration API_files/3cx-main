@@ -1,0 +1,145 @@
+jQuery(($) => {
+
+    $('.xcx-tab-container-container').not('.active').hide();
+
+    const isInViewport = ($el, offsetPercent = 0) => {
+      if (!$el || !$el.length) return false;
+      const dom = $el[0];
+      if (!(dom instanceof Element)) return false;
+  
+      const rect = dom.getBoundingClientRect();
+      const offsetPx = window.innerHeight * (offsetPercent / 100);
+  
+      return rect.top < window.innerHeight - offsetPx && rect.bottom > offsetPx;
+    };
+  
+    const handleScroll = () => {
+      $('.xcx-track-view').each((_, el) => {
+        const $el = $(el);
+        const isOnce = $el.hasClass('xcx-track-once');
+        const inView = isInViewport($el, 20); // 👈 change offset % here
+  
+        if (inView) {
+          $el.addClass('xcx-inview');
+        } else if (!isOnce) {
+          $el.removeClass('xcx-inview');
+        }
+      });
+    };
+
+    const throttledScroll = () => {
+      requestAnimationFrame(handleScroll);
+    };
+  
+    $(window).on('scroll resize', throttledScroll);
+    $(document).ready(handleScroll);
+
+    $('.xcx-home-switcher-tab').on('click', function(e) {
+        if ($(this).parent().hasClass('xcx-home-features')){
+          $parent = '.xcx-home-features';
+        }
+        else {
+          $parent = '.xcx-home-business';
+        }
+        e.preventDefault();
+    
+        if ($(this).hasClass('active')) return;
+        console.log($parent + ' .xcx-tab-container-container.active');
+        $($parent + ' .xcx-home-switcher-tab').removeClass('active');
+        $(this).addClass('active');
+    
+        const $targetID = $(this).attr('data-tab');
+        const $currentTab = $($parent + '.xcx-tab-container-container.active');
+        const $newTab = $('#' + $targetID);
+    
+        // Keep current tab's active class until fadeOut completes
+        $currentTab.stop(true, true).fadeOut(100, function () {
+            $currentTab.removeClass('active').css('display', 'none');
+    
+            // THEN fade in the new one
+            $newTab.css('display', 'none').addClass('active').fadeIn(300);
+        });
+    });
+
+    $('.xcx-dropdown-toggle').on('click', function(e) {
+      e.stopPropagation();
+      $(this).next('.xcx-dropdown-menu').toggleClass('show');
+      $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+    });
+  
+    $('.xcx-dropdown-menu li').on('click', function(e) {
+      e.stopPropagation();
+      if ($(this).parent().hasClass('xcx-home-features')){
+        $parent = '.xcx-home-features';
+        $gparent = '.xcx-drop-features';
+        $section = '.xcx-all-in-one-sec';
+      }
+      else {
+        $parent = '.xcx-home-business';
+        $gparent = '.xcx-drop-business';
+        $section = '.xcx-choose-bus-sec';
+      }
+  
+      var tabId = $(this).data('tab');
+      var label = $(this).text();
+  
+      // Update label text
+      $($gparent + ' .xcx-dropdown-toggle .label').text(label);
+  
+      // Close dropdown
+      $($parent + '.xcx-dropdown-menu').removeClass('show');
+      $($gparent + ' .xcx-dropdown-toggle i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+  
+      // Update active class in list
+      $($parent + '.xcx-dropdown-menu li').removeClass('active');
+      $(this).addClass('active');
+  
+      // Show selected tab content
+      console.log($section);
+      $( $section + ' [id^="xcx-tab-"]').hide();
+      $('#' + tabId).show();
+    });
+    
+    $(document).on('click', function(e) {
+      if (!$(e.target).closest('.xcx-home-switcher-dropdown').length) {
+        $('.xcx-dropdown-menu').removeClass('show');
+        $('.xcx-dropdown-toggle i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+      }
+    });
+
+
+  });
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[data-original-title*="Twitter"]').forEach(function(el) {
+    let tooltip = el.getAttribute('data-original-title');
+    el.setAttribute('data-original-title', tooltip.replace('Twitter', 'X'));
+  });
+});
+
+document.querySelectorAll(".xcx-blog-code").forEach(wrapper => {
+  const button = document.createElement("button");
+  button.className = "gdoc-copy-btn";
+  button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+  wrapper.prepend(button);
+});
+  
+document.addEventListener("click", function(event) {
+  const btn = event.target.closest(".gdoc-copy-btn");
+  if (btn) {
+      const wrapper = btn.parentElement;
+      let codeText = "";
+      const lines = wrapper.querySelectorAll(".xcx-blog-code code");
+      lines.forEach(p => {
+          codeText += p.textContent + "\n";
+      });
+      navigator.clipboard.writeText(codeText).then(() => {
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add("copied-success");
+          setTimeout(() => {
+              btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+              btn.classList.remove("copied-success");
+          }, 2000);
+      });
+  }
+});

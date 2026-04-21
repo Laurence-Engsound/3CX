@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useAgentStore } from './stores/agent'
 import { useSettingsStore } from './stores/settings'
 import Sidebar from './components/Sidebar.vue'
 import StatusBar from './components/StatusBar.vue'
+import WebClientPanel from './components/WebClientPanel.vue'
 
 const agent = useAgentStore()
 const settings = useSettingsStore()
 const router = useRouter()
+const route = useRoute()
+
+// The phone route shows WebClientPanel; every other route uses RouterView.
+const showPhone = computed(() => route.name === 'phone')
 
 onMounted(async () => {
   await settings.load()
 
-  // Tray → agent state toggle (still wired for future use)
   window.ada.on('tray:toggle-ready', () => {
     agent.toggleReady()
   })
 
-  // Phase 2.B: No SIP auto-connect. The webview handles login itself.
-  // Route guard: if no FQDN saved, go to /login; otherwise /phone.
   if (!settings.state.profile?.pbxFqdn) {
     router.replace('/login')
   } else {
@@ -34,8 +36,20 @@ onMounted(async () => {
     <StatusBar />
     <div class="flex flex-1 overflow-hidden">
       <Sidebar />
-      <main class="flex-1 overflow-hidden">
-        <RouterView />
+      <main class="relative flex-1 overflow-hidden">
+        <!--
+          WebClientPanel is always mounted. v-show toggles CSS visibility
+          so the <webview> stays alive (any call in progress keeps going)
+          as the user navigates between views.
+        -->
+        <div v-show="showPhone" class="absolute inset-0">
+          <WebClientPanel />
+        </div>
+
+        <!-- Non-phone routes overlay the area while phone view is hidden. -->
+        <div v-if="!showPhone" class="absolute inset-0 overflow-auto p-4">
+          <RouterView />
+        </div>
       </main>
     </div>
   </div>

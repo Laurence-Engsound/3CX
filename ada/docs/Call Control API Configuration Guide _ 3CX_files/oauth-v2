@@ -1,0 +1,274 @@
+jQuery(function (u) {
+    var r = !0;
+    u(document).ready(function () {
+      u(".xcx_search_bar_icon").click(function (r) {
+        r.preventDefault(), u(".fusion-custom-menu-item-contents").slideToggle();
+      }),
+        u(".tcx-login").click(function (r) {
+          r.preventDefault();
+          let e = window.location.pathname;
+          u.get("/uu_?login&lr=" + encodeURI(e), function (u) {
+            window.location = u.login;
+          });
+        });
+      var e = new CustomEvent("xcx_is_not_logged_in", {
+          detail: "User is not logged in",
+        }),
+        t = new CustomEvent("xcx_is_logged_in", { detail: "User is logged in" }),
+        n = null;
+      function o() {
+        u.ajax({
+          type: "GET",
+          url: "https://webapi.3cx.com/api/v1/public/session-check",
+          dataType: "json",
+          xhrFields: { withCredentials: !0 },
+        })
+          .done(function (r) {
+            if (r.hasOwnProperty("error") && !0 == r.error) {
+              (n = null), document.dispatchEvent(e), i();
+              return;
+            }
+            let o = r.user.FirstName + " " + r.user.LastName;
+            o.length > 40 && (o = o.substring(0, 40) + "...");
+            let a = r.user.email;
+            if (
+              (a.length > 40 && (a = a.substring(0, 40) + "..."),
+              null == n || n != a)
+            ) {
+              n = a;
+              let s =
+                '<li class="xcx-megamenu-title menu-item menu-item-type-custom menu-item-object-custom fusion-dropdown-submenu"style="margin-bottom:10px;"><div style="font-weight: bold;text-align: left;border-bottom:1px solid #ccc;align-items:center;margin-bottom:12px;padding-top:2px!important;padding-bottom:2px!important;font-weight:700;font-size:14px;min-height:25px;color:#373737;box-sizing:content-box"><div style="color: #999;font-weight: 400;">' +
+                o +
+                '</div><div style="">' +
+                a +
+                "</div></div></li>" +
+                r.submenu;
+              u(".xcx_avatar_loader").fadeOut(),
+                r.user.avatar
+                  ? (u(".uuAvatar")
+                      .fadeOut(100, function () {
+                        u(".uuAvatar").attr("src", r.user.avatar);
+                      })
+                      .fadeIn(100),
+                    u(".topTcxUserBar .uTopBarAlert").fadeIn())
+                  : (u(".uuAvatar")
+                      .fadeOut(100, function () {
+                        u(".uuAvatar").attr(
+                          "src",
+                          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAXCAMAAAA4Nk+sAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAUdQTFRFAAAAurq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6bPOJ+AAAAG10Uk5TACVrl6kvuPz65tr7D33014IwEQUGq/+iDA2jAY73fgB/SvlsC2lvCNHKCqXhzVr9UHJccVT+oOcTwLICFem107n4kbHGB5aJR/VEipNi9rcaTugUnT1hWeXi81UOdnPOQdnUkF1frYQxEoXbJJmu0pQAAAFhSURBVHicVZHrWwFBFMYP1m3d7RqtJRGRW7WhUGldCiGbFUlFFxH//+fMuNX5MPN7zzPP2T3vC7AshVJFUSqlAv6WWqPV6Wlab9Bq1Jum0WS2WG12hrHbrBazybjssg7k3Fk/4VzIwWLg3Z5d73aed8/j5he3z7+PZSDocgUDmA78PoBQ+BBPiEQNsZghGsFz4uEQJI6O8ZMTs8BxgvkUczKVgPTZOcZMNgeQy2YwX1ymgb4iX8q78enOE3FNg1ggVCyVAcqlIhE3IqBbQpUqVatR1QoRdwjEOiG+0USo2eCJqItA36/2aElSa4UaGtIPbQCmITuDnU7QKT8yAO3Fn3RTSWBlf+9J2+9rYz2/zMJzqrvYMj548Qh2Ti1Jas4uiK+Dt8WWMNQVRvLWqvT7h25IHEToc9v+Qog4iP0eD9bdwXjlN0ln9D2Zsux08kNv0llmadDPZv+zxDVfJj9fyV8JUC/n1E/SmgAAAABJRU5ErkJggg=="
+                        );
+                      })
+                      .fadeIn(100),
+                    u(".topTcxUserBar .uTopBarAlert").fadeIn());
+              let q = u("<div />", {
+                id: "xcx_user_menu_dropdown",
+                class: "xcx_megamenu_ul",
+              }).html(s);
+              q.css({ "margin-top": "12px", "margin-bottom": "12px" }),
+                q.find(".menu-item a").css({ padding: "5px 34px" });
+              let l = u("<div />").html(r.user.alert);
+              u(".topTcxUserBar .sub-menu").html(""),
+                u(".topTcxUserBar .sub-menu").prepend(q),
+                u(".menu-text .topTcxUserBar").append(l),
+                u(".tcx-login, .tcx-utbnl").hide(),
+                u("#menu-item-logout").off("click"),
+                u("#menu-item-logout a").click(function (r) {
+                  var logoutHref = u(this).attr("href");
+                  r.preventDefault(),
+                    ($try = void u.ajax({
+                      url: "/user-logout/",
+                      type: "POST",
+                      success: function (u) {
+                        window.open(logoutHref, '_self');
+                        return console.log(u), 100 === u.status;
+                      },
+                    })),
+                    u.get("/u_?error=login_required")
+                }),
+                u(".fusion-main-menu .topTcxUserBar").off("mouseout"),
+                u(".fusion-main-menu .topTcxUserBar .sub-menu").off("mouseout"),
+                u(".fusion-main-menu .topTcxUserBar").mouseout(function (r) {
+                  r.stopPropagation(),
+                    u(".fusion-main-menu").addClass("xcx_show"),
+                    u(".fusion-main-menu .topTcxUserBar")
+                      .addClass("xcx_show")
+                      .delay(700)
+                      .queue(function (r) {
+                        u(this).removeClass("xcx_show"),
+                          u(".fusion-main-menu").removeClass("xcx_show"),
+                          r();
+                      });
+                }),
+                u(".fusion-main-menu .topTcxUserBar .sub-menu").mouseout(
+                  function (r) {
+                    r.stopPropagation(),
+                      u(".fusion-main-menu .topTcxUserBar").removeClass(
+                        "xcx_show"
+                      ),
+                      u(".fusion-main-menu").removeClass("xcx_show");
+                  }
+                ),
+                u(".topTcxUserBar").addClass("loggedin"),
+                document.dispatchEvent(t);
+            }
+          })
+          .error(function (u) {
+            (n = null), document.dispatchEvent(e), i();
+          });
+      }
+      function i() {
+        u(".topTcxUserBar").removeClass("loggedin"),
+          u(".topTcxUserBar .sub-menu").html(""),
+          u(".uuAvatar,.topTcxUserBar .uTopBarAlert").fadeOut(),
+          u(".topTcxUserBar button").remove(),
+          u(".xcx_avatar_loader").fadeOut(400),
+          u(".tcx-login").fadeIn(700);
+      }
+      o(),
+        setInterval(function () {
+          r && o();
+        }, 3e4),
+        document.addEventListener("visibilitychange", () => {
+          r = "visible" === document.visibilityState;
+        });
+    });
+    const allowedAds = [
+      "camp0a8d",
+      "camp0a2d",
+      "hdha15",
+      "hdha16",
+      "remoteapps1",
+      "pbx1",
+      "phonesystem1",
+      "contactcenter1",
+      "hosted1",
+      "ms3651",
+      "hotel1",
+      "livechat1",
+      "livechat1",
+      "video1",
+      "multitenant1",
+      "teams1",
+      "callcenter1",
+      "callreporting1",
+      "pbxai1",
+      "security1",
+      "sip1",
+      "aianalytics1",
+      'campyt1',
+      'hosp1',
+      'hosp2',
+      'edu1',
+      'med1',
+      'campgen'
+    ];
+    const allowedAdRefs = ["google", "fb", "twitter", "instagram", "linkedin", "linkedinap", "capterra", "g2"];
+    const allowedsrc = ["pgen", "livechatwpplugin", "asterisken3ads", "callcenteren3ads", "pbxen3ads", "teamsen3ads", "phonesystemen3ads", "sipserveren3ads", "asterisken2ads", "callcenteren2ads", "pbxen2ads", "teamsen2ads", "phonesystemen2ads", "sipserveren2ads", "networkchuck-pr", "fblipsinterests", "iglipsinterests", "livechatlipsen2ads", "livechatlipsen3ads", "fbstartupplay-interests", "igstartupplay-interests", "fbbombpbx-leadobjective", "igvideoconfinterests", "igbombinterests", "igchildsplay", "bombpbxen3ads", "contactcenterusads", "igvideoconf", "igbombpbx", "iglivechatlips", "livechatwp", "startupplayen2ads", "startupplayen3ads", "domarketplace", "amazonmarketplace", "fbwhatsappinterests", "fbwhatsapp", "lnkdwhatsapp", "quora_whatsapp", "whatsappenads", "whatsappusads", "whatsappen2ads", "whatsappen3ads", "ig-interest", "guru99", "hackwell-tech", "linustechtips-live-chat", "lnkd-blog", "whatsappen3ads", "fbvideoconfinterests", "livechatfreeen3ads", "livechatwpen3ads", "videoconfen3ads", "fbvideoconf", "lnkdvideoconf", "quora_video_conf", "videoconfenads", "videoconfusads", "videoconfen2ads", "videoconfinterests", "ig-remarketing", "fbbombpbx", "lnkdbombpbx", "quora_bomb_pbx", "bombpbxenads", "bombpbxusads", "bombpbxen2ads", "fbbombinterests", "armlegpbxen2ads", "fbarmlegpbx", "lnkdarmlegpbx", "quora_arm_leg_pbx", "armlegpbxenads", "armlegpbxusads", "fbarmleginterests", "petri", "ig", "cnet-download", "fblivechatlips", "lnkdlivechatlips", "quora_live_chat_lips", "livechatlipsenads", "livechatlipsusads", "whatsappenads", "whatsappen2ads", "softwaretestinghelp", "fbgirlstartupplay", "lnkdgirlstartupplay", "quora_girl_startup_play", "startupgirlplayenads", "startupgirlplayusads", "fbstartupplay", "lnkdstartupplay", "quora_startup_play", "startupplayenads", "startupplayusads", "voipinfo-banner", "ippf-banner", "whatsappusads", "whatsappremusads", "fbremoteworking", "lnkdremoteworking", "quora_remote_working", "remoteworkingenads", "remoteworkingusads", "fbremoteworking", "whatsappusads", "rettinger", "quora_questions", "socialtypro", "livechatfreeen2ads", "livechatcompetitorsen2ads", "livechatwpen2ads", "commsbusiness", "crozdesk", "quora_livechat_banner", "lnkdlivechat", "fblivechat", "livechatfreebannerusads", "livechatfreebannerenads", "capterralivechat", "signup", "startup", "quora_wp_livechat", "quora_livechat", "livechatfreeusads", "livechatfreeenads", "livechatcompetitorsusads", "livechatcompetitorsenads", "livechatwpusads", "livechatwpenads", "mailers_en", "3cx_startup_lnkd", "fbcustomerlist1", "fbcustomerlist3", "lnkdcustomerlist1", "lnkdcustomerlist3", "gacustomerlist1usads", "gacustomerlist1enads", "gacustomerlist3usads", "gacustomerlist3enads", "quora_topic", "quora_remarketing", "uctoday", "g2banners", "uctodaybanner", "softwaresuggestbanner", "garemarketingadminenads", "garemarketingadminusads", "garemarketingusersenads", "garemarketingusersusads", "garemarketingpartnersenads", "garemarketingpartnersusads", "garemarketingleadsenads", "garemarketingleadsusads", "redditremarketingleads", "lnkdremarketingadmin", "lnkdremarketingusers", "lnkdremarketingpartners", "fbremarketingadmin", "fbremarketingusers", "fbremarketingpartners", "ippf", "adamtheautomator", "livechathuads", "livechatgrads", "v18remarketingenads", "v18remarketingusads", "v18ads", "lnkdremarketingleads", "lnkdv18", "fbremarketingleads", "fbv18", "centraltelefonicabrads", "livechatenads", "teamsenads", "3cxhostedenads", "lttremarketing", "fblttremarketing", "techhq", "phonearena", "teamsusads", "serchen", "techradar", "ltt", "christitustech", "linkedin", "livechatusads", "github", "voipinfo", "adwords", "sysadmin", "nerdvittles", "piaf", "distrowatch", "pbxexpress", "fbmspen", "fbgclouden", "fbazureen", "fbamazonen", "fbremarketingen", "fbmspus", "fbgcloudus", "fbazureus", "fbamazonus", "fbremarketingus", "asteriskenads", "callcenterenads", "pbxenads", "phonesystemenads", "sipserverenads", "telephonesystemenads", "ucenads", "remarketingenads", "asteriskusads", "callcenterusads", "locationusads", "nortelusads", "pbxusads", "phonesystemusads", "ringcentralusads", "sipserverusads", "remarketingusads", "wordpress", "4sysops", "asteriskremarketingads", "callcenterremarketingads", "ringcentralremarketingads", "remarketingafricaads", "remarketingelastixads", "asteriskremarketingusads", "ringcentralremarketingusads", "callcenterremarketingusads", "voipinforemarketingads", "itpro", "gmarketplace", "azuremarketplace", "converter", "apoel", "gigaset", "8x8usads", "capterra", "sourceforge", "fbcoviden", "voipinfo-covid", "whichvoip", "g2", "covremoteenads", "covremoteusads", "fbcovidschoolen", "fbcovidschoolus", "theregister", "pcpro", "voipreport", "businessphonesystemenads", "covidremarketingadsen", "covidremarketingadsus", "remarketingpantsusads", "remarketingpantsenads", "remarketingpantsvoipinfoads", "remarketingpantselastixads", "remarketingsingsaads", "davidbombal", "networkchuck", "networkchuck2025", "gregvideo", "elastix-en", "fb", "reddit", "redditl1"];
+    const urlParams = new URLSearchParams(window.location.search);
+    const ad = urlParams.get("ad");
+    const adRef = urlParams.get("adref");
+    const src = urlParams.get("src");
+  
+    if (
+      (ad && adRef && allowedAds.includes(ad) && allowedAdRefs.includes(adRef)) ||
+      document.cookie.split("; ").find((row) => row.startsWith("xcx_adbox="))
+    ) {
+      u.ajax({
+        url: "/xcx-pixel/",
+        method: "POST",
+        data: {
+          ad: ad,
+          adref: adRef,
+          src: src
+        },
+        success: function (response) {},
+        error: function (xhr, status, error) {},
+      });
+    }
+  
+    if (src && allowedsrc.includes(src)) {
+      u.ajax({
+        url: "/xcx-pixel/",
+        method: "POST",
+        data: {
+          src: src
+        },
+        success: function (response) {},
+        error: function (xhr, status, error) {},
+      });
+    }
+    const reseller = urlParams.get('resellerId');
+    if (reseller){
+      console.log(reseller);
+      u.ajax({
+        url: '/xcx-pixel/', 
+        method: 'POST',
+        data: {
+          resellerId: reseller, 
+      },
+        success: function(response) {
+            console.log('AJAX Success:', response);
+        },
+        error: function(xhr, status, error) {
+            console.log('AJAX Error:', error);
+        }
+    });
+    }
+    u(".fusion-search-form-content").append(
+      '<div class="xcx-reg-search-button"><a href="#">Site Search</a></div><div class="ai-search-button"><a href="#">Ask 3CX AI</a></div>'
+    );
+    u("form.fusion-search-form").parent().addClass("xcx-ai-search-container");
+    u("header.fusion-header-wrapper").append(
+      '<div class="xcx-containersearch-ext"><div class="xcx-search-overlay-header" style="display:none"></div></div>'
+    );
+    u(".xcx-containersearch-ext").append(u(".xcx-ai-search-container"));
+    u(
+      ".fusion-mobile-menu-search .xcx-reg-search-button, .fusion-mobile-menu-search .ai-search-button"
+    ).wrapAll('<div class="wrapped-buttons"></div>');
+    u(
+      "li.xcx_search_bar_wrapper, .fusion-mobile-menu-design-modern .awb-icon-search"
+    ).on("click", function () {
+      if (u(".xcx-search-overlay-header").hasClass("xcx-aisearch-open")) {
+        u(".xcx-search-overlay-header ").fadeOut(200);
+        u(".xcx-search-overlay-header ").removeClass("xcx-aisearch-open");
+      } else {
+        u(".xcx-search-overlay-header ").fadeIn(200);
+        u(".xcx-search-overlay-header ").addClass("xcx-aisearch-open");
+      }
+    });
+    u(".xcx-search-overlay-header").on("click", function () {
+      u(".xcx-search-overlay-header ").fadeOut(200);
+      u(".xcx-ai-search-container").fadeOut(200);
+      u(".xcx-search-overlay-header ").removeClass("xcx-aisearch-open");
+    });
+    u(".xcx-reg-search-button a").on("click", function (e) {
+      e.preventDefault();
+      if (u(this).parent().parent().hasClass("wrapped-buttons")) {
+        u(".fusion-mobile-menu-search.xcx-ai-search-container form").submit();
+      } else {
+        u(
+          ".fusion-custom-menu-item-contents.xcx-ai-search-container form"
+        ).submit();
+      }
+    });
+    u(".xcx-containersearch-ext input").attr(
+      "placeholder",
+      "What do you want to know?"
+    );
+    u(".ai-search-button a").on("click", function (e) {
+      e.preventDefault();
+  
+      if (u(this).parent().parent().hasClass("wrapped-buttons")) {
+        input = u(".fusion-mobile-menu-search .fusion-search-field input").val();
+      } else {
+        input = u(".xcx-containersearch-ext input").val();
+      }
+      if (input !== "") {
+        const query = encodeURIComponent(input);
+        window.location.href = "https://www.3cx.com/help?query=" + query;
+      } else {
+        window.location.href = "https://www.3cx.com/help/";
+      }
+    });
+  });
+  

@@ -31,6 +31,15 @@ export interface AdaApi {
     getWebviewPreload(): Promise<string>
   }
 
+  /** XAPI helpers that require Main-process privileges. */
+  xapi: {
+    /**
+     * Set the bearer token that Main will inject on the `/callcontrol/ws`
+     * upgrade request. Pass null/empty to clear.
+     */
+    setWsToken(token: string | null): Promise<void>
+  }
+
   /** Secure credential storage (keytar-backed). */
   credentials: {
     save(service: string, account: string, password: string): Promise<void>

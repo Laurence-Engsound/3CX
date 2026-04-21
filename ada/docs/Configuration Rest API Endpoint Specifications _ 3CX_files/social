@@ -1,0 +1,2 @@
+jQuery(function($){function updateSocialMediaLinks(){$('a.xcx-footer-2024-iconsFB-icon').attr('title','Follow 3CX on Facebook');$('a.xcx-footer-2024-iconsX-icon').attr('title','Follow 3CX on Twitter');$('a.xcx-footer-2024-iconsinsta-icon').attr('title','Follow 3CX on Instagram');$('a.xcx-footer-2024-iconsyoutube-icon').attr('title','Subscribe to 3CX YouTube channel');$('a.xcx-footer-2024-iconslinkedin').attr('title','Connect with 3CX on LinkedIn')}
+updateSocialMediaLinks()})

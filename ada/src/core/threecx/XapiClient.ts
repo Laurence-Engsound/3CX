@@ -103,11 +103,71 @@ export class XapiClient {
     this.token = null
   }
 
-  /** Fetch the /Users endpoint — also useful as a "ping" to verify auth. */
+  /**
+   * Fetch a list of users from 3CX — also useful as a post-auth ping to
+   * verify that the access token is accepted by XAPI endpoints.
+   *
+   * Tries a couple of known V20 paths in order until one responds 2xx,
+   * because 3CX has shuffled these between minor releases. Returns
+   * { endpoint, status, body } so the caller can show the raw response
+   * for debugging the exact shape of their PBX's response.
+   */
+  async getUsers(): Promise<{
+    endpoint: string
+    status: number
+    body: unknown
+  }> {
+    // Try a set of candidate endpoints across XAPI + Call Control APIs.
+    // Stop at the first 2xx; if none succeed, return the LAST non-2xx so
+    // the caller at least sees what 3CX said (401/403/404 tells us a lot).
+    // Candidate endpoints confirmed against 3CX V20 official docs
+    // (see docs/3CX Call Control API Endpoint Specification Guide _ 3CX.html
+    //  and Configuration Rest API Endpoint Specifications _ 3CX.html).
+    const candidates = [
+      // XAPI quick test — documented "Quick Test - Validating Token Authentication"
+      '/xapi/v1/Defs?$select=Id',
+      // Call Control — root lists all DN states (needs Call Control scope)
+      '/callcontrol',
+      // Call Control — scoped to our extension
+      '/callcontrol/1000',
+      '/callcontrol/1000/participants',
+      '/callcontrol/1000/devices',
+      // XAPI listings (may require Admin role)
+      '/xapi/v1/Users?$top=5',
+      // Metadata — last resort, always works
+      '/xapi/v1/$metadata'
+    ]
+
+    let lastNonOk: {
+      endpoint: string
+      status: number
+      body: unknown
+    } | null = null
+    let lastErr: Error | null = null
+
+    for (const path of candidates) {
+      try {
+        const res = await this.authFetch(path)
+        const ctype = res.headers.get('content-type') ?? ''
+        const body: unknown = ctype.includes('application/json')
+          ? await res.json().catch(() => null)
+          : await res.text().catch(() => '')
+        if (res.ok) {
+          return { endpoint: path, status: res.status, body }
+        }
+        lastNonOk = { endpoint: path, status: res.status, body }
+      } catch (err) {
+        lastErr = err instanceof Error ? err : new Error(String(err))
+      }
+    }
+    if (lastNonOk) return lastNonOk
+    throw lastErr ?? new Error('All candidate endpoints failed')
+  }
+
+  /** Deprecated alias kept for earlier callers. Prefer `getUsers()`. */
   async getMe(): Promise<unknown> {
-    const res = await this.authFetch('/xapi/v1/Users')
-    if (!res.ok) throw new Error(`getMe: ${res.status} ${res.statusText}`)
-    return res.json()
+    const res = await this.getUsers()
+    return res.body
   }
 
   /**

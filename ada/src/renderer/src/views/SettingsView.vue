@@ -2,7 +2,17 @@
 import { computed, reactive, ref } from 'vue'
 import { useSettingsStore } from '../stores/settings'
 import type { CallDirection } from '../../../shared/types'
-import { recreateXapiClient } from '../composables/useXapiClient'
+import {
+  getXapiClient,
+  recreateXapiClient
+} from '../composables/useXapiClient'
+import {
+  destroyEventStream,
+  ensureEventStream
+} from '../composables/useEventStream'
+import { useXapiStore } from '../stores/xapi'
+
+const xapi = useXapiStore()
 
 const settings = useSettingsStore()
 
@@ -34,6 +44,14 @@ const xapiForm = reactive({
 
 const xapiBusy = ref(false)
 const xapiResult = ref<{ ok: boolean; message: string } | null>(null)
+const xapiApiProbe = ref<{
+  endpoint: string
+  status: number
+  bodyText: string
+} | null>(null)
+
+// WebSocket state + log lives in Pinia store, not local — so navigating
+// between settings/phone/history doesn't reset the log.
 
 function xapiKey(): string {
   const fqdn = settings.state.profile?.pbxFqdn ?? ''
@@ -88,7 +106,6 @@ async function testXapi() {
     return
   }
 
-  // Secret: prefer the just-typed value, else the saved one.
   let clientSecret = xapiForm.clientSecret
   if (!clientSecret) {
     const stored = await window.ada.credentials.load('ada-xapi', xapiKey())
@@ -120,6 +137,100 @@ async function testXapi() {
         ok: false,
         message: `連線失敗：${result.error ?? 'unknown'}`
       }
+    }
+  } catch (err) {
+    xapiResult.value = {
+      ok: false,
+      message: err instanceof Error ? err.message : String(err)
+    }
+  } finally {
+    xapiBusy.value = false
+  }
+}
+
+async function connectEventStream() {
+  const fqdn = settings.state.profile?.pbxFqdn
+  if (!fqdn) {
+    xapiResult.value = { ok: false, message: '請先設定 PBX FQDN' }
+    return
+  }
+  if (!getXapiClient()) {
+    xapiResult.value = {
+      ok: false,
+      message: '請先按「測試連線」取得 access token'
+    }
+    return
+  }
+  xapiBusy.value = true
+  xapiResult.value = null
+
+  try {
+    const es = ensureEventStream(fqdn)
+    // Attach listeners ONCE per EventStream instance; further navigations
+    // between settings/phone don't accumulate duplicates because
+    // ensureEventStream is a singleton — but we still guard with a symbol
+    // on the instance to avoid re-subscribing.
+    const tagged = es as unknown as { __adaWired?: boolean }
+    if (!tagged.__adaWired) {
+      es.on({
+        onState: (state, reason) => xapi.setState(state, reason),
+        onRaw: (raw) => xapi.appendRaw(raw)
+      })
+      tagged.__adaWired = true
+    }
+    await es.connect()
+    xapiResult.value = { ok: true, message: 'WebSocket 已連線' }
+  } catch (err) {
+    xapiResult.value = {
+      ok: false,
+      message: err instanceof Error ? err.message : String(err)
+    }
+  } finally {
+    xapiBusy.value = false
+  }
+}
+
+function disconnectEventStream() {
+  destroyEventStream()
+  xapi.setState('disconnected')
+}
+
+function clearWsLog() {
+  xapi.clear()
+}
+
+function formatWsTime(ts: number): string {
+  const d = new Date(ts)
+  return `${d.getHours().toString().padStart(2, '0')}:${d
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`
+}
+
+async function probeApi() {
+  xapiBusy.value = true
+  xapiApiProbe.value = null
+
+  const client = getXapiClient()
+  if (!client) {
+    xapiResult.value = {
+      ok: false,
+      message: '請先按「測試連線」完成 OAuth，再探測 API'
+    }
+    xapiBusy.value = false
+    return
+  }
+
+  try {
+    const r = await client.getUsers()
+    xapiApiProbe.value = {
+      endpoint: r.endpoint,
+      status: r.status,
+      bodyText: JSON.stringify(r.body, null, 2).slice(0, 2000)
+    }
+    xapiResult.value = {
+      ok: r.status >= 200 && r.status < 300,
+      message: `${r.endpoint} → HTTP ${r.status}`
     }
   } catch (err) {
     xapiResult.value = {
@@ -253,7 +364,7 @@ async function testXapi() {
           <span class="text-sm">ADA 啟動時自動連線</span>
         </label>
 
-        <div class="flex gap-2 pt-1">
+        <div class="flex flex-wrap gap-2 pt-1">
           <button
             type="button"
             class="rounded-md bg-brand px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-dark disabled:bg-slate-300"
@@ -270,6 +381,14 @@ async function testXapi() {
           >
             測試連線
           </button>
+          <button
+            type="button"
+            class="rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50"
+            :disabled="xapiBusy"
+            @click="probeApi"
+          >
+            查看 API 資料
+          </button>
         </div>
 
         <div
@@ -282,6 +401,82 @@ async function testXapi() {
           "
         >
           {{ xapiResult.message }}
+        </div>
+
+        <details
+          v-if="xapiApiProbe"
+          open
+          class="rounded-md border border-slate-200 bg-slate-50 text-xs"
+        >
+          <summary class="cursor-pointer select-none px-3 py-1.5 font-medium">
+            回應內容（{{ xapiApiProbe.endpoint }} · HTTP
+            {{ xapiApiProbe.status }}）
+          </summary>
+          <pre
+            class="max-h-64 overflow-auto border-t border-slate-200 p-3 font-mono"
+            >{{ xapiApiProbe.bodyText }}</pre
+          >
+        </details>
+
+        <!-- Event stream -->
+        <div class="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3">
+          <div class="mb-2 flex items-center gap-2">
+            <span class="text-sm font-medium">事件流 (WebSocket)</span>
+            <span
+              class="rounded-full px-2 py-0.5 text-xs"
+              :class="{
+                'bg-slate-200 text-slate-600': xapi.wsState === 'disconnected',
+                'bg-amber-100 text-amber-800':
+                  xapi.wsState === 'connecting' || xapi.wsState === 'reconnecting',
+                'bg-emerald-100 text-emerald-800': xapi.wsState === 'connected',
+                'bg-rose-100 text-rose-800': xapi.wsState === 'failed'
+              }"
+            >
+              {{ xapi.wsState }}
+            </span>
+            <span v-if="xapi.wsReason" class="truncate text-xs text-slate-500">
+              · {{ xapi.wsReason }}
+            </span>
+            <span class="flex-1" />
+            <button
+              v-if="
+                xapi.wsState === 'connected' || xapi.wsState === 'reconnecting'
+              "
+              class="rounded-md border border-slate-300 px-2 py-1 text-xs hover:bg-white"
+              @click="disconnectEventStream"
+            >
+              斷開
+            </button>
+            <button
+              v-else
+              class="rounded-md border border-slate-300 px-2 py-1 text-xs hover:bg-white disabled:opacity-50"
+              :disabled="xapiBusy"
+              @click="connectEventStream"
+            >
+              連線事件流
+            </button>
+            <button
+              class="rounded-md border border-slate-300 px-2 py-1 text-xs hover:bg-white"
+              @click="clearWsLog"
+            >
+              清除
+            </button>
+          </div>
+          <div
+            class="max-h-48 overflow-auto rounded-md bg-white p-2 font-mono text-[11px]"
+          >
+            <div
+              v-for="(e, i) in xapi.log"
+              :key="i"
+              class="border-b border-slate-100 py-0.5 last:border-b-0"
+            >
+              <span class="text-slate-400">{{ formatWsTime(e.at) }}</span>
+              <span class="ml-2">{{ e.text }}</span>
+            </div>
+            <div v-if="xapi.log.length === 0" class="py-2 text-slate-400">
+              （尚無訊息）
+            </div>
+          </div>
         </div>
       </fieldset>
     </section>

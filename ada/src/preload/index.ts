@@ -45,6 +45,11 @@ const api: AdaApi = {
       ipcRenderer.invoke(IpcChannels.PATHS_WEBVIEW_PRELOAD)
   },
 
+  xapi: {
+    setWsToken: (token: string | null) =>
+      ipcRenderer.invoke('xapi:set-ws-token', token)
+  },
+
   on: (channel, handler) => {
     if (!allowedMainToRenderer.has(channel)) {
       throw new Error(`Channel not allowed: ${channel}`)
