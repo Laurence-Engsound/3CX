@@ -29,9 +29,7 @@ export class MediaManager {
     outputDeviceId?: string
   ): Promise<void> {
     audioEl.srcObject = stream
-    // @ts-expect-error setSinkId is not in lib.dom for all targets
     if (outputDeviceId && typeof audioEl.setSinkId === 'function') {
-      // @ts-expect-error ditto
       await audioEl.setSinkId(outputDeviceId)
     }
     await audioEl.play().catch(() => {

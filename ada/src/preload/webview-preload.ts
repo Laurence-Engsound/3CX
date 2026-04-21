@@ -159,18 +159,15 @@ function countLabelMatches(labels: string[]): { hits: number; matched: string[] 
   return { hits: found.size, matched: Array.from(found) }
 }
 
-function domContainsLabels(labels: string[], minHits = 3): boolean {
-  return countLabelMatches(labels).hits >= minHits
-}
-
-/**
- * Extract the remote phone number shown in the call UI.
- *
- * Heuristic: when the call dialog is up, there is usually a prominently
- * displayed phone number near the top. We search for elements whose text
- * matches /^[+\d][\d\s\-()]{2,}$/ (phone-like) and prefer the largest
- * font-size or earliest in document order.
- */
+// 
+// /**
+//  * Extract the remote phone number shown in the call UI.
+//  *
+//  * Heuristic: when the call dialog is up, there is usually a prominently
+//  * displayed phone number near the top. We search for elements whose text
+//  * matches /^[+\d][\d\s\-()]{2,}$/ (phone-like) and prefer the largest
+//  * font-size or earliest in document order.
+//  */
 function extractCallerNumber(): string | null {
   const candidates: { el: HTMLElement; n: string }[] = []
   const walker = document.createTreeWalker(
