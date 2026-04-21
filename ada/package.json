@@ -1,0 +1,49 @@
+{
+  "name": "ada",
+  "version": "0.1.0",
+  "description": "Agent Desktop Application for 3CX V20 — Softphone + Agent client",
+  "main": "./out/main/index.js",
+  "author": {
+    "name": "Engsound",
+    "email": "laurence_lin@engsound.com.tw"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
+    "typecheck:web": "vue-tsc --noEmit -p tsconfig.web.json",
+    "start": "electron-vite preview",
+    "package:win": "npm run build && electron-builder --win --publish never",
+    "package:linux": "npm run build && electron-builder --linux --publish never",
+    "package:all": "npm run build && electron-builder --win --linux --publish never",
+    "format": "prettier --write \"src/**/*.{ts,vue,json,css}\"",
+    "lint": "eslint \"src/**/*.{ts,vue}\""
+  },
+  "dependencies": {
+    "@vueuse/core": "^11.0.0",
+    "electron-store": "^8.2.0",
+    "keytar": "^7.9.0",
+    "pinia": "^2.2.0",
+    "sip.js": "^0.21.2",
+    "vue": "^3.5.0",
+    "vue-router": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "@vitejs/plugin-vue": "^5.1.0",
+    "autoprefixer": "^10.4.20",
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0",
+    "electron-vite": "^2.3.0",
+    "eslint": "^9.9.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "postcss": "^8.4.41",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vue-tsc": "^2.1.0"
+  }
+}

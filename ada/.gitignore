@@ -1,0 +1,23 @@
+node_modules/
+out/
+dist/
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+release/
+build-output/
+
+# Electron
+*.exe
+*.dmg
+*.AppImage
+*.deb
+*.rpm

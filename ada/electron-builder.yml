@@ -1,0 +1,54 @@
+appId: tw.com.engsound.ada
+productName: ADA
+copyright: Copyright © 2026 Engsound
+
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - out/**/*
+  - resources/**/*
+  - package.json
+  - "!**/*.map"
+  - "!node_modules/**/*"
+
+asar: true
+asarUnpack:
+  - resources/**
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: resources/icon.ico
+  artifactName: ADA-Setup-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: ADA
+
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Office
+  icon: resources/icon.png
+  maintainer: laurence_lin@engsound.com.tw
+  synopsis: Agent Desktop Application for 3CX
+  description: |
+    Softphone and agent client for 3CX V20 PBX.
+    Supports call control, presence, CDR and screen pop.
+  artifactName: ada-${version}-${arch}.${ext}
+
+deb:
+  depends:
+    - libnotify4
+    - libxtst6
+    - libnss3
+    - libasound2
