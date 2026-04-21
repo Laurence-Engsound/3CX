@@ -75,4 +75,40 @@ function registerPermissionHandlers(): void {
   session.defaultSession.setPermissionCheckHandler(
     (_webContents, permission) => autoGrant.has(permission)
   )
+
+  /**
+   * CORS bypass for Renderer → 3CX API calls.
+   *
+   * Vite dev serves the Renderer from http://localhost:5173, and in packaged
+   * builds it's file://. Neither origin is whitelisted by 3CX's server, so
+   * Chromium would block /connect/token and /xapi/* responses.
+   *
+   * We inject Access-Control-Allow-* headers into responses from our own
+   * configured 3CX host so the Renderer can consume them. This ONLY fires
+   * for the configured FQDN — other origins continue to enforce standard
+   * CORS.
+   *
+   * Phase 5 will read the allowed host from settings; for now it's baked
+   * to Engsound's PBX.
+   */
+  const PBX_HOSTS = [
+    'https://engsound.3cx.com.tw',
+    'wss://engsound.3cx.com.tw'
+  ]
+
+  session.defaultSession.webRequest.onHeadersReceived(
+    (details, callback) => {
+      const isPbx = PBX_HOSTS.some((h) => details.url.startsWith(h))
+      if (!isPbx) {
+        callback({ responseHeaders: details.responseHeaders })
+        return
+      }
+      const headers = { ...(details.responseHeaders ?? {}) }
+      headers['Access-Control-Allow-Origin'] = ['*']
+      headers['Access-Control-Allow-Headers'] = ['*']
+      headers['Access-Control-Allow-Methods'] = ['GET,POST,PUT,PATCH,DELETE,OPTIONS']
+      headers['Access-Control-Allow-Credentials'] = ['true']
+      callback({ responseHeaders: headers })
+    }
+  )
 }

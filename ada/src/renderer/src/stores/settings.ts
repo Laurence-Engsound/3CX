@@ -3,7 +3,8 @@ import { reactive, toRaw } from 'vue'
 import type {
   AppSettings,
   ScreenPopConfig,
-  ThreeCxProfile
+  ThreeCxProfile,
+  XapiConfig
 } from '../../../shared/types'
 import { defaultSettings } from '../../../shared/types'
 
@@ -54,7 +55,13 @@ export const useSettingsStore = defineStore('settings', () => {
     await window.ada.settings.set('ui', raw)
   }
 
-  return { state, load, updateProfile, setScreenPop, setUi }
+  async function setXapi(cfg: XapiConfig): Promise<void> {
+    const raw = plain(cfg)
+    state.xapi = raw
+    await window.ada.settings.set('xapi', raw)
+  }
+
+  return { state, load, updateProfile, setScreenPop, setUi, setXapi }
 })
 
 if (import.meta.hot) {

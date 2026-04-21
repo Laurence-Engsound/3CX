@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type {
   AgentStatus,
@@ -109,3 +109,7 @@ export const useAgentStore = defineStore('agent', () => {
     disconnect
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useAgentStore, import.meta.hot))
+}

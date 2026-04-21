@@ -2,6 +2,10 @@ export interface XapiConfig {
   pbxFqdn: string
   clientId: string
   clientSecret: string
+  /** Optional: override the token endpoint (defaults to /connect/token). */
+  tokenEndpoint?: string
+  /** Optional: override the Call Control WebSocket URL. */
+  callControlWsUrl?: string
 }
 
 export interface XapiToken {

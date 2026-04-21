@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, computed, shallowRef } from 'vue'
 import type { CallInfo } from '../../../shared/types'
 import type { SipClient } from '../../../core/sip/SipClient'
@@ -170,3 +170,7 @@ export const useCallStore = defineStore('call', () => {
     sendDtmf
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useCallStore, import.meta.hot))
+}

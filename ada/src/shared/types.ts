@@ -69,10 +69,25 @@ export interface ScreenPopConfig {
   triggerOn: ('inbound' | 'outbound')[]
 }
 
+/**
+ * 3CX Call Control API (XAPI) configuration.
+ *
+ * `clientId` is stored in plain settings (it's not secret on its own).
+ * `clientSecret` is kept in OS keychain under service "ada-xapi" with
+ * account equal to `${pbxFqdn}:${clientId}`.
+ */
+export interface XapiConfig {
+  enabled: boolean
+  clientId: string
+  /** Auto-authenticate + connect event stream on app startup. */
+  autoConnect: boolean
+}
+
 /** Top-level settings schema (serialised to electron-store). */
 export interface AppSettings {
   profile: ThreeCxProfile | null
   screenPop: ScreenPopConfig
+  xapi: XapiConfig
   audio: {
     inputDeviceId?: string
     outputDeviceId?: string
@@ -90,6 +105,11 @@ export const defaultSettings: AppSettings = {
     enabled: false,
     urlTemplate: '',
     triggerOn: ['inbound', 'outbound']
+  },
+  xapi: {
+    enabled: false,
+    clientId: '',
+    autoConnect: true
   },
   audio: {},
   ui: {

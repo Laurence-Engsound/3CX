@@ -49,7 +49,19 @@ export default defineConfig({
         '@core': resolve('src/core')
       }
     },
-    plugins: [vue()],
+    plugins: [
+      vue({
+        template: {
+          // <webview> is a built-in Electron tag, not a Vue component.
+          // Telling Vue this prevents the noisy
+          //   "[Vue warn]: Failed to resolve component: webview"
+          // warning every time PhoneView mounts.
+          compilerOptions: {
+            isCustomElement: (tag) => tag === 'webview'
+          }
+        }
+      })
+    ],
     build: {
       outDir: 'out/renderer',
       rollupOptions: {
