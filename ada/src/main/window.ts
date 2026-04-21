@@ -115,21 +115,46 @@ function registerPermissionHandlers(): void {
       const headers = { ...(details.responseHeaders ?? {}) }
       headers['Access-Control-Allow-Origin'] = ['*']
       headers['Access-Control-Allow-Headers'] = ['*']
-      headers['Access-Control-Allow-Methods'] = ['GET,POST,PUT,PATCH,DELETE,OPTIONS']
+      headers['Access-Control-Allow-Methods'] = [
+        'GET,POST,PUT,PATCH,DELETE,OPTIONS'
+      ]
       headers['Access-Control-Allow-Credentials'] = ['true']
+
+      // Force OPTIONS preflights from our Renderer to PBX to always return
+      // 2xx, regardless of what 3CX actually answers. Some /callcontrol
+      // paths don't honour CORS and return 401/404 on OPTIONS, which
+      // makes Chromium block the real request even though the real
+      // GET/POST would succeed with our injected headers.
+      if (details.method === 'OPTIONS') {
+        callback({
+          responseHeaders: headers,
+          statusLine: 'HTTP/1.1 200 OK'
+        })
+        return
+      }
+
       callback({ responseHeaders: headers })
     }
   )
 
-  // Inject Authorization header on the WebSocket upgrade request for
-  // /callcontrol/ws. Browsers cannot set this header via `new WebSocket()`,
-  // but Electron's webRequest runs below that layer.
+  // Inject Authorization header ONLY on the WebSocket upgrade request.
+  //
+  // Browsers can't set this header via `new WebSocket()`, so Electron's
+  // webRequest injects it here. Previously this handler also fired on
+  // regular HTTPS fetches to /callcontrol, which clobbered the header that
+  // XapiClient's fetch() had already set — resulting in 401s on every REST
+  // Call Control call.
+  //
+  // Scheme check `wss://` (and `ws://` for dev) is precise: HTTP fetches
+  // use `https://` / `http://`, so they bypass this branch untouched.
   session.defaultSession.webRequest.onBeforeSendHeaders(
     (details, callback) => {
       const isPbx = PBX_HOSTS.some((h) => details.url.startsWith(h))
+      const isWsUpgrade =
+        details.url.startsWith('wss://') || details.url.startsWith('ws://')
       const isCallControl =
         isPbx && details.url.includes('/callcontrol')
-      if (isCallControl && xapiWsToken) {
+      if (isCallControl && isWsUpgrade && xapiWsToken) {
         callback({
           requestHeaders: {
             ...details.requestHeaders,

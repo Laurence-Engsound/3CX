@@ -49,6 +49,9 @@ const xapiApiProbe = ref<{
   status: number
   bodyText: string
 } | null>(null)
+const xapiProbeAll = ref<
+  { endpoint: string; status: number; text: string }[] | null
+>(null)
 
 // WebSocket state + log lives in Pinia store, not local — so navigating
 // between settings/phone/history doesn't reset the log.
@@ -121,6 +124,13 @@ async function testXapi() {
   }
 
   try {
+    // Rebuilding the XapiClient invalidates any existing EventStream,
+    // which would otherwise hold a reference to the stale client and fail
+    // with "No access token". Tear it down here; next connect spins up a
+    // fresh one pointing at the new client.
+    destroyEventStream()
+    xapi.setState('disconnected')
+
     const client = await recreateXapiClient({
       pbxFqdn: fqdn,
       clientId,
@@ -210,6 +220,7 @@ function formatWsTime(ts: number): string {
 async function probeApi() {
   xapiBusy.value = true
   xapiApiProbe.value = null
+  xapiProbeAll.value = null
 
   const client = getXapiClient()
   if (!client) {
@@ -222,15 +233,18 @@ async function probeApi() {
   }
 
   try {
-    const r = await client.getUsers()
-    xapiApiProbe.value = {
+    const results = await client.probeAll()
+    xapiProbeAll.value = results.map((r) => ({
       endpoint: r.endpoint,
       status: r.status,
-      bodyText: JSON.stringify(r.body, null, 2).slice(0, 2000)
-    }
+      text: JSON.stringify(r.body, null, 2).slice(0, 800)
+    }))
+    const okCount = results.filter(
+      (r) => r.status >= 200 && r.status < 300
+    ).length
     xapiResult.value = {
-      ok: r.status >= 200 && r.status < 300,
-      message: `${r.endpoint} → HTTP ${r.status}`
+      ok: okCount > 0,
+      message: `共 ${results.length} 個端點；${okCount} 個 2xx`
     }
   } catch (err) {
     xapiResult.value = {
@@ -417,6 +431,38 @@ async function probeApi() {
             >{{ xapiApiProbe.bodyText }}</pre
           >
         </details>
+
+        <div
+          v-if="xapiProbeAll"
+          class="space-y-1 rounded-md border border-slate-200 bg-slate-50 p-2 text-xs"
+        >
+          <div
+            v-for="r in xapiProbeAll"
+            :key="r.endpoint"
+            class="border-b border-slate-200 pb-1 last:border-b-0"
+          >
+            <div class="flex items-center gap-2">
+              <span
+                class="rounded px-1.5 py-0.5 font-mono text-[10px]"
+                :class="
+                  r.status >= 200 && r.status < 300
+                    ? 'bg-emerald-100 text-emerald-700'
+                    : r.status >= 400
+                      ? 'bg-rose-100 text-rose-700'
+                      : 'bg-slate-200 text-slate-700'
+                "
+              >
+                {{ r.status || 'ERR' }}
+              </span>
+              <span class="truncate font-mono">{{ r.endpoint }}</span>
+            </div>
+            <pre
+              v-if="r.text"
+              class="mt-1 max-h-24 overflow-auto whitespace-pre-wrap font-mono text-[10px] text-slate-600"
+              >{{ r.text }}</pre
+            >
+          </div>
+        </div>
 
         <!-- Event stream -->
         <div class="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3">

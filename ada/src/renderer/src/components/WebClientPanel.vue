@@ -153,7 +153,6 @@ defineOptions({ name: 'WebClientPanel' })
         :src="webclientUrl"
         :preload="preloadPath"
         class="h-full flex-1"
-        allowpopups
         partition="persist:3cx"
         useragent="Mozilla/5.0 (ADA Webview) 3CX-Agent-Desktop/0.1"
       />

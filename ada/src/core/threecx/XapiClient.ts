@@ -112,6 +112,42 @@ export class XapiClient {
    * { endpoint, status, body } so the caller can show the raw response
    * for debugging the exact shape of their PBX's response.
    */
+  /**
+   * Probe multiple endpoints and return ALL results (diagnostic mode).
+   * Useful for figuring out which Call Control path the configured Client
+   * actually has access to.
+   */
+  async probeAll(): Promise<
+    { endpoint: string; status: number; body: unknown }[]
+  > {
+    const candidates = [
+      '/xapi/v1/Defs?$select=Id',
+      '/callcontrol',
+      '/callcontrol/adaclient',
+      '/callcontrol/adaclient/participants',
+      '/callcontrol/1000',
+      '/callcontrol/1000/participants'
+    ]
+    const results: { endpoint: string; status: number; body: unknown }[] = []
+    for (const path of candidates) {
+      try {
+        const res = await this.authFetch(path)
+        const ctype = res.headers.get('content-type') ?? ''
+        const body: unknown = ctype.includes('application/json')
+          ? await res.json().catch(() => null)
+          : await res.text().catch(() => '')
+        results.push({ endpoint: path, status: res.status, body })
+      } catch (err) {
+        results.push({
+          endpoint: path,
+          status: 0,
+          body: err instanceof Error ? err.message : String(err)
+        })
+      }
+    }
+    return results
+  }
+
   async getUsers(): Promise<{
     endpoint: string
     status: number
@@ -168,6 +204,42 @@ export class XapiClient {
   async getMe(): Promise<unknown> {
     const res = await this.getUsers()
     return res.body
+  }
+
+  /**
+   * Fetch a specific Call Control participant record.
+   *
+   * Event stream notifications carry only the entity path (e.g. upsert on
+   * `/callcontrol/1000/participants/434`) with `attached_data: null`, so to
+   * drive Screen Pop with real caller data we must pull the participant
+   * explicitly after seeing an upsert.
+   *
+   * Returns the raw JSON the PBX emits — shape varies by 3CX build, so
+   * callers should normalize defensively.
+   */
+  async getParticipant(dn: string, id: string): Promise<unknown> {
+    const res = await this.authFetch(
+      `/callcontrol/${encodeURIComponent(dn)}/participants/${encodeURIComponent(id)}`
+    )
+    if (!res.ok) {
+      throw new Error(
+        `getParticipant ${dn}/${id}: HTTP ${res.status} ${res.statusText}`
+      )
+    }
+    return res.json()
+  }
+
+  /** List all current participants on a DN. */
+  async listParticipants(dn: string): Promise<unknown> {
+    const res = await this.authFetch(
+      `/callcontrol/${encodeURIComponent(dn)}/participants`
+    )
+    if (!res.ok) {
+      throw new Error(
+        `listParticipants ${dn}: HTTP ${res.status} ${res.statusText}`
+      )
+    }
+    return res.json()
   }
 
   /**

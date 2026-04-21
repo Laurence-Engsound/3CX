@@ -105,8 +105,11 @@ export class EventStream {
   }
 
   private authToken(): string {
+    // Always query the current XapiClient for its latest token rather than
+    // caching the string. This way a token refresh (background or manual)
+    // is picked up on the next connect without needing to recreate the
+    // EventStream.
     const h = this.xapi.getAuthHeader() ?? ''
-    // h is "Bearer abc..." — strip the scheme for header injection.
     return h.replace(/^Bearer\s+/i, '')
   }
 
