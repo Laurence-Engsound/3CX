@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron'
 import { createMainWindow } from './window'
 import { registerIpcHandlers } from './ipc'
 import { createTray, destroyTray } from './tray'
+import { setupAutoUpdater } from './updater'
 
 // Enforce single-instance — second launch focuses the existing window instead.
 const gotLock = app.requestSingleInstanceLock()
@@ -34,6 +35,7 @@ app.whenReady().then(() => {
   registerIpcHandlers()
   mainWindow = createMainWindow()
   createTray(mainWindow)
+  setupAutoUpdater()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

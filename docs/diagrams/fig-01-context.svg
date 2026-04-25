@@ -1,0 +1,247 @@
+<svg viewBox="0 0 1280 920" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN System Context Diagram</title>
+<desc>VOXEN 系統脈絡圖</desc>
+
+<defs>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#2C5282"/>
+  </marker>
+  <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#4A5568"/>
+  </marker>
+  <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#B45309"/>
+  </marker>
+</defs>
+
+<text x="640" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#1A202C">VOXEN  ·  System Context Diagram</text>
+<text x="640" y="62" text-anchor="middle" font-size="13" fill="#4A5568">系統脈絡圖  —  使用者、客戶、外部系統、監管單位對 VOXEN 的關係</text>
+
+<text x="640" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#2C5282">內部使用者  ·  Internal Users  (operate / admin / audit / develop)</text>
+
+<g font-size="11" fill="#1A365D">
+  <g transform="translate(50, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">座席</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">Agent</text>
+  </g>
+
+  <g transform="translate(215, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">主管</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">Supervisor</text>
+  </g>
+
+  <g transform="translate(380, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">品管評分員</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">QM Evaluator</text>
+  </g>
+
+  <g transform="translate(545, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">IT 管理員</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">IT Administrator</text>
+  </g>
+
+  <g transform="translate(710, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">稽核員</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">Auditor / 法遵</text>
+  </g>
+
+  <g transform="translate(875, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">開發者 / 整合商</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">Developer / SI</text>
+  </g>
+
+  <g transform="translate(1040, 110)">
+    <rect width="150" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+    <circle cx="75" cy="22" r="8" fill="#2C5282"/>
+    <path d="M 60 44 Q 75 32 90 44 L 90 50 L 60 50 Z" fill="#2C5282"/>
+    <text x="75" y="68" text-anchor="middle" font-weight="700">合作夥伴</text>
+    <text x="75" y="82" text-anchor="middle" font-size="10" fill="#4A5568">Partner / Reseller</text>
+  </g>
+</g>
+
+<g stroke="#2C5282" stroke-width="1.5" fill="none">
+  <path d="M 125 198 L 125 240 L 450 265" marker-end="url(#arrow-blue)"/>
+  <path d="M 290 198 L 290 240 L 490 265" marker-end="url(#arrow-blue)"/>
+  <path d="M 455 198 L 455 240 L 540 265" marker-end="url(#arrow-blue)"/>
+  <path d="M 620 198 L 620 245 L 640 265" marker-end="url(#arrow-blue)"/>
+  <path d="M 785 198 L 785 240 L 720 265" marker-end="url(#arrow-blue)"/>
+  <path d="M 950 198 L 950 240 L 810 265" marker-end="url(#arrow-blue)"/>
+  <path d="M 1115 198 L 1115 240 L 880 265" marker-end="url(#arrow-blue)"/>
+</g>
+<text x="640" y="232" text-anchor="middle" font-size="10" font-style="italic" fill="#2C5282">  登入 · 操作 · 配置 · 查詢 · 開發  </text>
+
+<g transform="translate(340, 270)">
+  <rect width="600" height="320" rx="10" fill="#2C5282" stroke="#1A365D" stroke-width="2.5"/>
+  <text x="300" y="50" text-anchor="middle" font-size="44" font-weight="800" fill="#FFFFFF" letter-spacing="4">VOXEN</text>
+  <line x1="100" y1="78" x2="500" y2="78" stroke="#4299E1" stroke-width="0.8" opacity="0.6"/>
+
+  <text x="300" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Customer Engagement Platform</text>
+  <text x="300" y="124" text-anchor="middle" font-size="12" fill="#BEE3F8">客戶互動平台</text>
+  <text x="300" y="146" text-anchor="middle" font-size="11" fill="#BEE3F8">六層 × 七橫切柱 × 四營運塊（6+7+4）</text>
+
+  <g transform="translate(30, 162)">
+    <rect width="540" height="28" rx="4" fill="#4A5FC1" opacity="0.5"/>
+    <text x="270" y="19" text-anchor="middle" font-size="11" fill="#FFFFFF">L6 Engagement  │  L5 Orchestration  │  L4 Intelligence</text>
+  </g>
+  <g transform="translate(30, 194)">
+    <rect width="540" height="28" rx="4" fill="#4A5FC1" opacity="0.5"/>
+    <text x="270" y="19" text-anchor="middle" font-size="11" fill="#FFFFFF">L3 Interaction Core  │  L2 Data &amp; Identity  │  L1 Integration</text>
+  </g>
+
+  <text x="300" y="256" text-anchor="middle" font-size="10" fill="#BEE3F8">由 瑛聲科技企業股份有限公司 開發</text>
+  <text x="300" y="272" text-anchor="middle" font-size="10" fill="#BEE3F8">Engsound Technology Enterprise Co., Ltd.</text>
+
+  <rect x="200" y="286" width="200" height="22" rx="11" fill="#FFFFFF" opacity="0.15"/>
+  <text x="300" y="302" text-anchor="middle" font-size="10" font-weight="600" fill="#FFFFFF">【機密  ·  內部限閱】</text>
+</g>
+
+<g transform="translate(30, 305)">
+  <rect width="270" height="250" rx="10" fill="#C6F6D5" stroke="#276749" stroke-width="2"/>
+  <circle cx="135" cy="34" r="14" fill="#276749"/>
+  <path d="M 110 70 Q 135 52 160 70 L 160 82 L 110 82 Z" fill="#276749"/>
+  <text x="135" y="108" text-anchor="middle" font-size="16" font-weight="700" fill="#22543D">客戶</text>
+  <text x="135" y="125" text-anchor="middle" font-size="11" fill="#22543D" font-style="italic">Customer / End-user</text>
+
+  <line x1="30" y1="142" x2="240" y2="142" stroke="#276749" stroke-width="0.6" opacity="0.4"/>
+
+  <text x="135" y="160" text-anchor="middle" font-size="10" font-weight="600" fill="#22543D">互動通路  ·  Channels</text>
+  <text x="135" y="178" text-anchor="middle" font-size="10" fill="#22543D">語音  ·  文字  ·  Email</text>
+  <text x="135" y="194" text-anchor="middle" font-size="10" fill="#22543D">SMS  ·  WhatsApp  ·  Line</text>
+  <text x="135" y="210" text-anchor="middle" font-size="10" fill="#22543D">社群  ·  視訊  ·  自助</text>
+  <text x="135" y="232" text-anchor="middle" font-size="10" font-weight="600" fill="#22543D">匿名 / 認證 / 生物辨識</text>
+</g>
+
+<g stroke="#276749" stroke-width="2" fill="none">
+  <path d="M 302 410 L 338 410" marker-end="url(#arrow-gray)"/>
+</g>
+<text x="320" y="402" text-anchor="middle" font-size="10" font-weight="600" fill="#276749">發起互動 / initiate</text>
+
+<g stroke="#276749" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+  <path d="M 338 480 L 302 480" marker-end="url(#arrow-gray)"/>
+</g>
+<text x="320" y="498" text-anchor="middle" font-size="10" fill="#276749">回應 / response</text>
+
+<text x="1120" y="285" text-anchor="middle" font-size="12" font-weight="700" fill="#744210">外部系統  ·  External Systems</text>
+<text x="1120" y="300" text-anchor="middle" font-size="10" fill="#78350F">(integrate via L1 adapters)</text>
+
+<g font-size="10" fill="#78350F">
+  <g transform="translate(970, 310)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">PBX</text>
+    <text x="60" y="20">3CX · Asterisk · FreePBX · Teams</text>
+  </g>
+  <g transform="translate(970, 346)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">CRM</text>
+    <text x="60" y="20">Salesforce · HubSpot · Custom</text>
+  </g>
+  <g transform="translate(970, 382)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">AI Providers</text>
+    <text x="100" y="20">Azure · Anthropic · Local LLM</text>
+  </g>
+  <g transform="translate(970, 418)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">Identity</text>
+    <text x="70" y="20">AD · Entra ID · Okta · SAML / OIDC</text>
+  </g>
+  <g transform="translate(970, 454)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">Messaging</text>
+    <text x="85" y="20">WhatsApp · Line · SMS · FB / IG</text>
+  </g>
+  <g transform="translate(970, 490)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">Email</text>
+    <text x="55" y="20">Exchange / M365 · Gmail · IMAP</text>
+  </g>
+  <g transform="translate(970, 526)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">BI / DW</text>
+    <text x="70" y="20">Snowflake · BigQuery · Tableau</text>
+  </g>
+  <g transform="translate(970, 562)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">Financial</text>
+    <text x="75" y="20">Payment · eKYC · e-Sign · PCI Token</text>
+  </g>
+  <g transform="translate(970, 598)">
+    <rect width="300" height="30" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+    <text x="10" y="20" font-weight="700">Knowledge</text>
+    <text x="85" y="20">Confluence · Notion · SharePoint</text>
+  </g>
+</g>
+
+<g stroke="#B45309" stroke-width="1.5" fill="none">
+  <path d="M 905 380 L 965 380" marker-end="url(#arrow-amber)"/>
+  <path d="M 965 410 L 905 410" marker-end="url(#arrow-amber)"/>
+</g>
+<text x="935" y="370" text-anchor="middle" font-size="10" font-weight="600" fill="#B45309">整合 integrate</text>
+<text x="935" y="426" text-anchor="middle" font-size="10" fill="#B45309">回應 sync · query</text>
+
+<text x="640" y="664" text-anchor="middle" font-size="13" font-weight="700" fill="#9B2C2C">監管 / 合規對象</text>
+<text x="640" y="682" text-anchor="middle" font-size="10" fill="#9B2C2C">Regulators &amp; Compliance Entities  ·  issue mandates / audit / certify</text>
+
+<g font-size="11" fill="#742A2A">
+  <g transform="translate(65, 696)">
+    <rect width="215" height="78" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <text x="107" y="24" text-anchor="middle" font-weight="700">金管會 / NCC</text>
+    <text x="107" y="42" text-anchor="middle" font-size="10">台灣金融 / 電信主管機關</text>
+    <text x="107" y="60" text-anchor="middle" font-size="9" fill="#9B2C2C">金融消保法 · 電信法 · 業管裁罰</text>
+  </g>
+  <g transform="translate(300, 696)">
+    <rect width="215" height="78" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <text x="107" y="24" text-anchor="middle" font-weight="700">個資法主管</text>
+    <text x="107" y="42" text-anchor="middle" font-size="10">國發會 · 跨部會</text>
+    <text x="107" y="60" text-anchor="middle" font-size="9" fill="#9B2C2C">個資法 · GDPR · HIPAA</text>
+  </g>
+  <g transform="translate(535, 696)">
+    <rect width="215" height="78" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <text x="107" y="24" text-anchor="middle" font-weight="700">PCI SSC</text>
+    <text x="107" y="42" text-anchor="middle" font-size="10">Payment Card Industry</text>
+    <text x="107" y="60" text-anchor="middle" font-size="9" fill="#9B2C2C">PCI DSS v4.0</text>
+  </g>
+  <g transform="translate(770, 696)">
+    <rect width="215" height="78" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <text x="107" y="24" text-anchor="middle" font-weight="700">內部稽核 / 法遵</text>
+    <text x="107" y="42" text-anchor="middle" font-size="10">客戶端 Compliance &amp; Internal Audit</text>
+    <text x="107" y="60" text-anchor="middle" font-size="9" fill="#9B2C2C">內規 · ISO 27001 · SOC 2</text>
+  </g>
+  <g transform="translate(1005, 696)">
+    <rect width="215" height="78" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <text x="107" y="24" text-anchor="middle" font-weight="700">第三方資安稽核</text>
+    <text x="107" y="42" text-anchor="middle" font-size="10">Pentest / SBOM / Red-team</text>
+    <text x="107" y="60" text-anchor="middle" font-size="9" fill="#9B2C2C">滲透測試 · 源碼審查</text>
+  </g>
+</g>
+
+<g stroke="#9B2C2C" stroke-width="1.5" fill="none">
+  <path d="M 730 595 L 730 688" marker-end="url(#arrow-amber)"/>
+  <path d="M 550 688 L 550 595" stroke-dasharray="4,3" marker-end="url(#arrow-amber)"/>
+</g>
+<text x="745" y="625" font-size="9" font-style="italic" fill="#9B2C2C">法規 / 稽核</text>
+<text x="745" y="638" font-size="9" font-style="italic" fill="#9B2C2C">要求 →</text>
+<text x="475" y="625" text-anchor="end" font-size="9" font-style="italic" fill="#9B2C2C">← 合規報告</text>
+<text x="475" y="638" text-anchor="end" font-size="9" font-style="italic" fill="#9B2C2C">稽核日誌</text>
+
+<text x="1265" y="902" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.0  ·  System Context Diagram  ·  2026-04</text>
+
+</svg>

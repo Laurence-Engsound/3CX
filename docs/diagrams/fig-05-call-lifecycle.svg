@@ -1,0 +1,118 @@
+<svg viewBox="0 0 1280 920" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN Call Lifecycle Sequence</title>
+<desc>VOXEN 通話完整生命週期時序</desc>
+
+<defs>
+  <marker id="seq-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#2C5282"/>
+  </marker>
+  <marker id="seq-async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#B45309"/>
+  </marker>
+</defs>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">Call Lifecycle Sequence  ·  通話生命週期</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">Inbound call — 從客戶撥入到結案的七個階段</text>
+
+<g transform="translate(0, 80)">
+  <g transform="translate(70, 0)"><rect width="120" height="44" rx="6" fill="#C6F6D5" stroke="#276749" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#22543D">客戶</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#22543D">Customer</text></g>
+  <g transform="translate(240, 0)"><rect width="120" height="44" rx="6" fill="#BEE3F8" stroke="#2C5282" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">PBX</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#2C5282">3CX (L1)</text></g>
+  <g transform="translate(410, 0)"><rect width="120" height="44" rx="6" fill="#A5D4F1" stroke="#2C5282" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">L3 Voice</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">+ Recording</text></g>
+  <g transform="translate(580, 0)"><rect width="120" height="44" rx="6" fill="#D6EAFD" stroke="#2C5282" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">L5 Routing</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#2C5282">Engine</text></g>
+  <g transform="translate(750, 0)"><rect width="120" height="44" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">L6 Agent</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#2C5282">Desktop</text></g>
+  <g transform="translate(920, 0)"><rect width="120" height="44" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#78350F">L4 AI</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#78350F">STT/LLM/RAG</text></g>
+  <g transform="translate(1090, 0)"><rect width="120" height="44" rx="6" fill="#8EC6EA" stroke="#2C5282" stroke-width="1.5"/><text x="60" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">L2 Data</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">Audit · C360</text></g>
+</g>
+
+<g stroke="#CBD5E0" stroke-width="1" stroke-dasharray="3,3" fill="none">
+  <line x1="130" y1="124" x2="130" y2="800"/>
+  <line x1="300" y1="124" x2="300" y2="800"/>
+  <line x1="470" y1="124" x2="470" y2="800"/>
+  <line x1="640" y1="124" x2="640" y2="800"/>
+  <line x1="810" y1="124" x2="810" y2="800"/>
+  <line x1="980" y1="124" x2="980" y2="800"/>
+  <line x1="1150" y1="124" x2="1150" y2="800"/>
+</g>
+
+<g>
+  <rect x="20" y="138" width="1240" height="22" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+  <text x="30" y="153" font-size="11" font-weight="700" fill="#78350F">Phase 1  ·  Ring &amp; Route  （~ 2 秒）</text>
+  <line x1="130" y1="175" x2="297" y2="175" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="210" y="170" text-anchor="middle" font-size="10" fill="#2C5282">① 撥入 (SIP INVITE)</text>
+  <line x1="300" y1="200" x2="467" y2="200" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="385" y="195" text-anchor="middle" font-size="10" fill="#2C5282">② WS event upsert</text>
+  <line x1="470" y1="225" x2="637" y2="225" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="555" y="220" text-anchor="middle" font-size="10" fill="#2C5282">③ routeCall</text>
+  <line x1="640" y1="250" x2="1147" y2="250" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="900" y="245" text-anchor="middle" font-size="10" fill="#2C5282">④ Customer 360 lookup</text>
+</g>
+
+<g>
+  <rect x="20" y="270" width="1240" height="22" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+  <text x="30" y="285" font-size="11" font-weight="700" fill="#78350F">Phase 2  ·  Answer &amp; Screen Pop  （~ 1 秒）</text>
+  <line x1="640" y1="310" x2="807" y2="310" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="725" y="305" text-anchor="middle" font-size="10" fill="#2C5282">⑤ 分配 + Screen Pop</text>
+  <line x1="810" y1="335" x2="303" y2="335" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="555" y="330" text-anchor="middle" font-size="10" fill="#2C5282">⑥ Answer (POST /callcontrol)</text>
+  <line x1="300" y1="360" x2="133" y2="360" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="210" y="355" text-anchor="middle" font-size="10" fill="#2C5282">⑦ 媒體接通</text>
+</g>
+
+<g>
+  <rect x="20" y="378" width="1240" height="22" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+  <text x="30" y="393" font-size="11" font-weight="700" fill="#78350F">Phase 3  ·  Recording &amp; Consent  （自動）</text>
+  <line x1="470" y1="418" x2="133" y2="418" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="300" y="413" text-anchor="middle" font-size="10" fill="#2C5282">⑧ 同意提詞 (TTS)</text>
+  <line x1="510" y1="442" x2="1147" y2="442" stroke="#B45309" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#seq-async)"/>
+  <text x="830" y="437" text-anchor="middle" font-size="10" fill="#B45309">⑨ recordingStarted → Audit</text>
+</g>
+
+<g>
+  <rect x="20" y="460" width="1240" height="22" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+  <text x="30" y="475" font-size="11" font-weight="700" fill="#78350F">Phase 4  ·  Active Call + AI Assist  （3-15 分鐘）</text>
+  <rect x="110" y="495" width="720" height="20" rx="4" fill="#C6F6D5" stroke="#276749"/>
+  <text x="470" y="509" text-anchor="middle" font-size="10" fill="#22543D">⑩ 雙向對話 (RTP/SRTP)</text>
+  <line x1="470" y1="535" x2="977" y2="535" stroke="#B45309" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#seq-async)"/>
+  <text x="720" y="530" text-anchor="middle" font-size="10" fill="#B45309">⑪ 音訊串流 → STT</text>
+  <line x1="980" y1="560" x2="813" y2="560" stroke="#B45309" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#seq-async)"/>
+  <text x="895" y="555" text-anchor="middle" font-size="10" fill="#B45309">⑫ 逐字稿 + 情緒 + 建議</text>
+  <line x1="810" y1="585" x2="470" y2="585" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="640" y="580" text-anchor="middle" font-size="10" fill="#2C5282">⑬ (選) Hold/Mute/Transfer</text>
+</g>
+
+<g>
+  <rect x="20" y="600" width="1240" height="22" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1"/>
+  <text x="30" y="615" font-size="11" font-weight="700" fill="#742A2A">Phase 5  ·  PCI Pause-Resume  （條件性）</text>
+  <line x1="810" y1="640" x2="473" y2="640" stroke="#9B2C2C" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="640" y="635" text-anchor="middle" font-size="10" fill="#9B2C2C">⑭ Pause Recording → Resume</text>
+</g>
+
+<g>
+  <rect x="20" y="660" width="1240" height="22" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+  <text x="30" y="675" font-size="11" font-weight="700" fill="#78350F">Phase 6  ·  Hangup &amp; Summary  （~ 5 秒）</text>
+  <line x1="130" y1="700" x2="297" y2="700" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="210" y="695" text-anchor="middle" font-size="10" fill="#2C5282">⑮ 掛斷 BYE</text>
+  <line x1="300" y1="725" x2="467" y2="725" stroke="#2C5282" stroke-width="1.5" marker-end="url(#seq-arr)"/>
+  <text x="385" y="720" text-anchor="middle" font-size="10" fill="#2C5282">⑯ Remove event</text>
+  <line x1="470" y1="750" x2="977" y2="750" stroke="#B45309" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#seq-async)"/>
+  <text x="720" y="745" text-anchor="middle" font-size="10" fill="#B45309">⑰ 摘要產生 (LLM)</text>
+</g>
+
+<g>
+  <rect x="20" y="768" width="1240" height="22" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+  <text x="30" y="783" font-size="11" font-weight="700" fill="#78350F">Phase 7  ·  ACW + Writeback + Audit  （90 秒）</text>
+</g>
+
+<g transform="translate(0, 800)">
+  <text x="135" y="20" font-size="9" fill="#4A5568">⑱ 摘要推座席 → ⑲ 填處置 → ⑳ CRM 寫回 → 21 全程 Audit</text>
+</g>
+
+<g transform="translate(20, 830)">
+  <rect width="1240" height="42" rx="4" fill="#FFF7ED" stroke="#C05621" stroke-width="1.5"/>
+  <text x="15" y="18" font-size="11" font-weight="700" fill="#7B341E">變體：Voice Bot 接聽情境（C7 / FM-L4-AGENT-RUNTIME）</text>
+  <text x="15" y="34" font-size="9" fill="#92400E">Phase 2 路由判斷為簡單詢問 → 分配給 AI Agent（取代人類座席） · 其餘流程相同 · Phase 7 摘要送主管 review · 全程稽核含 reasoning trace</text>
+</g>
+
+<text x="1265" y="900" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.8  ·  Call Lifecycle (含 Voice Bot 變體)  ·  2026-04</text>
+
+</svg>

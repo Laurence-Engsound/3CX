@@ -5,7 +5,8 @@ import { IpcChannels } from '../shared/ipc-api'
 const allowedMainToRenderer: ReadonlySet<MainToRendererChannel> = new Set([
   'tray:toggle-ready',
   'tray:show-window',
-  'app:before-quit'
+  'app:before-quit',
+  'update:status'
 ])
 
 const api: AdaApi = {
@@ -48,6 +49,13 @@ const api: AdaApi = {
   xapi: {
     setWsToken: (token: string | null) =>
       ipcRenderer.invoke('xapi:set-ws-token', token)
+  },
+
+  update: {
+    getStatus: () => ipcRenderer.invoke('update:status'),
+    check: () => ipcRenderer.invoke('update:check'),
+    download: () => ipcRenderer.invoke('update:download'),
+    install: () => ipcRenderer.invoke('update:install')
   },
 
   on: (channel, handler) => {

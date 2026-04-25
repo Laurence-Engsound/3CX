@@ -12,11 +12,17 @@ files:
   - package.json
   - "!**/*.map"
   - "!node_modules/**/*"
+  - "!**/*.ts"
+  - "!docs/**/*"
+  - "!src/**/*"
 
 asar: true
 asarUnpack:
   - resources/**
 
+# ------------------------------------------------------------------
+# Windows (primary target)
+# ------------------------------------------------------------------
 win:
   target:
     - target: nsis
@@ -24,6 +30,8 @@ win:
         - x64
   icon: resources/icon.ico
   artifactName: ADA-Setup-${version}-${arch}.${ext}
+  # Code signing is optional. If you have a .pfx certificate, set
+  # CSC_LINK and CSC_KEY_PASSWORD env vars before running package:win.
 
 nsis:
   oneClick: false
@@ -32,18 +40,27 @@ nsis:
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: ADA
+  uninstallDisplayName: ADA — 3CX Agent Desktop
 
+# ------------------------------------------------------------------
+# Linux (secondary target)
+# ------------------------------------------------------------------
 linux:
   target:
-    - AppImage
-    - deb
+    - target: AppImage
+      arch:
+        - x64
+    - target: deb
+      arch:
+        - x64
   category: Office
   icon: resources/icon.png
   maintainer: laurence_lin@engsound.com.tw
   synopsis: Agent Desktop Application for 3CX
   description: |
     Softphone and agent client for 3CX V20 PBX.
-    Supports call control, presence, CDR and screen pop.
+    Embeds 3CX Web Client for calling; adds XAPI-driven Screen Pop
+    and agent features on top.
   artifactName: ada-${version}-${arch}.${ext}
 
 deb:
@@ -52,3 +69,34 @@ deb:
     - libxtst6
     - libnss3
     - libasound2
+    - libsecret-1-0
+
+# ------------------------------------------------------------------
+# macOS (developer convenience, not officially shipped)
+# ------------------------------------------------------------------
+mac:
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+  icon: resources/icon.png
+  category: public.app-category.business
+  artifactName: ADA-${version}-${arch}.${ext}
+  hardenedRuntime: false
+  gatekeeperAssess: false
+  # No signing for dev builds; launching an unsigned .app requires
+  # right-click → Open the first time on macOS.
+
+dmg:
+  writeUpdateInfo: false
+
+# ------------------------------------------------------------------
+# Auto-update channel
+# ------------------------------------------------------------------
+# publish:
+#   - provider: generic
+#     url: https://downloads.engsound.com.tw/ada/updates/
+#     channel: latest
+# When uncommented and resources/app-update.yml is present, the packaged
+# app will check for updates against the URL above. See docs/PHASE5-DEPLOYMENT.md.

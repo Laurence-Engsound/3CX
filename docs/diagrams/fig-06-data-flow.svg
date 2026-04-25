@@ -1,0 +1,204 @@
+<svg viewBox="0 0 1280 1080" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN Data Flow Panorama</title>
+<desc>VOXEN 五條主資料流（含 AI Agent task 流）</desc>
+
+<defs>
+  <marker id="df-pri" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#2C5282"/>
+  </marker>
+  <marker id="df-async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#C05621"/>
+  </marker>
+  <marker id="df-aud" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#9B2C2C"/>
+  </marker>
+</defs>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">Data Flow Panorama  ·  資料流全景（四條主流）</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">Inbound Voice · Outbound PD · Chat · AI Real-time</text>
+
+<g transform="translate(20, 80)">
+  <rect width="1240" height="170" rx="8" fill="#F7FAFC" stroke="#2C5282" stroke-width="1.5"/>
+  <rect width="1240" height="28" rx="8" fill="#2C5282"/>
+  <rect y="20" width="1240" height="8" fill="#2C5282"/>
+  <text x="15" y="19" font-size="13" font-weight="700" fill="#FFFFFF">Flow 1  ·  Inbound Voice — 入流通話</text>
+
+  <g transform="translate(20, 46)">
+    <rect width="120" height="46" rx="6" fill="#C6F6D5" stroke="#276749" stroke-width="1.5"/>
+    <text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#22543D">客戶</text>
+    <text x="60" y="36" text-anchor="middle" font-size="9" fill="#22543D">撥入</text>
+  </g>
+  <path d="M 142 70 L 168 70" stroke="#2C5282" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(170, 46)"><rect width="110" height="46" rx="6" fill="#CBD5E0" stroke="#2D3748"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A202C">PBX</text><text x="55" y="36" text-anchor="middle" font-size="9" fill="#1A202C">3CX</text></g>
+  <path d="M 282 70 L 308 70" stroke="#2C5282" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(310, 46)"><rect width="120" height="46" rx="6" fill="#A5D4F1" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L3 Voice</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">WS event</text></g>
+  <path d="M 432 70 L 458 70" stroke="#2C5282" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(460, 46)"><rect width="120" height="46" rx="6" fill="#D6EAFD" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L5 Routing</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">技能式分配</text></g>
+  <path d="M 582 70 L 608 70" stroke="#2C5282" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(610, 46)"><rect width="120" height="46" rx="6" fill="#EBF8FF" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L6 Agent</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">接聽 + Pop</text></g>
+  <path d="M 732 70 L 758 70" stroke="#2C5282" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(760, 46)"><rect width="120" height="46" rx="6" fill="#BEE3F8" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L2 C360</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">客戶資料回推</text></g>
+  <path d="M 882 70 L 908 70" stroke="#2C5282" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(910, 46)"><rect width="170" height="46" rx="6" fill="#76B6E1" stroke="#2C5282"/><text x="85" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L1 CRM Adapter</text><text x="85" y="36" text-anchor="middle" font-size="9" fill="#1A365D">雙向同步</text></g>
+  <path d="M 1082 70 L 1108 70" stroke="#9B2C2C" stroke-width="1.5" fill="none" marker-end="url(#df-aud)"/>
+  <g transform="translate(1110, 46)"><rect width="110" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Audit Log</text><text x="55" y="36" text-anchor="middle" font-size="9" fill="#742A2A">事件留底</text></g>
+
+  <g transform="translate(20, 110)">
+    <rect width="1200" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="10" y="18" font-size="10" font-weight="700" fill="#78350F">並行支流：</text>
+    <text x="80" y="18" font-size="10" fill="#92400E">L3 Recording</text>
+    <text x="180" y="18" font-size="10" fill="#92400E">· L4 STT 串流</text>
+    <text x="290" y="18" font-size="10" fill="#92400E">· 情緒監測</text>
+    <text x="380" y="18" font-size="10" fill="#92400E">· 話術建議</text>
+    <text x="480" y="18" font-size="10" fill="#92400E">· 法遵字串偵測</text>
+    <text x="600" y="18" font-size="10" fill="#92400E">· 知識庫推薦</text>
+    <text x="10" y="34" font-size="10" font-weight="700" fill="#78350F">後續寫回：</text>
+    <text x="80" y="34" font-size="10" fill="#92400E">ACW 處置 → 寫回佇列 (SQLite) → 通話摘要 → CRM HTTPS → 稽核 + Retention 政策</text>
+  </g>
+</g>
+
+<g transform="translate(20, 270)">
+  <rect width="1240" height="170" rx="8" fill="#F7FAFC" stroke="#6B46C1" stroke-width="1.5"/>
+  <rect width="1240" height="28" rx="8" fill="#6B46C1"/>
+  <rect y="20" width="1240" height="8" fill="#6B46C1"/>
+  <text x="15" y="19" font-size="13" font-weight="700" fill="#FFFFFF">Flow 2  ·  Outbound Personal Dialer — 出流個人撥號</text>
+
+  <g transform="translate(20, 46)">
+    <rect width="120" height="46" rx="6" fill="#BEE3F8" stroke="#2C5282"/>
+    <text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L2 Lead 佇列</text>
+    <text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">每日 CRM 推送</text>
+  </g>
+  <path d="M 142 70 L 168 70" stroke="#6B46C1" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(170, 46)"><rect width="120" height="46" rx="6" fill="#EBF8FF" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L6 Personal Dialer</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">「下一通」Scorer</text></g>
+  <path d="M 292 70 L 318 70" stroke="#6B46C1" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(320, 46)"><rect width="120" height="46" rx="6" fill="#D6EAFD" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L5 Scheduler</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">營業時段 + DNC</text></g>
+  <path d="M 442 70 L 468 70" stroke="#6B46C1" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(470, 46)"><rect width="120" height="46" rx="6" fill="#76B6E1" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L1 PBX Adapter</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">makecall REST</text></g>
+  <path d="M 592 70 L 618 70" stroke="#6B46C1" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(620, 46)"><rect width="110" height="46" rx="6" fill="#CBD5E0" stroke="#2D3748"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A202C">PBX</text><text x="55" y="36" text-anchor="middle" font-size="9" fill="#1A202C">SIP INVITE → out</text></g>
+  <path d="M 732 70 L 758 70" stroke="#6B46C1" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(760, 46)"><rect width="120" height="46" rx="6" fill="#C6F6D5" stroke="#276749"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#22543D">客戶</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#22543D">接聽 / 未接</text></g>
+  <path d="M 882 70 L 908 70" stroke="#6B46C1" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(910, 46)"><rect width="170" height="46" rx="6" fill="#EBF8FF" stroke="#2C5282"/><text x="85" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L6 Agent + AI Brief</text><text x="85" y="36" text-anchor="middle" font-size="9" fill="#1A365D">RAG 撥前小抄</text></g>
+  <path d="M 1082 70 L 1108 70" stroke="#9B2C2C" stroke-width="1.5" fill="none" marker-end="url(#df-aud)"/>
+  <g transform="translate(1110, 46)"><rect width="110" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Audit Log</text></g>
+
+  <g transform="translate(20, 110)">
+    <rect width="1200" height="40" rx="6" fill="#E9D8FD" stroke="#6B46C1" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="10" y="18" font-size="10" font-weight="700" fill="#44337A">撥前準備：</text>
+    <text x="100" y="18" font-size="10" fill="#6B46C1">Scorer 加權排序 · RAG KB 檢索 · LLM Brief · DNC/Legal 檢查 · Lead 鎖定（reservedBy）</text>
+    <text x="10" y="34" font-size="10" font-weight="700" fill="#44337A">結果紀錄：</text>
+    <text x="100" y="34" font-size="10" fill="#6B46C1">處置碼 + 承諾回撥 → Lead 狀態機 → KPI 儀表板 → CRM 異步寫回 → Audit</text>
+  </g>
+</g>
+
+<g transform="translate(20, 460)">
+  <rect width="1240" height="170" rx="8" fill="#F7FAFC" stroke="#276749" stroke-width="1.5"/>
+  <rect width="1240" height="28" rx="8" fill="#276749"/>
+  <rect y="20" width="1240" height="8" fill="#276749"/>
+  <text x="15" y="19" font-size="13" font-weight="700" fill="#FFFFFF">Flow 3  ·  Chat &amp; Messaging — 文字多通路</text>
+
+  <g transform="translate(20, 46)">
+    <rect width="120" height="46" rx="6" fill="#C6F6D5" stroke="#276749"/>
+    <text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#22543D">客戶</text>
+    <text x="60" y="36" text-anchor="middle" font-size="9" fill="#22543D">Web/WA/Line</text>
+  </g>
+  <path d="M 142 70 L 168 70" stroke="#276749" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(170, 46)"><rect width="120" height="46" rx="6" fill="#CBD5E0" stroke="#2D3748"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A202C">訊息平台</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A202C">Meta / Line</text></g>
+  <path d="M 292 70 L 318 70" stroke="#276749" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(320, 46)"><rect width="120" height="46" rx="6" fill="#76B6E1" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L1 Msg Adapter</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">Webhook</text></g>
+  <path d="M 442 70 L 468 70" stroke="#276749" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(470, 46)"><rect width="120" height="46" rx="6" fill="#A5D4F1" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L3 Chat Channel</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">統一格式</text></g>
+  <path d="M 592 70 L 618 70" stroke="#276749" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(620, 46)"><rect width="120" height="46" rx="6" fill="#D6EAFD" stroke="#2C5282"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L5 Routing</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#1A365D">Blend + Queue</text></g>
+  <path d="M 742 70 L 768 70" stroke="#276749" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(770, 46)"><rect width="170" height="46" rx="6" fill="#FEF3C7" stroke="#D97706"/><text x="85" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#78350F">L6 Agent / Chatbot</text><text x="85" y="36" text-anchor="middle" font-size="9" fill="#92400E">AI 先接 → 轉人工</text></g>
+  <path d="M 942 70 L 968 70" stroke="#276749" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(970, 46)"><rect width="150" height="46" rx="6" fill="#EBF8FF" stroke="#2C5282"/><text x="75" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">Unified Inbox</text><text x="75" y="36" text-anchor="middle" font-size="9" fill="#1A365D">跨通路收件匣</text></g>
+  <path d="M 1122 70 L 1148 70" stroke="#9B2C2C" stroke-width="1.5" fill="none" marker-end="url(#df-aud)"/>
+  <g transform="translate(1150, 46)"><rect width="80" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="40" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Audit</text></g>
+
+  <g transform="translate(20, 110)">
+    <rect width="1200" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="10" y="18" font-size="10" font-weight="700" fill="#78350F">並行 AI：</text>
+    <text x="90" y="18" font-size="10" fill="#92400E">NLU 意圖 · KB RAG · 回覆模板 · 圖片 OCR · 敏感遮罩</text>
+    <text x="10" y="34" font-size="10" font-weight="700" fill="#78350F">對談結束：</text>
+    <text x="100" y="34" font-size="10" fill="#92400E">Transcript 歸檔 → AI 摘要 → Survey 觸發 → CRM 記錄 → Retention/DSR</text>
+  </g>
+</g>
+
+<g transform="translate(20, 650)">
+  <rect width="1240" height="170" rx="8" fill="#F7FAFC" stroke="#C05621" stroke-width="1.5"/>
+  <rect width="1240" height="28" rx="8" fill="#C05621"/>
+  <rect y="20" width="1240" height="8" fill="#C05621"/>
+  <text x="15" y="19" font-size="13" font-weight="700" fill="#FFFFFF">Flow 4  ·  AI Real-time Stream — 橫跨 Flow 1/2/3</text>
+
+  <g transform="translate(20, 46)">
+    <rect width="100" height="46" rx="6" fill="#C6F6D5" stroke="#276749"/>
+    <text x="50" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#22543D">音訊/文字</text>
+    <text x="50" y="36" text-anchor="middle" font-size="9" fill="#22543D">來自 Flow 1-3</text>
+  </g>
+  <path d="M 122 70 L 148 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(150, 46)"><rect width="110" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">PII Redactor</text><text x="55" y="36" text-anchor="middle" font-size="9" fill="#9B2C2C">去敏</text></g>
+  <path d="M 262 70 L 288 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(290, 46)"><rect width="110" height="46" rx="6" fill="#FEF3C7" stroke="#D97706"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#78350F">STT + Diarize</text><text x="55" y="36" text-anchor="middle" font-size="9" fill="#92400E">雙聲道</text></g>
+  <path d="M 402 70 L 428 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(430, 46)"><rect width="120" height="46" rx="6" fill="#FEF3C7" stroke="#D97706"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#78350F">NLU/Embedding</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#92400E">意圖 + 向量</text></g>
+  <path d="M 552 70 L 578 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(580, 46)"><rect width="120" height="46" rx="6" fill="#E9D8FD" stroke="#6B46C1"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#44337A">RAG Retrieval</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#6B46C1">Vector Top-K</text></g>
+  <path d="M 702 70 L 728 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(730, 46)"><rect width="120" height="46" rx="6" fill="#E9D8FD" stroke="#6B46C1"/><text x="60" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#44337A">LLM Generate</text><text x="60" y="36" text-anchor="middle" font-size="9" fill="#6B46C1">Summary/Coach</text></g>
+  <path d="M 852 70 L 878 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(880, 46)"><rect width="110" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Guardrail</text><text x="55" y="36" text-anchor="middle" font-size="9" fill="#9B2C2C">幻覺/偏見</text></g>
+  <path d="M 992 70 L 1018 70" stroke="#C05621" stroke-width="1.5" fill="none" marker-end="url(#df-async)"/>
+  <g transform="translate(1020, 46)"><rect width="100" height="46" rx="6" fill="#EBF8FF" stroke="#2C5282"/><text x="50" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">L6 UI</text><text x="50" y="36" text-anchor="middle" font-size="9" fill="#1A365D">座席 Bar</text></g>
+  <path d="M 1122 70 L 1148 70" stroke="#9B2C2C" stroke-width="1.5" fill="none" marker-end="url(#df-aud)"/>
+  <g transform="translate(1150, 46)"><rect width="80" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="40" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">AI Audit</text></g>
+
+  <g transform="translate(20, 110)">
+    <rect width="1200" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="10" y="18" font-size="10" font-weight="700" fill="#78350F">並行 AI 任務：</text>
+    <text x="120" y="18" font-size="10" fill="#92400E">情緒 (聲學+文字) · 法遵字串 · 知識庫推薦 · 即時翻譯 · 詐騙偵測</text>
+    <text x="10" y="34" font-size="10" font-weight="700" fill="#78350F">AI 產物持久化：</text>
+    <text x="130" y="34" font-size="10" fill="#92400E">Transcript → Archive · Summary → C360 · Embedding → Vector DB · AI Audit (Prompt/Resp)</text>
+  </g>
+</g>
+
+<g transform="translate(20, 870)">
+  <rect width="1240" height="170" rx="8" fill="#FFF7ED" stroke="#C05621" stroke-width="2"/>
+  <rect width="1240" height="28" rx="8" fill="#C05621"/>
+  <rect y="20" width="1240" height="8" fill="#C05621"/>
+  <text x="15" y="19" font-size="13" font-weight="700" fill="#FFFFFF">Flow 5  ·  AI Agent Task Execution — AI Agent 任務執行（C7 / FM-L4-AGENT-RUNTIME）</text>
+
+  <g transform="translate(20, 46)">
+    <rect width="140" height="46" rx="6" fill="#FED7AA" stroke="#C05621"/>
+    <text x="70" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">Goal 接收</text>
+    <text x="70" y="36" text-anchor="middle" font-size="9" fill="#7B341E">人類 / Event / API</text>
+  </g>
+  <path d="M 162 70 L 188 70" stroke="#7B341E" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(190, 46)"><rect width="130" height="46" rx="6" fill="#FED7AA" stroke="#C05621"/><text x="65" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">L4 Agent Runtime</text><text x="65" y="36" text-anchor="middle" font-size="9" fill="#7B341E">Reasoning Loop</text></g>
+  <path d="M 322 70 L 348 70" stroke="#7B341E" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(350, 46)"><rect width="130" height="46" rx="6" fill="#FED7AA" stroke="#C05621"/><text x="65" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">Planner</text><text x="65" y="36" text-anchor="middle" font-size="9" fill="#7B341E">Goal → Sub-tasks</text></g>
+  <path d="M 482 70 L 508 70" stroke="#7B341E" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(510, 46)"><rect width="130" height="46" rx="6" fill="#FED7AA" stroke="#C05621"/><text x="65" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">Tools Gateway</text><text x="65" y="36" text-anchor="middle" font-size="9" fill="#7B341E">L1 Adapter as Tool</text></g>
+  <path d="M 642 70 L 668 70" stroke="#7B341E" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(670, 46)"><rect width="130" height="46" rx="6" fill="#FED7AA" stroke="#C05621"/><text x="65" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">L2 Memory</text><text x="65" y="36" text-anchor="middle" font-size="9" fill="#7B341E">C360 / KB / Audit</text></g>
+  <path d="M 802 70 L 828 70" stroke="#7B341E" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(830, 46)"><rect width="130" height="46" rx="6" fill="#FED7AA" stroke="#C05621"/><text x="65" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">L1 Tool 執行</text><text x="65" y="36" text-anchor="middle" font-size="9" fill="#7B341E">CRM/PBX/Msg/...</text></g>
+  <path d="M 962 70 L 988 70" stroke="#7B341E" stroke-width="1.5" fill="none" marker-end="url(#df-pri)"/>
+  <g transform="translate(990, 46)"><rect width="130" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="65" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Guardrail</text><text x="65" y="36" text-anchor="middle" font-size="9" fill="#9B2C2C">HITL · Output Filter</text></g>
+  <path d="M 1122 70 L 1148 70" stroke="#9B2C2C" stroke-width="1.5" fill="none" marker-end="url(#df-aud)"/>
+  <g transform="translate(1150, 46)"><rect width="80" height="46" rx="6" fill="#FED7D7" stroke="#9B2C2C"/><text x="40" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Audit</text><text x="40" y="36" text-anchor="middle" font-size="8" fill="#742A2A">trace + tools</text></g>
+
+  <g transform="translate(20, 110)">
+    <rect width="1200" height="40" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="10" y="18" font-size="10" font-weight="700" fill="#7B341E">關鍵特徵：</text>
+    <text x="100" y="18" font-size="10" fill="#92400E">Agent 可從任一進入點啟動 · 動態決定下一步 · 跨層自由呼叫 · 受 scope/HITL/cost 三重約束</text>
+    <text x="10" y="34" font-size="10" font-weight="700" fill="#7B341E">與其他 4 條流之關係：</text>
+    <text x="170" y="34" font-size="10" fill="#92400E">Agent 可被 Flow 1 (call.answered) / Flow 3 (message.inbound) 觸發；Agent 之動作會觸發 Flow 1-3 的後續</text>
+  </g>
+</g>
+
+<text x="1265" y="1062" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.8  ·  Data Flow Panorama (5 flows)  ·  2026-04</text>
+
+</svg>

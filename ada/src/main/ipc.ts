@@ -9,6 +9,12 @@ import {
   loadCredential,
   removeCredential
 } from './credentials'
+import {
+  checkForUpdates,
+  downloadUpdate,
+  getLastUpdateStatus,
+  quitAndInstall
+} from './updater'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle(IpcChannels.APP_GET_VERSION, () => app.getVersion())
@@ -45,4 +51,9 @@ export function registerIpcHandlers(): void {
     const abs = join(__dirname, '..', 'preload', 'webview-preload.js')
     return pathToFileURL(abs).href
   })
+
+  ipcMain.handle('update:status', () => getLastUpdateStatus())
+  ipcMain.handle('update:check', () => checkForUpdates())
+  ipcMain.handle('update:download', () => downloadUpdate())
+  ipcMain.handle('update:install', () => quitAndInstall())
 }

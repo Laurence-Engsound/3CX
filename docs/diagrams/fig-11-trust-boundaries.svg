@@ -1,0 +1,237 @@
+<svg viewBox="0 0 1280 1080" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN Security Trust Boundaries (STRIDE + Agent)</title>
+<desc>VOXEN 資安信任邊界：四層信任區、STRIDE + Agent-specific 威脅分析</desc>
+
+<defs>
+  <marker id="tr-attack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#9B2C2C"/>
+  </marker>
+</defs>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">Security Trust Boundaries  ·  資安信任邊界（含 AI Agent 威脅）</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">四層信任區 · STRIDE 六類威脅 · AI Agent 特有威脅 · 給銀行 InfoSec / Pentest / 紅隊用</text>
+
+<g transform="translate(40, 90)">
+  <rect width="720" height="620" rx="12" fill="#FED7D7" stroke="#9B2C2C" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="20" y="28" font-size="13" font-weight="700" fill="#742A2A">🔴 Zone 4  ·  Untrusted (網際網路 / 公開世界)</text>
+  <text x="20" y="46" font-size="10" fill="#9B2C2C">客戶瀏覽器 · 訊息平台 · AI 供應商雲端 · 攻擊者 · Bot · 外部 AI Agent</text>
+
+  <g transform="translate(50, 70)">
+    <rect width="620" height="490" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="15" y="24" font-size="12" font-weight="700" fill="#78350F">🟠 Zone 3  ·  Semi-trusted (DMZ)</text>
+    <text x="15" y="42" font-size="10" fill="#92400E">L1 Adapters · API Gateway · WAF · Reverse Proxy · MCP Server (對外 Agent 入口)</text>
+
+    <g transform="translate(30, 60)">
+      <rect width="560" height="380" rx="8" fill="#D6EAFD" stroke="#2C5282" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="15" y="22" font-size="12" font-weight="700" fill="#1A365D">🟡 Zone 2  ·  Internal Trusted (VOXEN 主幹)</text>
+      <text x="15" y="40" font-size="10" fill="#2C5282">L2-L6 服務 · 員工內部網路 · 內部 AI Agent Runtime</text>
+
+      <g transform="translate(30, 60)">
+        <rect width="500" height="270" rx="8" fill="#C6F6D5" stroke="#276749" stroke-width="2"/>
+        <text x="15" y="22" font-size="12" font-weight="700" fill="#22543D">🟢 Zone 1  ·  Sensitive (個資 / 錄音 / 金鑰 / Agent Identity)</text>
+        <text x="15" y="40" font-size="10" fill="#276749">C360 · Recording · Identity Vault · Customer PII · Agent Identity Vault</text>
+
+        <g transform="translate(30, 60)">
+          <rect width="440" height="190" rx="8" fill="#1A365D" stroke="#0A1A2D" stroke-width="2"/>
+          <text x="15" y="24" font-size="12" font-weight="700" fill="#FFFFFF">⚫ Zone 0  ·  Secrets Vault (最高機密)</text>
+          <text x="15" y="42" font-size="10" fill="#BEE3F8">KMS / HSM · 根憑證 · SIP 密碼 · SSO Private Key · Agent Master Keys</text>
+
+          <g transform="translate(30, 60)">
+            <rect width="120" height="50" rx="4" fill="#2C5282" stroke="#63B3ED" stroke-width="1"/>
+            <text x="60" y="22" text-anchor="middle" font-size="10" font-weight="600" fill="#FFFFFF">KMS</text>
+            <text x="60" y="38" text-anchor="middle" font-size="9" fill="#BEE3F8">Key Mgmt</text>
+
+            <rect x="130" y="0" width="120" height="50" rx="4" fill="#2C5282" stroke="#63B3ED" stroke-width="1"/>
+            <text x="190" y="22" text-anchor="middle" font-size="10" font-weight="600" fill="#FFFFFF">HSM</text>
+            <text x="190" y="38" text-anchor="middle" font-size="9" fill="#BEE3F8">Hardware</text>
+
+            <rect x="260" y="0" width="120" height="50" rx="4" fill="#2C5282" stroke="#63B3ED" stroke-width="1"/>
+            <text x="320" y="22" text-anchor="middle" font-size="10" font-weight="600" fill="#FFFFFF">PKI CA</text>
+            <text x="320" y="38" text-anchor="middle" font-size="9" fill="#BEE3F8">憑證核發</text>
+
+            <rect x="0" y="60" width="380" height="44" rx="4" fill="#2C5282" stroke="#63B3ED" stroke-width="1"/>
+            <text x="190" y="80" text-anchor="middle" font-size="10" font-weight="600" fill="#FFFFFF">Secrets Store (Vault / Azure Key Vault)</text>
+            <text x="190" y="96" text-anchor="middle" font-size="9" fill="#BEE3F8">所有金鑰 · Token · Credential · Agent API Keys 集中管理</text>
+          </g>
+        </g>
+
+        <rect x="15" y="54" width="200" height="40" rx="4" fill="#9AE6B4" stroke="#276749"/>
+        <text x="115" y="70" text-anchor="middle" font-size="10" font-weight="600" fill="#22543D">Recording Storage</text>
+        <text x="115" y="84" text-anchor="middle" font-size="9" fill="#276749">加密 at rest</text>
+
+        <rect x="15" y="100" width="200" height="40" rx="4" fill="#9AE6B4" stroke="#276749"/>
+        <text x="115" y="116" text-anchor="middle" font-size="10" font-weight="600" fill="#22543D">Customer 360 DB</text>
+        <text x="115" y="130" text-anchor="middle" font-size="9" fill="#276749">PII 欄位加密</text>
+
+        <rect x="15" y="146" width="200" height="40" rx="4" fill="#FED7AA" stroke="#C05621"/>
+        <text x="115" y="162" text-anchor="middle" font-size="10" font-weight="600" fill="#7B341E">Agent Identity Vault</text>
+        <text x="115" y="176" text-anchor="middle" font-size="9" fill="#7B341E">Agent ID + Scope</text>
+      </g>
+
+      <g transform="translate(25, 338)">
+        <rect width="170" height="28" rx="4" fill="#BEE3F8" stroke="#2C5282"/>
+        <text x="85" y="18" text-anchor="middle" font-size="9" font-weight="600" fill="#1A365D">VOXEN App Servers</text>
+
+        <rect x="180" y="0" width="170" height="28" rx="4" fill="#BEE3F8" stroke="#2C5282"/>
+        <text x="265" y="18" text-anchor="middle" font-size="9" font-weight="600" fill="#1A365D">Agent / Supervisor PCs</text>
+
+        <rect x="360" y="0" width="170" height="28" rx="4" fill="#FED7AA" stroke="#C05621"/>
+        <text x="445" y="18" text-anchor="middle" font-size="9" font-weight="600" fill="#7B341E">AI Agent Runtime</text>
+      </g>
+    </g>
+
+    <g transform="translate(25, 448)">
+      <rect width="180" height="28" rx="4" fill="#FDE68A" stroke="#D97706"/>
+      <text x="90" y="18" text-anchor="middle" font-size="9" font-weight="600" fill="#78350F">API Gateway / WAF</text>
+
+      <rect x="200" y="0" width="180" height="28" rx="4" fill="#FDE68A" stroke="#D97706"/>
+      <text x="290" y="18" text-anchor="middle" font-size="9" font-weight="600" fill="#78350F">L1 Adapters</text>
+
+      <rect x="400" y="0" width="180" height="28" rx="4" fill="#FED7AA" stroke="#C05621"/>
+      <text x="490" y="18" text-anchor="middle" font-size="9" font-weight="600" fill="#7B341E">MCP Server (對外)</text>
+    </g>
+  </g>
+
+  <g transform="translate(25, 570)">
+    <rect width="150" height="30" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-dasharray="3,2"/>
+    <text x="75" y="20" text-anchor="middle" font-size="10" font-weight="600" fill="#742A2A">客戶端瀏覽器</text>
+
+    <rect x="160" y="0" width="150" height="30" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-dasharray="3,2"/>
+    <text x="235" y="20" text-anchor="middle" font-size="10" font-weight="600" fill="#742A2A">Meta / Line API</text>
+
+    <rect x="320" y="0" width="150" height="30" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-dasharray="3,2"/>
+    <text x="395" y="20" text-anchor="middle" font-size="10" font-weight="600" fill="#742A2A">雲端 AI 供應商</text>
+
+    <rect x="480" y="0" width="150" height="30" rx="4" fill="#FED7AA" stroke="#C05621" stroke-dasharray="3,2"/>
+    <text x="555" y="20" text-anchor="middle" font-size="10" font-weight="600" fill="#7B341E">外部 AI Agent / B2B</text>
+  </g>
+
+  <g stroke="#9B2C2C" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M 630 570 L 560 480" stroke-dasharray="4,3" marker-end="url(#tr-attack)"/>
+    <path d="M 630 570 L 500 340" stroke-dasharray="4,3" marker-end="url(#tr-attack)"/>
+  </g>
+  <text x="585" y="510" font-size="9" fill="#9B2C2C" font-weight="600" font-style="italic">攻擊路徑</text>
+</g>
+
+<g transform="translate(790, 90)">
+  <rect width="470" height="620" rx="10" fill="#F7FAFC" stroke="#2D3748" stroke-width="1.5"/>
+  <text x="235" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1A202C">STRIDE + Agent 威脅分類</text>
+  <text x="235" y="42" text-anchor="middle" font-size="10" fill="#4A5568">每個邊界對六種 + Agent 特有威脅各有對策</text>
+
+  <g transform="translate(20, 56)">
+    <rect width="430" height="68" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <circle cx="30" cy="24" r="16" fill="#9B2C2C"/>
+    <text x="30" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">S</text>
+    <text x="60" y="22" font-size="11" font-weight="700" fill="#742A2A">Spoofing  ·  身分偽冒</text>
+    <text x="60" y="38" font-size="9" fill="#742A2A">威脅：假冒座席 / 客戶 / Admin / **AI Agent**</text>
+    <text x="60" y="54" font-size="9" fill="#276749">緩解：MFA · SSO · Agent identity binding · 聲紋 · Tool authorization scope</text>
+  </g>
+
+  <g transform="translate(20, 132)">
+    <rect width="430" height="68" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <circle cx="30" cy="24" r="16" fill="#9B2C2C"/>
+    <text x="30" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">T</text>
+    <text x="60" y="22" font-size="11" font-weight="700" fill="#742A2A">Tampering  ·  資料 / Prompt 竄改</text>
+    <text x="60" y="38" font-size="9" fill="#742A2A">威脅：改配置 · 改稽核 · **Prompt Injection 改 Agent 行為**</text>
+    <text x="60" y="54" font-size="9" fill="#276749">緩解：TLS · AES · 稽核 hash chain · Prompt 簽章 · Input sanitization</text>
+  </g>
+
+  <g transform="translate(20, 208)">
+    <rect width="430" height="68" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <circle cx="30" cy="24" r="16" fill="#9B2C2C"/>
+    <text x="30" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">R</text>
+    <text x="60" y="22" font-size="11" font-weight="700" fill="#742A2A">Repudiation  ·  否認操作（含 Agent 否認）</text>
+    <text x="60" y="38" font-size="9" fill="#742A2A">威脅：人類否認 / **Agent 動作無法溯源**</text>
+    <text x="60" y="54" font-size="9" fill="#276749">緩解：稽核 + Agent reasoning trace + Tool 呼叫紀錄 + 不可變儲存</text>
+  </g>
+
+  <g transform="translate(20, 284)">
+    <rect width="430" height="68" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <circle cx="30" cy="24" r="16" fill="#9B2C2C"/>
+    <text x="30" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">I</text>
+    <text x="60" y="22" font-size="11" font-weight="700" fill="#742A2A">Information Disclosure  ·  資訊洩漏</text>
+    <text x="60" y="38" font-size="9" fill="#742A2A">威脅：PII 外洩 · **Agent 從 RAG 帶出禁存內容**</text>
+    <text x="60" y="54" font-size="9" fill="#276749">緩解：PII Redactor · RBAC · Field 加密 · Agent output filtering</text>
+  </g>
+
+  <g transform="translate(20, 360)">
+    <rect width="430" height="68" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <circle cx="30" cy="24" r="16" fill="#9B2C2C"/>
+    <text x="30" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">D</text>
+    <text x="60" y="22" font-size="11" font-weight="700" fill="#742A2A">Denial of Service  ·  拒絕服務</text>
+    <text x="60" y="38" font-size="9" fill="#742A2A">威脅：API 洪水 · **Agent 失控大量呼叫 LLM/Tools 燒成本**</text>
+    <text x="60" y="54" font-size="9" fill="#276749">緩解：WAF · Rate Limit · 租戶配額 · **Agent token / call 上限**</text>
+  </g>
+
+  <g transform="translate(20, 436)">
+    <rect width="430" height="68" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+    <circle cx="30" cy="24" r="16" fill="#9B2C2C"/>
+    <text x="30" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">E</text>
+    <text x="60" y="22" font-size="11" font-weight="700" fill="#742A2A">Elevation of Privilege  ·  特權提升</text>
+    <text x="60" y="38" font-size="9" fill="#742A2A">威脅：座席升主管 · **Agent 透過 Tools 取超範圍能力**</text>
+    <text x="60" y="54" font-size="9" fill="#276749">緩解：最小權限 · Plugin 沙箱 · **Agent Tool scope 嚴格 + HITL 核准**</text>
+  </g>
+
+  <g transform="translate(20, 512)">
+    <rect width="430" height="92" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="2"/>
+    <circle cx="30" cy="28" r="18" fill="#7B341E"/>
+    <text x="30" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">A</text>
+    <text x="60" y="24" font-size="11" font-weight="700" fill="#7B341E">Agent-specific  ·  AI Agent 特有威脅（C7）</text>
+    <text x="60" y="40" font-size="9" fill="#92400E">① Goal hijacking — Agent 目標被惡意改寫</text>
+    <text x="60" y="54" font-size="9" fill="#92400E">② Tool misuse — Agent 呼叫工具完成未授權操作</text>
+    <text x="60" y="68" font-size="9" fill="#92400E">③ Multi-agent collusion — 多 Agent 串謀繞過單獨檢查</text>
+    <text x="60" y="84" font-size="9" fill="#276749">緩解：Goal validation · Tool scope 白名單 · Agent 行為基線監控 · A2A 認證</text>
+  </g>
+</g>
+
+<g transform="translate(40, 740)">
+  <rect width="1200" height="240" rx="8" fill="#EBF8FF" stroke="#2C5282" stroke-width="1"/>
+  <text x="600" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#1A365D">邊界跨越時必要的控制措施  ·  Boundary-Crossing Controls</text>
+
+  <g transform="translate(20, 38)" font-size="10" fill="#1A365D">
+    <g transform="translate(0, 0)">
+      <rect width="370" height="60" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+      <text x="12" y="18" font-weight="700">Zone 4 → Zone 3（進 DMZ）</text>
+      <text x="12" y="34" font-size="9" fill="#2C5282">TLS 1.3 · WAF · DDoS · Rate Limit · OAuth 2.0 / JWT</text>
+      <text x="12" y="50" font-size="9" fill="#2C5282">外部 Agent 走 MCP Server，需 OAuth + scope 驗證</text>
+    </g>
+
+    <g transform="translate(390, 0)">
+      <rect width="370" height="60" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+      <text x="12" y="18" font-weight="700">Zone 3 → Zone 2（進內網）</text>
+      <text x="12" y="34" font-size="9" fill="#2C5282">mTLS · 服務帳號 · Service Mesh 驗證</text>
+      <text x="12" y="50" font-size="9" fill="#2C5282">Agent 進入需內部 identity（不繼承外部 token）</text>
+    </g>
+
+    <g transform="translate(780, 0)">
+      <rect width="400" height="60" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+      <text x="12" y="18" font-weight="700">Zone 2 → Zone 1（觸個資）</text>
+      <text x="12" y="34" font-size="9" fill="#2C5282">欄位級加密解密 · 存取理由記錄 · 四眼原則</text>
+      <text x="12" y="50" font-size="9" fill="#2C5282">Agent 讀取 Agent Identity Vault 自身 scope</text>
+    </g>
+
+    <g transform="translate(0, 70)">
+      <rect width="560" height="60" rx="4" fill="#1A365D" stroke="#0A1A2D"/>
+      <text x="12" y="18" font-weight="700" fill="#FFFFFF">Zone 1 → Zone 0（取金鑰）</text>
+      <text x="12" y="34" font-size="9" fill="#BEE3F8">HSM Authenticate Call（PKCS#11 / KMIP）· 金鑰永不離開 HSM</text>
+      <text x="12" y="50" font-size="9" fill="#BEE3F8">Agent 不能直接取金鑰 — 走 KMS proxy 簽章服務</text>
+    </g>
+
+    <g transform="translate(580, 70)">
+      <rect width="600" height="60" rx="4" fill="#FED7AA" stroke="#C05621"/>
+      <text x="12" y="18" font-weight="700" fill="#7B341E">Agent Tool 呼叫（橫跨所有 Zone）— C7 特殊規範</text>
+      <text x="12" y="34" font-size="9" fill="#92400E">每次 Tool 呼叫：① Agent identity 驗證 ② Scope 檢查 ③ 審計事件</text>
+      <text x="12" y="50" font-size="9" fill="#92400E">高風險 Tool：Human-in-the-loop（HITL）核准 · 例：「轉帳」「刪除」「對外發送」</text>
+    </g>
+  </g>
+
+  <g transform="translate(20, 178)">
+    <text x="0" y="14" font-size="10" font-weight="700" fill="#2C5282">逆向流（下層通知上層）</text>
+    <text x="0" y="32" font-size="10" fill="#1A365D">必經 Event Bus（不直接呼叫）· 禁止攜帶 PII 內容 · Webhook 走白名單 · 簽章驗證來源</text>
+    <text x="0" y="50" font-size="10" fill="#1A365D">Agent 之間（A2A）通訊 — 透過 FM-L5-AGENT-A2A，採 mutual identity verification</text>
+  </g>
+</g>
+
+<text x="1265" y="1062" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.7  ·  Trust Boundaries (STRIDE + Agent)  ·  2026-04</text>
+
+</svg>

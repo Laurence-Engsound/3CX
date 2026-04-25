@@ -1,0 +1,224 @@
+<svg viewBox="0 0 1280 920" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN — From AI Agent's View</title>
+<desc>從 AI Agent 視角看 VOXEN：可呼叫的工具、可讀取的記憶、可發布訂閱的事件、可協作的其他 Agents</desc>
+
+<defs>
+  <marker id="agt-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#7B341E"/>
+  </marker>
+</defs>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">VOXEN — From an AI Agent's View  ·  從 AI Agent 視角</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">「我（AI Agent）能呼叫什麼工具、讀什麼記憶、發布什麼事件、與誰協作」 — C7 AI-Agent Native 之具體展開</text>
+
+<g transform="translate(540, 90)">
+  <rect width="200" height="100" rx="50" fill="#FED7AA" stroke="#7B341E" stroke-width="3"/>
+  <text x="100" y="42" text-anchor="middle" font-size="16" font-weight="700" fill="#7B341E">AI Agent</text>
+  <text x="100" y="60" text-anchor="middle" font-size="11" fill="#92400E">FM-L4-AGENT-RUNTIME</text>
+  <text x="100" y="78" text-anchor="middle" font-size="9" fill="#7B341E">Goal · Memory · Plan · Tools</text>
+  <text x="100" y="92" text-anchor="middle" font-size="9" fill="#7B341E">「我能做什麼？」</text>
+</g>
+
+<g transform="translate(40, 230)">
+  <rect width="280" height="320" rx="10" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="140" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1A365D">🛠️ TOOLS  ·  我能呼叫的工具</text>
+  <text x="140" y="38" text-anchor="middle" font-size="9" fill="#2C5282">透過 Tools Gateway · MCP-compatible</text>
+
+  <g font-size="10" fill="#1A365D" transform="translate(15, 52)">
+    <rect width="250" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="10" y="14" font-weight="700">PBX（撥電話 / 接聽 / 轉接）</text>
+    <text x="10" y="27" font-size="9" fill="#2C5282">FM-L1-PBX-3CX · makecall · transfer</text>
+
+    <rect y="40" width="250" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="10" y="54" font-weight="700">CRM（讀寫客戶資料）</text>
+    <text x="10" y="67" font-size="9" fill="#2C5282">FM-L1-CRM-* · lookup / writeback</text>
+
+    <rect y="80" width="250" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="10" y="94" font-weight="700">訊息平台（送 SMS / Line / WA）</text>
+    <text x="10" y="107" font-size="9" fill="#2C5282">FM-L1-MSG-* · sendMessage</text>
+
+    <rect y="120" width="250" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="10" y="134" font-weight="700">Email（收發信件）</text>
+    <text x="10" y="147" font-size="9" fill="#2C5282">FM-L1-EMAIL-* · sendEmail</text>
+
+    <rect y="160" width="250" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="10" y="174" font-weight="700">Identity（認證 / 授權）</text>
+    <text x="10" y="187" font-size="9" fill="#2C5282">FM-L1-IDP-* · authenticate</text>
+
+    <rect y="200" width="250" height="32" rx="4" fill="#FED7D7" stroke="#9B2C2C"/>
+    <text x="10" y="214" font-weight="700" fill="#742A2A">Payment / eKYC（高風險 · HITL）</text>
+    <text x="10" y="227" font-size="9" fill="#9B2C2C">FM-L1-FIN-* · 需人類核准</text>
+
+    <rect y="240" width="250" height="22" rx="4" fill="#E9D8FD" stroke="#6B46C1"/>
+    <text x="125" y="256" text-anchor="middle" font-size="9" font-weight="600" fill="#44337A">+ 其他 38 個 L1 Adapter Tools</text>
+  </g>
+</g>
+
+<g transform="translate(360, 230)">
+  <rect width="280" height="320" rx="10" fill="#C6F6D5" stroke="#276749" stroke-width="1.5"/>
+  <text x="140" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#22543D">🧠 MEMORY  ·  我能讀寫的記憶</text>
+  <text x="140" y="38" text-anchor="middle" font-size="9" fill="#276749">透過 Agent Memory + L2 資料層</text>
+
+  <g font-size="10" fill="#22543D" transform="translate(15, 52)">
+    <rect width="250" height="40" rx="4" fill="#FFFFFF" stroke="#276749"/>
+    <text x="10" y="16" font-weight="700">Working Memory（短期）</text>
+    <text x="10" y="30" font-size="9" fill="#276749">當前對話 / 任務 context</text>
+
+    <rect y="48" width="250" height="40" rx="4" fill="#FFFFFF" stroke="#276749"/>
+    <text x="10" y="64" font-weight="700">Episodic Memory（中期）</text>
+    <text x="10" y="78" font-size="9" fill="#276749">跨對話的客戶互動歷史</text>
+
+    <rect y="96" width="250" height="40" rx="4" fill="#FFFFFF" stroke="#276749"/>
+    <text x="10" y="112" font-weight="700">Customer 360（FM-L2-C360）</text>
+    <text x="10" y="126" font-size="9" fill="#276749">客戶完整資料 · VIP 等級 · 偏好</text>
+
+    <rect y="144" width="250" height="40" rx="4" fill="#FFFFFF" stroke="#276749"/>
+    <text x="10" y="160" font-weight="700">Knowledge Base（FM-L2-KB）</text>
+    <text x="10" y="174" font-size="9" fill="#276749">SOP · FAQ · 政策 · 產品手冊（RAG）</text>
+
+    <rect y="192" width="250" height="40" rx="4" fill="#FFFFFF" stroke="#276749"/>
+    <text x="10" y="208" font-weight="700">Interaction Archive</text>
+    <text x="10" y="222" font-size="9" fill="#276749">通話 / 訊息 / Email 完整歷史</text>
+
+    <rect y="240" width="250" height="22" rx="4" fill="#FED7D7" stroke="#9B2C2C"/>
+    <text x="125" y="256" text-anchor="middle" font-size="9" font-weight="600" fill="#742A2A">⚠ 受 RBAC + DSR 約束</text>
+  </g>
+</g>
+
+<g transform="translate(680, 230)">
+  <rect width="280" height="320" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="140" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#78350F">📡 EVENTS  ·  我能發布 / 訂閱的事件</text>
+  <text x="140" y="38" text-anchor="middle" font-size="9" fill="#92400E">透過 Event Bus（FM-L5-EVENT）</text>
+
+  <g font-size="10" fill="#78350F" transform="translate(15, 52)">
+    <rect width="250" height="26" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="10" y="18" font-weight="700">📥 訂閱（Subscribe）</text>
+
+    <rect y="32" width="250" height="24" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="10" y="48" font-size="9">call.* · message.inbound · lead.assigned</text>
+
+    <rect y="60" width="250" height="24" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="10" y="76" font-size="9">customer.identified · ai.summaryReady</text>
+
+    <rect y="96" width="250" height="26" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="10" y="114" font-weight="700">📢 發布（Publish）</text>
+
+    <rect y="126" width="250" height="24" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="10" y="142" font-size="9">agent.taskCompleted · agent.escalated</text>
+
+    <rect y="154" width="250" height="24" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="10" y="170" font-size="9">agent.toolCalled · agent.handoffRequested</text>
+
+    <rect y="182" width="250" height="24" rx="4" fill="#FED7D7" stroke="#9B2C2C"/>
+    <text x="10" y="198" font-size="9" fill="#742A2A">audit.agent.* · 必發（強制）</text>
+
+    <rect y="218" width="250" height="22" rx="4" fill="#E9D8FD" stroke="#6B46C1"/>
+    <text x="125" y="232" text-anchor="middle" font-size="9" font-weight="600" fill="#44337A">+ 其他 7 大主題事件</text>
+  </g>
+</g>
+
+<g transform="translate(1000, 230)">
+  <rect width="240" height="320" rx="10" fill="#E9D8FD" stroke="#6B46C1" stroke-width="1.5"/>
+  <text x="120" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#44337A">🤝 PEERS  ·  其他 Agents</text>
+  <text x="120" y="38" text-anchor="middle" font-size="9" fill="#6B46C1">透過 FM-L5-AGENT-A2A</text>
+
+  <g font-size="10" fill="#44337A" transform="translate(15, 52)">
+    <rect width="210" height="36" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="10" y="16" font-weight="700">Peer Agents（同儕）</text>
+    <text x="10" y="30" font-size="9" fill="#6B46C1">客服 Agent · 業務 Agent · 售後 Agent</text>
+
+    <rect y="44" width="210" height="36" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="10" y="60" font-weight="700">Supervisor Agent（協調）</text>
+    <text x="10" y="74" font-size="9" fill="#6B46C1">管理多 Agent 任務分配</text>
+
+    <rect y="88" width="210" height="36" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="10" y="104" font-weight="700">Specialist Agents（專家）</text>
+    <text x="10" y="118" font-size="9" fill="#6B46C1">合規 / 風險 / 稽核 Agent</text>
+
+    <rect y="132" width="210" height="36" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="10" y="148" font-weight="700">Human Agents（人類座席）</text>
+    <text x="10" y="162" font-size="9" fill="#6B46C1">透過 escalation 轉接</text>
+
+    <rect y="176" width="210" height="36" rx="4" fill="#FED7D7" stroke="#9B2C2C"/>
+    <text x="10" y="192" font-weight="700" fill="#742A2A">External Agents（外部）</text>
+    <text x="10" y="206" font-size="9" fill="#9B2C2C">B2B AI · 客戶端 AI 助理</text>
+
+    <rect y="220" width="210" height="22" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="105" y="234" text-anchor="middle" font-size="9" font-weight="600" fill="#44337A">需 mutual auth + scope</text>
+  </g>
+</g>
+
+<g stroke="#7B341E" stroke-width="1.5" fill="none" opacity="0.6">
+  <path d="M 600 195 L 280 230" marker-end="url(#agt-arr)"/>
+  <path d="M 620 195 L 500 230" marker-end="url(#agt-arr)"/>
+  <path d="M 660 195 L 820 230" marker-end="url(#agt-arr)"/>
+  <path d="M 680 195 L 1100 230" marker-end="url(#agt-arr)"/>
+</g>
+
+<g transform="translate(40, 580)">
+  <rect width="1200" height="150" rx="10" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+  <text x="600" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#742A2A">🛡️ GUARDRAILS  ·  我被約束的規則（C7 + C2 治理）</text>
+
+  <g font-size="10" fill="#742A2A" transform="translate(20, 42)">
+    <g transform="translate(0, 0)">
+      <rect width="280" height="44" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+      <text x="10" y="16" font-weight="700">Identity &amp; Scope</text>
+      <text x="10" y="30" font-size="9" fill="#9B2C2C">我有獨立 identity（不是匿名）</text>
+      <text x="10" y="42" font-size="9" fill="#9B2C2C">我的 scope 嚴格定義可呼叫範圍</text>
+    </g>
+
+    <g transform="translate(290, 0)">
+      <rect width="280" height="44" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+      <text x="10" y="16" font-weight="700">Cost &amp; Rate Limit</text>
+      <text x="10" y="30" font-size="9" fill="#9B2C2C">每日 token 上限 + Tool 呼叫次數上限</text>
+      <text x="10" y="42" font-size="9" fill="#9B2C2C">超限自動停止，避免失控成本</text>
+    </g>
+
+    <g transform="translate(580, 0)">
+      <rect width="280" height="44" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+      <text x="10" y="16" font-weight="700">HITL（Human-in-the-loop）</text>
+      <text x="10" y="30" font-size="9" fill="#9B2C2C">高風險 Tool（轉帳 / 刪除 / 對外發送）</text>
+      <text x="10" y="42" font-size="9" fill="#9B2C2C">必須暫停等待人類核准</text>
+    </g>
+
+    <g transform="translate(870, 0)">
+      <rect width="290" height="44" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+      <text x="10" y="16" font-weight="700">Audit &amp; Reasoning Trace</text>
+      <text x="10" y="30" font-size="9" fill="#9B2C2C">我每次思考、每次 Tool 呼叫</text>
+      <text x="10" y="42" font-size="9" fill="#9B2C2C">皆寫稽核（C2）· 7 年保留</text>
+    </g>
+
+    <g transform="translate(0, 54)">
+      <rect width="1160" height="38" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+      <text x="10" y="16" font-weight="700">Sandbox &amp; Output Filter</text>
+      <text x="10" y="30" font-size="9" fill="#9B2C2C">我在沙箱執行 · 我的輸出經 PII / 幻覺 / 偏見過濾才到使用者 · 違反 Guardrail 立即終止任務</text>
+    </g>
+  </g>
+</g>
+
+<g transform="translate(40, 750)">
+  <rect width="1200" height="150" rx="10" fill="#F7FAFC" stroke="#4A5568"/>
+  <text x="600" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#2D3748">典型情境舉例 — Agent 一次完整任務</text>
+
+  <g font-size="10" fill="#2D3748" transform="translate(20, 38)">
+    <text x="0" y="14" font-weight="700" fill="#7B341E">情境：客戶撥入詢問餘額（簡單任務由 Agent 處理）</text>
+
+    <text x="0" y="34" font-size="10">1. <tspan font-weight="600">收事件</tspan>：訂閱 call.answered → 我接到分配</text>
+    <text x="600" y="34" font-size="10">5. <tspan font-weight="600">查 KB</tspan>：呼叫 RAG（FM-L4-RAG）找回應模板</text>
+
+    <text x="0" y="52" font-size="10">2. <tspan font-weight="600">讀記憶</tspan>：查 Customer 360（FM-L2-C360）取客戶資料</text>
+    <text x="600" y="52" font-size="10">6. <tspan font-weight="600">回應</tspan>：呼叫 TTS（FM-L4-TTS）以語音回客戶</text>
+
+    <text x="0" y="70" font-size="10">3. <tspan font-weight="600">驗身分</tspan>：呼叫 IDP Tool（FM-L1-IDP-LDAP）核身</text>
+    <text x="600" y="70" font-size="10">7. <tspan font-weight="600">寫稽核</tspan>：發 audit.agent.taskCompleted</text>
+
+    <text x="0" y="88" font-size="10">4. <tspan font-weight="600">查餘額</tspan>：呼叫 CRM Tool（FM-L1-CRM-GENERIC）</text>
+    <text x="600" y="88" font-size="10">8. <tspan font-weight="600">掛斷</tspan>：呼叫 PBX Tool 完成通話</text>
+
+    <text x="0" y="108" font-size="10" font-style="italic" fill="#7B341E">↑ 整個任務由 Agent 自主完成 · 全程稽核 · 任何步驟需要人類時自動 escalate</text>
+  </g>
+</g>
+
+<text x="1265" y="912" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.7  ·  AI Agent's View  ·  2026-04</text>
+
+</svg>

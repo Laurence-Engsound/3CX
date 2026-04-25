@@ -1,0 +1,177 @@
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN Deployment Models</title>
+<desc>VOXEN 四種部署模型對照</desc>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">Deployment Models  ·  四種部署模型</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">依客戶機密等級、合規要求、IT 成熟度選用</text>
+
+<g transform="translate(20, 90)">
+  <rect width="610" height="280" rx="10" fill="#FFFFFF" stroke="#2C5282" stroke-width="1.5"/>
+  <rect width="610" height="44" rx="10" fill="#2C5282"/>
+  <rect y="34" width="610" height="10" fill="#2C5282"/>
+  <text x="20" y="20" font-size="14" font-weight="700" fill="#FFFFFF">方案 1  ·  全地端部署 On-premises</text>
+  <text x="20" y="38" font-size="10" fill="#BEE3F8" font-style="italic">適用：金融 · 政府 · 軍警 · 高安醫療</text>
+
+  <g transform="translate(20, 60)">
+    <rect width="570" height="160" rx="8" fill="#F0F9FF" stroke="#2C5282" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="15" y="22" font-size="11" font-weight="700" fill="#2C5282">客戶機房（一切留在內網）</text>
+
+    <rect x="20" y="40" width="170" height="100" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1"/>
+    <text x="105" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">Agent LAN</text>
+    <text x="105" y="80" text-anchor="middle" font-size="10" fill="#2C5282">座席 PC × N</text>
+    <text x="105" y="98" text-anchor="middle" font-size="10" fill="#2C5282">Supervisor / Admin</text>
+    <text x="105" y="118" text-anchor="middle" font-size="9" fill="#4A5568">VLAN 10-12</text>
+
+    <rect x="200" y="40" width="350" height="100" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1"/>
+    <text x="375" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#1A365D">Server LAN</text>
+    <text x="375" y="80" text-anchor="middle" font-size="10" fill="#2C5282">VOXEN · PBX · Local LLM(GPU) · Vector DB</text>
+    <text x="375" y="98" text-anchor="middle" font-size="10" fill="#2C5282">Recording · DB · SIEM · KMS/HSM</text>
+    <text x="375" y="118" text-anchor="middle" font-size="9" fill="#4A5568">VLAN 30-42</text>
+  </g>
+
+  <g font-size="10" fill="#2D3748" transform="translate(20, 232)">
+    <text x="0" y="0" font-weight="700" fill="#2C5282">特性：</text>
+    <text x="0" y="18">✓ 0% 資料出境  ✓ 無雲端依賴  ✓ AI 用地端 LLM  ✓ 客戶 IT 維運</text>
+    <text x="0" y="34">建置成本：高 · 合規風險：最低 · 適合：銀行 / 軍警 / 政府最高安</text>
+  </g>
+</g>
+
+<g transform="translate(650, 90)">
+  <rect width="610" height="280" rx="10" fill="#FFFFFF" stroke="#2B6CB0" stroke-width="1.5"/>
+  <rect width="610" height="44" rx="10" fill="#2B6CB0"/>
+  <rect y="34" width="610" height="10" fill="#2B6CB0"/>
+  <text x="20" y="20" font-size="14" font-weight="700" fill="#FFFFFF">方案 2  ·  雲端多租戶 SaaS</text>
+  <text x="20" y="38" font-size="10" fill="#BEE3F8" font-style="italic">適用：SMB · 中小企業 · Startup</text>
+
+  <g transform="translate(20, 60)">
+    <rect width="220" height="160" rx="8" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.2"/>
+    <text x="110" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#2C5282">客戶端</text>
+
+    <rect x="20" y="34" width="180" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="110" y="54" text-anchor="middle" font-size="10" fill="#1A365D">座席 PC（Electron / Web）</text>
+
+    <rect x="20" y="74" width="180" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="110" y="94" text-anchor="middle" font-size="10" fill="#1A365D">客戶 PBX（自管或雲）</text>
+
+    <rect x="20" y="114" width="180" height="32" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+    <text x="110" y="134" text-anchor="middle" font-size="10" fill="#1A365D">客戶 CRM</text>
+
+    <rect x="250" y="0" width="320" height="160" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="410" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#78350F">VOXEN Cloud（瑛聲維運）</text>
+
+    <rect x="265" y="34" width="90" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="310" y="54" text-anchor="middle" font-size="10" fill="#78350F">Tenant 1</text>
+
+    <rect x="360" y="34" width="90" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="405" y="54" text-anchor="middle" font-size="10" fill="#78350F">Tenant 2</text>
+
+    <rect x="455" y="34" width="100" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="505" y="54" text-anchor="middle" font-size="10" fill="#78350F">Tenant N...</text>
+
+    <rect x="265" y="74" width="290" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="410" y="94" text-anchor="middle" font-size="10" fill="#78350F">共享 AI / Storage / Analytics</text>
+
+    <rect x="265" y="114" width="290" height="32" rx="4" fill="#DBEAFE" stroke="#2C5282"/>
+    <text x="410" y="134" text-anchor="middle" font-size="10" fill="#1A365D">租戶資料邏輯隔離 + 獨立金鑰 (KMS)</text>
+  </g>
+
+  <g font-size="10" fill="#2D3748" transform="translate(20, 232)">
+    <text x="0" y="0" font-weight="700" fill="#2B6CB0">特性：</text>
+    <text x="0" y="18">✓ 多租戶隔離  ✓ 99.9% SLA  ✓ 瑛聲維運  ✓ 使用量計費  ✓ 開台 1-2 週</text>
+    <text x="0" y="34">建置成本：低 · 合規風險：共擔 · 適合：SMB / Startup / 第二家客戶以上</text>
+  </g>
+</g>
+
+<g transform="translate(20, 390)">
+  <rect width="610" height="280" rx="10" fill="#FFFFFF" stroke="#6B46C1" stroke-width="1.5"/>
+  <rect width="610" height="44" rx="10" fill="#6B46C1"/>
+  <rect y="34" width="610" height="10" fill="#6B46C1"/>
+  <text x="20" y="20" font-size="14" font-weight="700" fill="#FFFFFF">方案 3  ·  混合雲 Hybrid（Core 地端 + AI 雲端）</text>
+  <text x="20" y="38" font-size="10" fill="#E9D8FD" font-style="italic">適用：中大型金融 · 保險 · 雲遷移者（銀行最常選）</text>
+
+  <g transform="translate(20, 60)">
+    <rect width="270" height="160" rx="8" fill="#F0F9FF" stroke="#2C5282" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="135" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#2C5282">客戶機房（Core · PII 留此）</text>
+
+    <rect x="15" y="34" width="240" height="28" rx="4" fill="#BEE3F8" stroke="#2C5282"/>
+    <text x="135" y="53" text-anchor="middle" font-size="10" fill="#1A365D">VOXEN Core (L1-L3 + L5-L6)</text>
+
+    <rect x="15" y="68" width="240" height="28" rx="4" fill="#BEE3F8" stroke="#2C5282"/>
+    <text x="135" y="87" text-anchor="middle" font-size="10" fill="#1A365D">PBX · CRM · Recording · DB</text>
+
+    <rect x="15" y="102" width="240" height="28" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="135" y="121" text-anchor="middle" font-size="10" fill="#78350F">去識別化 Gateway (Redactor)</text>
+
+    <text x="135" y="148" text-anchor="middle" font-size="9" fill="#2C5282" font-style="italic">✓ 金融個資不出境</text>
+
+    <g stroke="#6B46C1" stroke-width="1.5" fill="none">
+      <path d="M 270 70 L 300 70" marker-end="url(#dep-arr)"/>
+      <path d="M 300 100 L 270 100" stroke-dasharray="4,3"/>
+    </g>
+    <text x="285" y="60" text-anchor="middle" font-size="9" fill="#6B46C1">去識別化</text>
+    <text x="285" y="118" text-anchor="middle" font-size="9" fill="#6B46C1">結果回</text>
+
+    <rect x="298" y="0" width="270" height="160" rx="8" fill="#FAF5FF" stroke="#6B46C1" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="433" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#44337A">Cloud Edge（運算密集）</text>
+
+    <rect x="313" y="34" width="240" height="28" rx="4" fill="#E9D8FD" stroke="#6B46C1"/>
+    <text x="433" y="53" text-anchor="middle" font-size="10" fill="#44337A">AI Services (STT/LLM/RAG)</text>
+
+    <rect x="313" y="68" width="240" height="28" rx="4" fill="#E9D8FD" stroke="#6B46C1"/>
+    <text x="433" y="87" text-anchor="middle" font-size="10" fill="#44337A">BI / DW（去識別化）</text>
+
+    <rect x="313" y="102" width="240" height="28" rx="4" fill="#E9D8FD" stroke="#6B46C1"/>
+    <text x="433" y="121" text-anchor="middle" font-size="10" fill="#44337A">Platform Ops (P1-P4)</text>
+
+    <text x="433" y="148" text-anchor="middle" font-size="9" fill="#44337A" font-style="italic">✓ 算力彈性</text>
+  </g>
+
+  <defs>
+    <marker id="dep-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B46C1"/>
+    </marker>
+  </defs>
+
+  <g font-size="10" fill="#2D3748" transform="translate(20, 232)">
+    <text x="0" y="0" font-weight="700" fill="#6B46C1">特性：</text>
+    <text x="0" y="18">✓ PII + 錄音 100% 留客戶  ✓ AI 上雲前去識別化  ✓ 合規「資料不出境」  ✓ 算力彈性</text>
+    <text x="0" y="34">建置成本：中  · 合規風險：低 · 適合：中大型金融、保險 — 銀行首選方案</text>
+  </g>
+</g>
+
+<g transform="translate(650, 390)">
+  <rect width="610" height="280" rx="10" fill="#FFFFFF" stroke="#9B2C2C" stroke-width="1.5"/>
+  <rect width="610" height="44" rx="10" fill="#9B2C2C"/>
+  <rect y="34" width="610" height="10" fill="#9B2C2C"/>
+  <text x="20" y="20" font-size="14" font-weight="700" fill="#FFFFFF">方案 4  ·  完全隔離 Air-gapped (Zero Internet)</text>
+  <text x="20" y="38" font-size="10" fill="#FED7D7" font-style="italic">適用：軍警 · 機密政府 · 核能 · 國安情報</text>
+
+  <g transform="translate(20, 60)">
+    <rect width="570" height="160" rx="8" fill="#FFF5F5" stroke="#9B2C2C" stroke-width="2" stroke-dasharray="8,4"/>
+    <text x="15" y="22" font-size="11" font-weight="700" fill="#9B2C2C">⚠ 完全隔離網路 — No Internet · No WAN · No Cloud</text>
+
+    <rect x="20" y="34" width="170" height="116" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1"/>
+    <text x="105" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#742A2A">Agent Secure Zone</text>
+    <text x="105" y="72" text-anchor="middle" font-size="10" fill="#9B2C2C">座席 PC（鎖定）</text>
+    <text x="105" y="88" text-anchor="middle" font-size="10" fill="#9B2C2C">USB 禁用 · 浮水印</text>
+    <text x="105" y="104" text-anchor="middle" font-size="10" fill="#9B2C2C">Auditor 隔離站</text>
+    <text x="105" y="124" text-anchor="middle" font-size="9" fill="#742A2A">生物辨識 / 智慧卡登入</text>
+
+    <rect x="200" y="34" width="350" height="116" rx="6" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1"/>
+    <text x="375" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#742A2A">Secure Server Zone</text>
+    <text x="375" y="72" text-anchor="middle" font-size="10" fill="#9B2C2C">VOXEN 全棧 · PBX · Local LLM (GPU)</text>
+    <text x="375" y="88" text-anchor="middle" font-size="10" fill="#9B2C2C">Local STT · Local Vector · KMS+HSM</text>
+    <text x="375" y="104" text-anchor="middle" font-size="10" fill="#9B2C2C">Local SIEM · Backup</text>
+    <text x="375" y="124" text-anchor="middle" font-size="9" fill="#742A2A">📀 更新走物理媒體（USB/DVD 經掃描）</text>
+  </g>
+
+  <g font-size="10" fill="#2D3748" transform="translate(20, 232)">
+    <text x="0" y="0" font-weight="700" fill="#9B2C2C">特性：</text>
+    <text x="0" y="18">✓ 零外部連線  ✓ 全 AI 地端  ✓ 物理媒體更新  ✓ 獨立稽核日誌 + HSM</text>
+    <text x="0" y="34">建置成本：3-5 倍  · 合規風險：極低 · 適合：軍警 / 機密政府 / 核能</text>
+  </g>
+</g>
+
+<text x="1265" y="708" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.0  ·  Deployment Models  ·  2026-04</text>
+
+</svg>

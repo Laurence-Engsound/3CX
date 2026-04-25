@@ -1,0 +1,290 @@
+<svg viewBox="0 0 1280 1100" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN AI Pipeline + Agent Runtime</title>
+<desc>VOXEN L4 多模態智能管線 + AI Agent Runtime 層</desc>
+
+<defs>
+  <marker id="ai-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#2C5282"/>
+  </marker>
+  <marker id="agent-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#7B341E"/>
+  </marker>
+</defs>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">AI Pipeline + Agent Runtime  ·  L4 多模態智能 + AI Agent 執行環境</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">Pipeline = AI 能力層；Agent Runtime = 編排這些能力以完成目標的執行層（C7 體現）</text>
+
+<g transform="translate(20, 78)">
+  <rect width="1240" height="158" rx="10" fill="#FFF7ED" stroke="#C05621" stroke-width="2"/>
+  <text x="620" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#7B341E">⬛ AI Agent Runtime Layer  ·  Agent 執行環境（C7 AI-Agent Native 之核心實作）</text>
+  <text x="620" y="40" text-anchor="middle" font-size="11" fill="#92400E">Agent 接收 Goal → 透過 Reasoning Loop 規劃步驟 → 呼叫下方 Pipeline 之能力 → 完成任務</text>
+
+  <g transform="translate(20, 52)">
+    <rect width="240" height="92" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="1.5"/>
+    <text x="120" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#7B341E">FM-L4-AGENT-RUNTIME</text>
+    <text x="120" y="40" text-anchor="middle" font-size="10" fill="#92400E">Reasoning Loop（ReAct）</text>
+    <text x="120" y="56" text-anchor="middle" font-size="10" fill="#92400E">Plan-Act-Observe</text>
+    <text x="120" y="72" text-anchor="middle" font-size="10" fill="#92400E">Multi-turn 執行</text>
+    <text x="120" y="86" text-anchor="middle" font-size="9" fill="#7B341E">Phase 8</text>
+  </g>
+
+  <g transform="translate(280, 52)">
+    <rect width="240" height="92" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="1.5"/>
+    <text x="120" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#7B341E">FM-L4-AGENT-MEMORY</text>
+    <text x="120" y="40" text-anchor="middle" font-size="10" fill="#92400E">Working Memory（短期）</text>
+    <text x="120" y="56" text-anchor="middle" font-size="10" fill="#92400E">Episodic Memory（中期）</text>
+    <text x="120" y="72" text-anchor="middle" font-size="10" fill="#92400E">→ L2 長期記憶</text>
+    <text x="120" y="86" text-anchor="middle" font-size="9" fill="#7B341E">Phase 8</text>
+  </g>
+
+  <g transform="translate(540, 52)">
+    <rect width="240" height="92" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="1.5"/>
+    <text x="120" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#7B341E">FM-L4-AGENT-PLANNER</text>
+    <text x="120" y="40" text-anchor="middle" font-size="10" fill="#92400E">Goal → Sub-tasks 分解</text>
+    <text x="120" y="56" text-anchor="middle" font-size="10" fill="#92400E">動態重新規劃</text>
+    <text x="120" y="72" text-anchor="middle" font-size="10" fill="#92400E">Fallback 路徑</text>
+    <text x="120" y="86" text-anchor="middle" font-size="9" fill="#7B341E">Phase 9</text>
+  </g>
+
+  <g transform="translate(800, 52)">
+    <rect width="420" height="92" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="1.5"/>
+    <text x="210" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#7B341E">FM-L4-AGENT-TOOLS-GATEWAY</text>
+    <text x="210" y="40" text-anchor="middle" font-size="10" fill="#92400E">將 L1 Adapter（44 個）包裝為 OpenAI Function / MCP Tool 規範</text>
+    <text x="210" y="56" text-anchor="middle" font-size="10" fill="#92400E">權限控管：哪個 Agent 可呼叫哪個 Tool</text>
+    <text x="210" y="72" text-anchor="middle" font-size="10" fill="#92400E">高風險 Tool 需人類核准（如「轉帳」）</text>
+    <text x="210" y="86" text-anchor="middle" font-size="9" fill="#7B341E">Phase 8</text>
+  </g>
+</g>
+
+<g stroke="#7B341E" stroke-width="1.5" fill="none" opacity="0.6">
+  <path d="M 140 236 L 140 260" stroke-dasharray="4,3" marker-end="url(#agent-arr)"/>
+  <path d="M 400 236 L 400 260" stroke-dasharray="4,3" marker-end="url(#agent-arr)"/>
+  <path d="M 660 236 L 660 260" stroke-dasharray="4,3" marker-end="url(#agent-arr)"/>
+  <path d="M 1010 236 L 1010 260" stroke-dasharray="4,3" marker-end="url(#agent-arr)"/>
+</g>
+<text x="620" y="252" text-anchor="middle" font-size="9" font-style="italic" fill="#7B341E">Agent Runtime 透過 Tools Gateway 呼叫下方 Pipeline 的所有能力，並讀寫 L1 / L2 資源</text>
+
+<g transform="translate(20, 268)">
+  <text x="0" y="14" font-size="12" font-weight="700" fill="#2C5282">AI Pipeline（Agent 可呼叫的能力）  ·  輸入 → 預處理 → 感知 → 檢索 → 編排 → 推論 → 輸出</text>
+</g>
+
+<g transform="translate(20, 292)">
+  <text x="0" y="14" font-size="11" font-weight="600" fill="#2C5282">Inputs</text>
+
+  <rect x="0" y="22" width="195" height="36" rx="4" fill="#C6F6D5" stroke="#276749"/>
+  <text x="97" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#22543D">客戶語音 / 雙聲道</text>
+
+  <rect x="205" y="22" width="195" height="36" rx="4" fill="#C6F6D5" stroke="#276749"/>
+  <text x="302" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#22543D">座席語音 / 文字</text>
+
+  <rect x="410" y="22" width="195" height="36" rx="4" fill="#EBF8FF" stroke="#2C5282"/>
+  <text x="507" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">Chat / Email 文字</text>
+
+  <rect x="615" y="22" width="195" height="36" rx="4" fill="#EBF8FF" stroke="#2C5282"/>
+  <text x="712" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">CRM / 通話歷史</text>
+
+  <rect x="820" y="22" width="195" height="36" rx="4" fill="#EBF8FF" stroke="#2C5282"/>
+  <text x="917" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">KB / SOP / 政策</text>
+
+  <rect x="1025" y="22" width="215" height="36" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-dasharray="4,3"/>
+  <text x="1132" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#742A2A">影像 / Vision (P12+)</text>
+</g>
+
+<g transform="translate(20, 348)">
+  <rect width="1240" height="60" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="15" y="22" font-size="11" font-weight="700" fill="#78350F">Stage 1  ·  Pre-processing  ·  VAD · 降噪 · 文字清理 · PII Redactor · Policy Gate</text>
+  <text x="15" y="40" font-size="10" fill="#92400E">每筆輸入皆經 PII 去敏 + 合規閘門檢查；確保 AI 處理符合 Consent 與租戶政策</text>
+  <text x="15" y="55" font-size="9" fill="#92400E">關鍵元件：PII Redactor (FM-L4-COMP-REDACT) · Consent Validator · Tenant Policy Gate</text>
+</g>
+
+<g transform="translate(20, 416)">
+  <rect width="800" height="92" rx="8" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="15" y="22" font-size="11" font-weight="700" fill="#1A365D">Stage 2  ·  Perception  ·  感知層</text>
+
+  <rect x="15" y="32" width="180" height="50" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="105" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">STT 引擎</text>
+  <text x="105" y="64" text-anchor="middle" font-size="9" fill="#2C5282">Whisper · Azure</text>
+  <text x="105" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-STT</text>
+
+  <rect x="200" y="32" width="180" height="50" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="290" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">Speaker Diarization</text>
+  <text x="290" y="64" text-anchor="middle" font-size="9" fill="#2C5282">客戶 vs 座席</text>
+  <text x="290" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-VOICE</text>
+
+  <rect x="385" y="32" width="180" height="50" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="475" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">NLU / Intent</text>
+  <text x="475" y="64" text-anchor="middle" font-size="9" fill="#2C5282">意圖 + 實體</text>
+  <text x="475" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-NLP</text>
+
+  <rect x="570" y="32" width="215" height="50" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="677" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#1A365D">Embedding Model</text>
+  <text x="677" y="64" text-anchor="middle" font-size="9" fill="#2C5282">text-embedding-3 · BGE</text>
+  <text x="677" y="76" text-anchor="middle" font-size="9" fill="#4A5568">512 維向量</text>
+</g>
+
+<g transform="translate(840, 416)">
+  <rect width="420" height="92" rx="8" fill="#FAF5FF" stroke="#6B46C1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="15" y="22" font-size="11" font-weight="700" fill="#44337A">Stage 2.5  ·  Retrieval  ·  RAG 檢索</text>
+
+  <rect x="15" y="32" width="190" height="50" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+  <text x="110" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#44337A">Vector DB</text>
+  <text x="110" y="64" text-anchor="middle" font-size="9" fill="#6B46C1">Qdrant · 語意搜尋</text>
+  <text x="110" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L2-KB</text>
+
+  <rect x="210" y="32" width="195" height="50" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+  <text x="307" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#44337A">Hybrid Search</text>
+  <text x="307" y="64" text-anchor="middle" font-size="9" fill="#6B46C1">向量 + BM25 + Reranker</text>
+  <text x="307" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-RAG</text>
+</g>
+
+<g transform="translate(20, 516)">
+  <rect width="1240" height="92" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="15" y="22" font-size="11" font-weight="700" fill="#78350F">Stage 3  ·  Compose &amp; Orchestrate</text>
+
+  <rect x="15" y="32" width="220" height="50" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="125" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Prompt Template Registry</text>
+  <text x="125" y="64" text-anchor="middle" font-size="9" fill="#92400E">客戶可自訂 · 版本化</text>
+  <text x="125" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-PROMPT</text>
+
+  <rect x="240" y="32" width="220" height="50" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="350" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Context Composer</text>
+  <text x="350" y="64" text-anchor="middle" font-size="9" fill="#92400E">語意 + CRM + 歷史 + KB</text>
+  <text x="350" y="76" text-anchor="middle" font-size="9" fill="#4A5568">Token 預算管理</text>
+
+  <rect x="465" y="32" width="220" height="50" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="575" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">LLM Router</text>
+  <text x="575" y="64" text-anchor="middle" font-size="9" fill="#92400E">依任務 / 成本 / 隱私</text>
+  <text x="575" y="76" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-AI-CONN</text>
+
+  <rect x="690" y="32" width="220" height="50" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="800" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Function Calling</text>
+  <text x="800" y="64" text-anchor="middle" font-size="9" fill="#92400E">CRM / KB / 工具使用</text>
+  <text x="800" y="76" text-anchor="middle" font-size="9" fill="#4A5568">↔ Agent Tools Gateway</text>
+
+  <rect x="915" y="32" width="310" height="50" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5"/>
+  <text x="1070" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Guardrail / Safety</text>
+  <text x="1070" y="64" text-anchor="middle" font-size="9" fill="#9B2C2C">幻覺 · 禁言 · 偏見 · Prompt Injection 防護</text>
+  <text x="1070" y="76" text-anchor="middle" font-size="9" fill="#4A5568">C2 Governance</text>
+</g>
+
+<g transform="translate(20, 616)">
+  <rect width="1240" height="100" rx="8" fill="#E9D8FD" stroke="#6B46C1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="15" y="22" font-size="11" font-weight="700" fill="#44337A">Stage 4  ·  LLM Inference  ·  推論（多模型共存）</text>
+
+  <g transform="translate(20, 30)">
+    <text x="0" y="14" font-size="10" font-weight="600" fill="#6B46C1">Cloud LLMs</text>
+    <rect x="0" y="22" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="95" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#44337A">Azure OpenAI · GPT-4o</text>
+    <text x="95" y="52" text-anchor="middle" font-size="9" fill="#6B46C1">Anthropic Claude · Gemini</text>
+  </g>
+
+  <g transform="translate(220, 30)">
+    <text x="0" y="14" font-size="10" font-weight="600" fill="#6B46C1">Local LLMs</text>
+    <rect x="0" y="22" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="95" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#44337A">Llama 3.1 · TAIDE</text>
+    <text x="95" y="52" text-anchor="middle" font-size="9" fill="#6B46C1">Breeze · 地端 GPU</text>
+  </g>
+
+  <g transform="translate(420, 30)">
+    <text x="0" y="14" font-size="10" font-weight="600" fill="#6B46C1">Specialized</text>
+    <rect x="0" y="22" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#6B46C1"/>
+    <text x="95" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#44337A">Classification · BERT</text>
+    <text x="95" y="52" text-anchor="middle" font-size="9" fill="#6B46C1">Sentiment · 聲學模型</text>
+  </g>
+
+  <g transform="translate(620, 30)">
+    <text x="0" y="14" font-size="10" font-weight="600" fill="#6B46C1">Vision (P12+ 規劃)</text>
+    <rect x="0" y="22" width="190" height="34" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-dasharray="3,2"/>
+    <text x="95" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#742A2A">Object · Action · Scene</text>
+    <text x="95" y="52" text-anchor="middle" font-size="9" fill="#9B2C2C">FM-L4-VISION-* (Phase 12+)</text>
+  </g>
+
+  <g transform="translate(820, 30)">
+    <text x="0" y="14" font-size="10" font-weight="600" fill="#6B46C1">Cost Control</text>
+    <rect x="0" y="22" width="200" height="34" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="100" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Semantic Cache</text>
+    <text x="100" y="52" text-anchor="middle" font-size="9" fill="#92400E">重複查詢去重</text>
+  </g>
+
+  <g transform="translate(1030, 30)">
+    <text x="0" y="14" font-size="10" font-weight="600" fill="#6B46C1">Rate Limit</text>
+    <rect x="0" y="22" width="190" height="34" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="95" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Token Limiter</text>
+    <text x="95" y="52" text-anchor="middle" font-size="9" fill="#92400E">每租戶配額 + 上限</text>
+  </g>
+</g>
+
+<g transform="translate(20, 724)">
+  <rect width="1240" height="76" rx="8" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="15" y="22" font-size="11" font-weight="700" fill="#1A365D">Stage 5  ·  Output Delivery</text>
+
+  <rect x="15" y="32" width="170" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="100" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">即時逐字稿</text>
+  <text x="100" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-STT</text>
+
+  <rect x="190" y="32" width="170" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="275" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">摘要 / Brief</text>
+  <text x="275" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-SUM</text>
+
+  <rect x="365" y="32" width="170" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="450" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">話術 / Coach</text>
+  <text x="450" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-COACH</text>
+
+  <rect x="540" y="32" width="170" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="625" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">情緒 / 合規警示</text>
+  <text x="625" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-SENT · COMP</text>
+
+  <rect x="715" y="32" width="170" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="800" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">TTS 語音輸出</text>
+  <text x="800" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-TTS</text>
+
+  <rect x="890" y="32" width="170" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="975" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">自動填表</text>
+  <text x="975" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-AUTOFILL</text>
+
+  <rect x="1065" y="32" width="160" height="36" rx="4" fill="#FFFFFF" stroke="#2C5282"/>
+  <text x="1145" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#1A365D">AI 質檢</text>
+  <text x="1145" y="62" text-anchor="middle" font-size="9" fill="#4A5568">FM-L4-AUTOSCORE</text>
+</g>
+
+<g transform="translate(20, 816)">
+  <rect width="1240" height="170" rx="8" fill="#F7FAFC" stroke="#4A5568" stroke-width="1.5"/>
+  <text x="15" y="22" font-size="12" font-weight="700" fill="#2D3748">橫切關注點  ·  Cross-cutting Observability &amp; Governance</text>
+
+  <rect x="20" y="34" width="200" height="60" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="120" y="54" text-anchor="middle" font-size="10" font-weight="700" fill="#78350F">AI Audit Log</text>
+  <text x="120" y="70" text-anchor="middle" font-size="9" fill="#92400E">Prompt · Response · Model</text>
+  <text x="120" y="86" text-anchor="middle" font-size="9" fill="#92400E">保留 7 年（AI Act）</text>
+
+  <rect x="240" y="34" width="200" height="60" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="340" y="54" text-anchor="middle" font-size="10" font-weight="700" fill="#78350F">Cost / Token Metrics</text>
+  <text x="340" y="70" text-anchor="middle" font-size="9" fill="#92400E">每租戶 / 模組 / Agent</text>
+  <text x="340" y="86" text-anchor="middle" font-size="9" fill="#92400E">預算告警 + 切換</text>
+
+  <rect x="460" y="34" width="200" height="60" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="560" y="54" text-anchor="middle" font-size="10" font-weight="700" fill="#78350F">Quality / 幻覺偵測</text>
+  <text x="560" y="70" text-anchor="middle" font-size="9" fill="#92400E">採用 / 忽略率 · 幻覺率</text>
+  <text x="560" y="86" text-anchor="middle" font-size="9" fill="#92400E">Agent 任務成功率</text>
+
+  <rect x="680" y="34" width="200" height="60" rx="4" fill="#FED7D7" stroke="#9B2C2C"/>
+  <text x="780" y="54" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Privacy / Consent</text>
+  <text x="780" y="70" text-anchor="middle" font-size="9" fill="#9B2C2C">DSR · 客戶可否認</text>
+  <text x="780" y="86" text-anchor="middle" font-size="9" fill="#9B2C2C">租戶 opt-out AI / Agent</text>
+
+  <rect x="900" y="34" width="320" height="60" rx="4" fill="#FED7D7" stroke="#9B2C2C"/>
+  <text x="1060" y="54" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">Agent Identity &amp; Authorization (C7)</text>
+  <text x="1060" y="70" text-anchor="middle" font-size="9" fill="#9B2C2C">每個 Agent 有獨立 identity · scope 限制</text>
+  <text x="1060" y="86" text-anchor="middle" font-size="9" fill="#9B2C2C">高風險 Tool 呼叫需人類核准</text>
+
+  <g transform="translate(20, 110)">
+    <text x="0" y="14" font-size="11" font-weight="700" fill="#2C5282">L4 對其他層的關係（含 Agent 層）</text>
+    <text x="0" y="34" font-size="10" fill="#4A5568">↓ 對 L1：透過 FM-L4-AI-CONN（AI Provider）+ Agent Tools Gateway（44 個 Adapter 包裝為 Tools）</text>
+    <text x="0" y="52" font-size="10" fill="#4A5568">⇄ 對 L2：讀取 KB / C360 / Identity（含 Agent Identity Vault）；寫摘要 / 情緒 / Audit</text>
+    <text x="640" y="34" font-size="10" fill="#4A5568">↑ 對 L5/L6：被動被呼叫；產出走 Event Bus；Agent 可被多 Agent Conductor 編排</text>
+    <text x="640" y="52" font-size="10" fill="#4A5568">⇧ 對 C1-C7：完整治理（特別是 C2 AI Ethics + C7 Agent Identity / Sandbox）</text>
+  </g>
+</g>
+
+<text x="1265" y="1092" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.7  ·  AI Pipeline + Agent Runtime  ·  2026-04</text>
+
+</svg>

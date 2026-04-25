@@ -40,6 +40,14 @@ export interface AdaApi {
     setWsToken(token: string | null): Promise<void>
   }
 
+  /** Auto-update controls. */
+  update: {
+    getStatus(): Promise<UpdateStatus>
+    check(): Promise<UpdateStatus>
+    download(): Promise<void>
+    install(): Promise<void>
+  }
+
   /** Secure credential storage (keytar-backed). */
   credentials: {
     save(service: string, account: string, password: string): Promise<void>
@@ -55,6 +63,20 @@ export type MainToRendererChannel =
   | 'tray:toggle-ready'
   | 'tray:show-window'
   | 'app:before-quit'
+  | 'update:status'
+
+/**
+ * Mirror of main/updater.ts UpdateStatus. Keep in sync.
+ */
+export type UpdateStatus =
+  | { phase: 'disabled'; reason: string }
+  | { phase: 'idle' }
+  | { phase: 'checking' }
+  | { phase: 'not-available' }
+  | { phase: 'available'; info: { version: string; releaseName?: string } }
+  | { phase: 'downloading'; percent: number }
+  | { phase: 'downloaded'; info: { version: string; releaseName?: string } }
+  | { phase: 'error'; message: string }
 
 /** Channels from renderer → main (invoke / handle pattern). */
 export const IpcChannels = {

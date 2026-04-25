@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useSettingsStore } from '../stores/settings'
 import type { CallDirection } from '../../../shared/types'
 import {
@@ -58,6 +58,52 @@ const presenceResult = ref<{
   status: number
   error?: string
 } | null>(null)
+
+const appVersion = ref('—')
+const appPlatform = ref('—')
+const updateStatus = ref<import('../../../shared/ipc-api').UpdateStatus>({
+  phase: 'idle'
+})
+let disposeUpdateListener: (() => void) | null = null
+const updateBusy = ref(false)
+
+onMounted(async () => {
+  try {
+    appVersion.value = await window.ada.app.getVersion()
+    appPlatform.value = await window.ada.app.getPlatform()
+    updateStatus.value = await window.ada.update.getStatus()
+  } catch {
+    // ignore
+  }
+  disposeUpdateListener = window.ada.on('update:status', ((...args: unknown[]) => {
+    const s = args[0] as import('../../../shared/ipc-api').UpdateStatus
+    updateStatus.value = s
+    if (s.phase !== 'downloading') updateBusy.value = false
+  }) as (...a: unknown[]) => void)
+})
+
+async function checkUpdate() {
+  updateBusy.value = true
+  try {
+    await window.ada.update.check()
+  } finally {
+    // onStatus will clear busy when a terminal phase arrives
+  }
+}
+
+async function downloadUpdate() {
+  updateBusy.value = true
+  await window.ada.update.download()
+}
+
+async function installUpdate() {
+  await window.ada.update.install()
+}
+
+import { onUnmounted } from 'vue'
+onUnmounted(() => {
+  disposeUpdateListener?.()
+})
 
 // WebSocket state + log lives in Pinia store, not local — so navigating
 // between settings/phone/history doesn't reset the log.
@@ -626,6 +672,100 @@ async function probeApi() {
       >
         修改分機設定
       </RouterLink>
+    </section>
+
+    <!-- About + Update -->
+    <section class="space-y-3 rounded-md bg-white p-4 ring-1 ring-slate-200">
+      <h2 class="font-medium">關於 ADA</h2>
+      <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm text-slate-600">
+        <dt class="text-slate-400">版本</dt>
+        <dd class="font-mono">{{ appVersion }}</dd>
+        <dt class="text-slate-400">平台</dt>
+        <dd class="font-mono">{{ appPlatform }}</dd>
+        <dt class="text-slate-400">連線目標</dt>
+        <dd class="font-mono">{{ settings.state.profile?.pbxFqdn || '—' }}</dd>
+      </dl>
+
+      <!-- Update section -->
+      <div class="rounded-md border border-slate-200 bg-slate-50 p-2 text-sm">
+        <div class="mb-1 flex items-center gap-2 text-xs">
+          <span class="font-medium">自動更新</span>
+          <span
+            class="rounded-full px-2 py-0.5 text-[10px]"
+            :class="{
+              'bg-slate-200 text-slate-600':
+                updateStatus.phase === 'idle' ||
+                updateStatus.phase === 'disabled' ||
+                updateStatus.phase === 'not-available',
+              'bg-amber-100 text-amber-800':
+                updateStatus.phase === 'checking' ||
+                updateStatus.phase === 'downloading',
+              'bg-emerald-100 text-emerald-800':
+                updateStatus.phase === 'available' ||
+                updateStatus.phase === 'downloaded',
+              'bg-rose-100 text-rose-700': updateStatus.phase === 'error'
+            }"
+          >
+            {{ updateStatus.phase }}
+          </span>
+        </div>
+        <p v-if="updateStatus.phase === 'disabled'" class="text-xs text-slate-500">
+          {{ updateStatus.reason }}
+        </p>
+        <p v-else-if="updateStatus.phase === 'error'" class="text-xs text-rose-600">
+          {{ updateStatus.message }}
+        </p>
+        <p
+          v-else-if="updateStatus.phase === 'available'"
+          class="text-xs text-emerald-700"
+        >
+          有新版可用：v{{ updateStatus.info.version }}
+        </p>
+        <p
+          v-else-if="updateStatus.phase === 'downloading'"
+          class="text-xs text-amber-700"
+        >
+          下載中 {{ updateStatus.percent }}%
+        </p>
+        <p
+          v-else-if="updateStatus.phase === 'downloaded'"
+          class="text-xs text-emerald-700"
+        >
+          v{{ updateStatus.info.version }} 已下載，重啟即可更新
+        </p>
+        <p v-else-if="updateStatus.phase === 'not-available'" class="text-xs text-slate-500">
+          已是最新版本
+        </p>
+
+        <div class="mt-2 flex flex-wrap gap-2">
+          <button
+            class="rounded-md border border-slate-300 px-2 py-1 text-xs hover:bg-white disabled:opacity-50"
+            :disabled="updateBusy || updateStatus.phase === 'disabled'"
+            @click="checkUpdate"
+          >
+            檢查更新
+          </button>
+          <button
+            v-if="updateStatus.phase === 'available'"
+            class="rounded-md bg-brand px-2 py-1 text-xs font-medium text-white hover:bg-brand-dark disabled:opacity-50"
+            :disabled="updateBusy"
+            @click="downloadUpdate"
+          >
+            下載
+          </button>
+          <button
+            v-if="updateStatus.phase === 'downloaded'"
+            class="rounded-md bg-emerald-500 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-600"
+            @click="installUpdate"
+          >
+            安裝並重啟
+          </button>
+        </div>
+      </div>
+
+      <p class="mt-1 text-xs text-slate-400">
+        ADA — Agent Desktop Application for 3CX V20
+      </p>
     </section>
   </div>
 </template>

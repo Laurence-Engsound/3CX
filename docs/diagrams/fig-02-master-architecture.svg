@@ -1,0 +1,165 @@
+<svg viewBox="0 0 1280 940" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN Platform Architecture</title>
+<desc>VOXEN 六層 × 七橫切柱 × 四營運塊</desc>
+
+<text x="640" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#1A202C">VOXEN Platform Architecture</text>
+<text x="640" y="62" text-anchor="middle" font-size="13" fill="#4A5568">六層主架構 · 七橫切柱 · 四營運塊   |   6 Layers × 7 Pillars × 4 Platform Ops</text>
+
+<text x="145" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#744210">橫切柱（每層皆適用）</text>
+<text x="145" y="112" text-anchor="middle" font-size="10" fill="#78350F">Cross-cutting Pillars</text>
+
+<text x="670" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#1A365D">VOXEN 產品主架構（六層）</text>
+<text x="670" y="112" text-anchor="middle" font-size="10" fill="#2C5282">Product Stack — top = user-facing, bottom = infrastructure</text>
+
+<text x="1160" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#4A5568">外部系統</text>
+<text x="1160" y="112" text-anchor="middle" font-size="10" fill="#718096">External Systems</text>
+
+<g transform="translate(40, 128)">
+  <rect x="0" y="0" width="210" height="76" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="12" y="22" font-size="12" font-weight="700" fill="#78350F">C1  Security</text>
+  <text x="12" y="40" font-size="10" fill="#78350F">IAM · RBAC · Encryption</text>
+  <text x="12" y="56" font-size="10" fill="#78350F">KMS · Secrets · PKI</text>
+  <text x="12" y="72" font-size="10" fill="#78350F">Supply-chain</text>
+
+  <rect x="0" y="84" width="210" height="76" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="12" y="106" font-size="12" font-weight="700" fill="#78350F">C2  Governance &amp; Compliance</text>
+  <text x="12" y="124" font-size="10" fill="#78350F">Retention · Legal Hold</text>
+  <text x="12" y="140" font-size="10" fill="#78350F">Consent · DSR · Audit</text>
+  <text x="12" y="156" font-size="10" fill="#78350F">Privacy · AI Ethics</text>
+
+  <rect x="0" y="168" width="210" height="76" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="12" y="190" font-size="12" font-weight="700" fill="#78350F">C3  Observability</text>
+  <text x="12" y="208" font-size="10" fill="#78350F">Logs · Metrics · Traces</text>
+  <text x="12" y="224" font-size="10" fill="#78350F">SIEM · Alerting · Health</text>
+  <text x="12" y="240" font-size="10" fill="#78350F">Client Telemetry</text>
+
+  <rect x="0" y="252" width="210" height="76" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="12" y="274" font-size="12" font-weight="700" fill="#78350F">C4  Multi-tenancy</text>
+  <text x="12" y="292" font-size="10" fill="#78350F">Tenant Isolation</text>
+  <text x="12" y="308" font-size="10" fill="#78350F">Rate Limit · Quota</text>
+  <text x="12" y="324" font-size="10" fill="#78350F">Fair-use · Branding</text>
+
+  <rect x="0" y="336" width="210" height="76" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="12" y="358" font-size="12" font-weight="700" fill="#78350F">C5  DevOps Lifecycle</text>
+  <text x="12" y="376" font-size="10" fill="#78350F">CI/CD · IaC · Helm</text>
+  <text x="12" y="392" font-size="10" fill="#78350F">Blue-Green · Canary</text>
+  <text x="12" y="408" font-size="10" fill="#78350F">DR · BCP · Secret Rotation</text>
+
+  <rect x="0" y="420" width="210" height="76" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="12" y="442" font-size="12" font-weight="700" fill="#78350F">C6  Global Readiness</text>
+  <text x="12" y="460" font-size="10" fill="#78350F">i18n / l10n / a11y</text>
+  <text x="12" y="476" font-size="10" fill="#78350F">Timezone · Format</text>
+  <text x="12" y="492" font-size="10" fill="#78350F">Cultural Adaptation</text>
+
+  <rect x="0" y="504" width="210" height="76" rx="6" fill="#FED7AA" stroke="#C05621" stroke-width="2"/>
+  <text x="12" y="526" font-size="12" font-weight="700" fill="#7B341E">C7  AI-Agent Native</text>
+  <text x="12" y="544" font-size="10" fill="#7B341E">Tool Gateway · MCP Spec</text>
+  <text x="12" y="560" font-size="10" fill="#7B341E">Multi-Agent · A2A Protocol</text>
+  <text x="12" y="576" font-size="10" fill="#7B341E">Agent Identity · Sandbox</text>
+</g>
+
+<g transform="translate(310, 128)">
+  <rect x="0" y="0" width="720" height="82" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="22" font-size="14" font-weight="700" fill="#1A365D">L6  Engagement Layer  ·  體驗層</text>
+  <text x="16" y="42" font-size="11" fill="#2C5282">Agent Desktop  ·  Supervisor Console  ·  QM Workbench  ·  Personal Dialer</text>
+  <text x="16" y="58" font-size="11" fill="#2C5282">Customer Self-service  ·  Admin Portal  ·  Developer Portal  ·  Partner Portal</text>
+  <text x="16" y="74" font-size="11" fill="#2C5282">Surveys  ·  Gamification  ·  Wellness  ·  WFM Lite</text>
+
+  <rect x="0" y="90" width="720" height="82" rx="6" fill="#D6EAFD" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="112" font-size="14" font-weight="700" fill="#1A365D">L5  Orchestration &amp; Workflow  ·  編排層</text>
+  <text x="16" y="132" font-size="11" fill="#2C5282">Routing Engine  ·  Flow Designer  ·  Business Rules  ·  Journey Orchestrator</text>
+  <text x="16" y="148" font-size="11" fill="#2C5282">Campaign Orchestrator  ·  Event Bus  ·  Scheduler  ·  AMD  ·  Predictive Dialer  ·  Dialog Manager</text>
+
+  <rect x="0" y="180" width="720" height="82" rx="6" fill="#BEE3F8" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="202" font-size="14" font-weight="700" fill="#1A365D">L4  Intelligence Layer  ·  多模態智能層</text>
+  <text x="16" y="222" font-size="11" fill="#2C5282">STT  ·  TTS  ·  LLM  ·  RAG  ·  Sentiment  ·  Translation  ·  Compliance Detect</text>
+  <text x="16" y="238" font-size="11" fill="#2C5282">NBA  ·  Forecast  ·  Biometric  ·  Fraud  ·  Copilot  ·  PII Redaction  ·  Vision (P12+)</text>
+
+  <rect x="0" y="270" width="720" height="82" rx="6" fill="#A5D4F1" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="292" font-size="14" font-weight="700" fill="#1A365D">L3  Interaction Core  ·  互動核心層</text>
+  <text x="16" y="312" font-size="11" fill="#1A365D">Voice  ·  Chat  ·  Email  ·  SMS  ·  WhatsApp  ·  Line  ·  Social  ·  Video</text>
+  <text x="16" y="328" font-size="11" fill="#1A365D">Media Pipeline  ·  Recording  ·  PCI Pause-Resume  ·  Consent  ·  Unified Inbox</text>
+
+  <rect x="0" y="360" width="720" height="82" rx="6" fill="#8EC6EA" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="382" font-size="14" font-weight="700" fill="#1A365D">L2  Data &amp; Identity Foundation  ·  資料與身分基礎層</text>
+  <text x="16" y="402" font-size="11" fill="#1A365D">Customer 360  ·  Interaction Archive  ·  Knowledge Base  ·  Audit Log Service</text>
+  <text x="16" y="418" font-size="11" fill="#1A365D">Identity Vault  ·  Feature Store  ·  Data Catalog  ·  MDM</text>
+
+  <rect x="0" y="450" width="720" height="82" rx="6" fill="#76B6E1" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="472" font-size="14" font-weight="700" fill="#1A365D">L1  Integration &amp; Connector  ·  整合層</text>
+  <text x="16" y="492" font-size="11" fill="#1A365D">PBX Adapters (3CX / Asterisk / FreePBX / Teams)  ·  CRM Adapters</text>
+  <text x="16" y="508" font-size="11" fill="#1A365D">AI Providers  ·  Directory / SSO  ·  Messaging  ·  Email  ·  BI/DW  ·  Payment / eKYC</text>
+</g>
+
+<g transform="translate(1050, 128)">
+  <rect x="0" y="0" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">PBX Systems</text>
+  <text x="110" y="40" text-anchor="middle" font-size="9" fill="#718096">3CX · Asterisk · Teams</text>
+
+  <rect x="0" y="64" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="86" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">CRM Systems</text>
+  <text x="110" y="104" text-anchor="middle" font-size="9" fill="#718096">Salesforce · HubSpot · Custom</text>
+
+  <rect x="0" y="128" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">AI Providers</text>
+  <text x="110" y="168" text-anchor="middle" font-size="9" fill="#718096">Azure · Anthropic · Local LLM</text>
+
+  <rect x="0" y="192" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">Identity / SSO</text>
+  <text x="110" y="232" text-anchor="middle" font-size="9" fill="#718096">AD · Entra ID · Okta</text>
+
+  <rect x="0" y="256" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="278" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">Messaging Platforms</text>
+  <text x="110" y="296" text-anchor="middle" font-size="9" fill="#718096">WhatsApp · Line · SMS</text>
+
+  <rect x="0" y="320" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="342" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">BI / Data Warehouse</text>
+  <text x="110" y="360" text-anchor="middle" font-size="9" fill="#718096">Snowflake · BigQuery · Tableau</text>
+
+  <rect x="0" y="384" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="406" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">Financial Services</text>
+  <text x="110" y="424" text-anchor="middle" font-size="9" fill="#718096">Payment · eKYC · e-Sign</text>
+
+  <rect x="0" y="448" width="220" height="56" rx="4" fill="#FFFFFF" stroke="#A0AEC0" stroke-width="1"/>
+  <text x="110" y="470" text-anchor="middle" font-size="11" font-weight="700" fill="#4A5568">SIEM / Monitoring</text>
+  <text x="110" y="488" text-anchor="middle" font-size="9" fill="#718096">Splunk · QRadar · ELK</text>
+
+  <rect x="0" y="512" width="220" height="60" rx="4" fill="#FED7D7" stroke="#9B2C2C" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="110" y="534" text-anchor="middle" font-size="11" font-weight="700" fill="#742A2A">External AI Agents</text>
+  <text x="110" y="552" text-anchor="middle" font-size="9" fill="#9B2C2C">B2B AI · MCP Clients</text>
+  <text x="110" y="566" text-anchor="middle" font-size="9" fill="#9B2C2C">(Phase 11+ via C7)</text>
+</g>
+
+<text x="640" y="722" text-anchor="middle" font-size="13" font-weight="700" fill="#744210">Platform Operations  ·  平台營運</text>
+<text x="640" y="739" text-anchor="middle" font-size="10" fill="#78350F">商業營運支撐 — 圍繞在六層主架構外的營運能力</text>
+
+<g transform="translate(40, 754)">
+  <rect x="0" y="0" width="290" height="78" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+  <text x="145" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">P1  Developer Platform</text>
+  <text x="145" y="45" text-anchor="middle" font-size="10" fill="#78350F">SDK · API Gateway · Webhook</text>
+  <text x="145" y="62" text-anchor="middle" font-size="10" fill="#78350F">Marketplace · Sandbox · Agent SDK</text>
+
+  <rect x="310" y="0" width="290" height="78" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+  <text x="455" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">P2  Commerce &amp; Billing</text>
+  <text x="455" y="45" text-anchor="middle" font-size="10" fill="#78350F">Metering · Subscription</text>
+  <text x="455" y="62" text-anchor="middle" font-size="10" fill="#78350F">Invoicing · Entitlement</text>
+
+  <rect x="620" y="0" width="290" height="78" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+  <text x="765" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">P3  Customer Success</text>
+  <text x="765" y="45" text-anchor="middle" font-size="10" fill="#78350F">Onboarding · Product Tour</text>
+  <text x="765" y="62" text-anchor="middle" font-size="10" fill="#78350F">Adoption · Health Score</text>
+
+  <rect x="930" y="0" width="290" height="78" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+  <text x="1075" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">P4  Partner Ecosystem</text>
+  <text x="1075" y="45" text-anchor="middle" font-size="10" fill="#78350F">SI · Reseller · Co-sell</text>
+  <text x="1075" y="62" text-anchor="middle" font-size="10" fill="#78350F">Certification · Training</text>
+</g>
+
+<g transform="translate(40, 850)">
+  <text x="0" y="0" font-size="10" font-weight="700" fill="#78350F">C7 註：</text>
+  <text x="60" y="0" font-size="10" fill="#7B341E">每個模組皆暴露 OpenAI Function / MCP Tool 規範介面，可被 AI Agent 呼叫、擴展、取代。</text>
+</g>
+
+<text x="1265" y="922" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.7  ·  Master Architecture (6+7+4)  ·  2026-04</text>
+
+</svg>

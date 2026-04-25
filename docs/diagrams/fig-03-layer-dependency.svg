@@ -1,0 +1,242 @@
+<svg viewBox="0 0 1280 1060" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Noto Sans CJK TC, Microsoft JhengHei, Arial, sans-serif">
+<title>VOXEN Layer Dependency Rules + Agent Cross-cutting</title>
+<desc>VOXEN 六層架構依賴方向、事件反向流、AI Agent 跨層呼叫三種 pattern</desc>
+
+<defs>
+  <marker id="ld-allow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#276749"/>
+  </marker>
+  <marker id="ld-forbid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#9B2C2C"/>
+  </marker>
+  <marker id="ld-event" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#B45309"/>
+  </marker>
+  <marker id="ld-agent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#7B341E"/>
+  </marker>
+</defs>
+
+<text x="640" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1A202C">Layer Dependency Rules  ·  層級依賴規則（含 AI Agent 跨層 pattern）</text>
+<text x="640" y="54" text-anchor="middle" font-size="12" fill="#4A5568">三種 pattern：① 同步呼叫往下 · ② 事件流往上 · ③ AI Agent 跨層呼叫（C7）</text>
+
+<g transform="translate(60, 90)">
+  <rect x="0" y="0" width="480" height="88" rx="6" fill="#EBF8FF" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="22" font-size="14" font-weight="700" fill="#1A365D">L6 Engagement</text>
+  <text x="16" y="40" font-size="10" fill="#2C5282">UI 層：Agent Desktop · Supervisor · Self-service</text>
+  <text x="16" y="56" font-size="10" fill="#2C5282">✓ 可直接呼叫 L5 · L4 · L2</text>
+  <text x="16" y="72" font-size="10" fill="#9B2C2C">✗ 禁止直接呼叫 L3 / L1</text>
+
+  <rect x="0" y="100" width="480" height="88" rx="6" fill="#D6EAFD" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="122" font-size="14" font-weight="700" fill="#1A365D">L5 Orchestration</text>
+  <text x="16" y="140" font-size="10" fill="#2C5282">編排層：Routing / Flow / Rules / Campaign</text>
+  <text x="16" y="156" font-size="10" fill="#2C5282">✓ 可呼叫 L4 · L3 · L2</text>
+  <text x="16" y="172" font-size="10" fill="#9B2C2C">✗ 禁止直接呼叫 L1（走 L3 或 L4）</text>
+
+  <rect x="0" y="200" width="480" height="88" rx="6" fill="#BEE3F8" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="222" font-size="14" font-weight="700" fill="#1A365D">L4 Intelligence</text>
+  <text x="16" y="240" font-size="10" fill="#2C5282">智能層：STT · LLM · RAG · NBA · Forecast</text>
+  <text x="16" y="256" font-size="10" fill="#2C5282">✓ 可呼叫 L2 · L1（AI Providers）</text>
+  <text x="16" y="272" font-size="10" fill="#9B2C2C">✗ 不呼叫 L3 / L5 / L6（被動被呼叫）</text>
+
+  <rect x="0" y="300" width="480" height="88" rx="6" fill="#A5D4F1" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="322" font-size="14" font-weight="700" fill="#1A365D">L3 Interaction Core</text>
+  <text x="16" y="340" font-size="10" fill="#1A365D">互動核心：Voice · Chat · Email · Recording</text>
+  <text x="16" y="356" font-size="10" fill="#1A365D">✓ 可呼叫 L2 · L1（PBX / Messaging）</text>
+  <text x="16" y="372" font-size="10" fill="#9B2C2C">✗ 不呼叫 L4 / L5（被動被呼叫）</text>
+
+  <rect x="0" y="400" width="480" height="88" rx="6" fill="#8EC6EA" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="422" font-size="14" font-weight="700" fill="#1A365D">L2 Data &amp; Identity</text>
+  <text x="16" y="440" font-size="10" fill="#1A365D">資料基礎：C360 · KB · Audit · Identity</text>
+  <text x="16" y="456" font-size="10" fill="#1A365D">✓ 可呼叫 L1（外部資料源）</text>
+  <text x="16" y="472" font-size="10" fill="#9B2C2C">✗ 不呼叫 L3 以上任何層</text>
+
+  <rect x="0" y="500" width="480" height="88" rx="6" fill="#76B6E1" stroke="#2C5282" stroke-width="1.5"/>
+  <text x="16" y="522" font-size="14" font-weight="700" fill="#1A365D">L1 Integration</text>
+  <text x="16" y="540" font-size="10" fill="#1A365D">整合層：PBX · CRM · AI · IDP · Messaging</text>
+  <text x="16" y="556" font-size="10" fill="#1A365D">✓ 只與外部系統溝通</text>
+  <text x="16" y="572" font-size="10" fill="#9B2C2C">✗ 絕不呼叫任何上層（leaf layer）</text>
+</g>
+
+<g stroke="#276749" stroke-width="2" fill="none">
+  <path d="M 300 178 L 300 200" marker-end="url(#ld-allow)"/>
+  <path d="M 300 288 L 300 300" marker-end="url(#ld-allow)"/>
+  <path d="M 200 388 L 200 400" marker-end="url(#ld-allow)"/>
+  <path d="M 400 388 L 400 500" marker-end="url(#ld-allow)"/>
+  <path d="M 100 388 L 100 400" marker-end="url(#ld-allow)"/>
+  <path d="M 250 388 L 250 500" marker-end="url(#ld-allow)"/>
+  <path d="M 150 488 L 150 500" marker-end="url(#ld-allow)"/>
+  <path d="M 120 288 L 120 300" marker-end="url(#ld-allow)"/>
+  <path d="M 420 88 L 420 200" stroke-dasharray="6,3" marker-end="url(#ld-allow)"/>
+  <path d="M 70 88 L 70 400" stroke-dasharray="6,3" marker-end="url(#ld-allow)"/>
+</g>
+
+<g transform="translate(548, 290)">
+  <rect width="138" height="184" rx="6" fill="#FFF5F5" stroke="#9B2C2C" stroke-width="1.5"/>
+  <text x="69" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#742A2A">禁止 Pattern</text>
+  <text x="69" y="34" text-anchor="middle" font-size="8" fill="#9B2C2C">Forbidden by Lint</text>
+
+  <rect x="6" y="44" width="126" height="38" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+  <text x="69" y="58" text-anchor="middle" font-size="9" font-weight="700" fill="#9B2C2C">✗ L6 → L3</text>
+  <text x="69" y="72" text-anchor="middle" font-size="8" fill="#742A2A">改走 L5 編排</text>
+
+  <rect x="6" y="86" width="126" height="38" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+  <text x="69" y="100" text-anchor="middle" font-size="9" font-weight="700" fill="#9B2C2C">✗ L6 → L1</text>
+  <text x="69" y="114" text-anchor="middle" font-size="8" fill="#742A2A">UI 不碰整合</text>
+
+  <rect x="6" y="128" width="126" height="38" rx="4" fill="#FFFFFF" stroke="#9B2C2C"/>
+  <text x="69" y="142" text-anchor="middle" font-size="9" font-weight="700" fill="#9B2C2C">✗ L5 → L1</text>
+  <text x="69" y="156" text-anchor="middle" font-size="8" fill="#742A2A">走 L3 或 L4</text>
+
+  <text x="69" y="178" text-anchor="middle" font-size="7" fill="#9B2C2C" font-style="italic">CI Lint 自動阻擋</text>
+</g>
+
+<g transform="translate(700, 90)">
+  <rect width="520" height="498" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="260" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">事件反向流  ·  Event-driven Reverse Flow</text>
+  <text x="260" y="38" text-anchor="middle" font-size="10" fill="#92400E">透過 Event Bus，下層可通知上層（不是直接呼叫）</text>
+
+  <rect x="170" y="60" width="180" height="400" rx="8" fill="#FED7AA" stroke="#C05621" stroke-width="2"/>
+  <text x="260" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#7B341E">Event Bus</text>
+  <text x="260" y="100" text-anchor="middle" font-size="9" fill="#7B341E">L5 Orchestration</text>
+  <text x="260" y="116" text-anchor="middle" font-size="9" fill="#7B341E">Pub/Sub 樞紐</text>
+
+  <line x1="180" y1="126" x2="340" y2="126" stroke="#C05621" stroke-width="0.8"/>
+
+  <text x="260" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#7B341E">主要事件主題</text>
+  <text x="260" y="166" text-anchor="middle" font-size="10" fill="#92400E">call.started</text>
+  <text x="260" y="184" text-anchor="middle" font-size="10" fill="#92400E">call.ended</text>
+  <text x="260" y="202" text-anchor="middle" font-size="10" fill="#92400E">agent.statusChanged</text>
+  <text x="260" y="220" text-anchor="middle" font-size="10" fill="#92400E">ai.transcriptReady</text>
+  <text x="260" y="238" text-anchor="middle" font-size="10" fill="#92400E">ai.summaryReady</text>
+  <text x="260" y="256" text-anchor="middle" font-size="10" fill="#92400E">ai.sentimentAlert</text>
+  <text x="260" y="274" text-anchor="middle" font-size="10" fill="#92400E">lead.commitDue</text>
+  <text x="260" y="292" text-anchor="middle" font-size="10" fill="#92400E">audit.securityEvent</text>
+  <text x="260" y="310" text-anchor="middle" font-size="10" fill="#92400E">recording.started</text>
+  <text x="260" y="328" text-anchor="middle" font-size="10" fill="#92400E">recording.paused</text>
+  <text x="260" y="346" text-anchor="middle" font-size="10" fill="#92400E">consent.declined</text>
+  <text x="260" y="364" text-anchor="middle" font-size="10" fill="#92400E">config.changed</text>
+  <text x="260" y="382" text-anchor="middle" font-size="10" fill="#92400E">dlq.queued</text>
+  <text x="260" y="400" text-anchor="middle" font-size="10" fill="#92400E">... (詳附錄 C)</text>
+
+  <g transform="translate(10, 60)">
+    <text x="75" y="14" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Publishers</text>
+
+    <rect x="0" y="22" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="42" text-anchor="middle" font-size="10" fill="#78350F">L1 PBX Adapter</text>
+
+    <rect x="0" y="60" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="80" text-anchor="middle" font-size="10" fill="#78350F">L3 Voice / Chat</text>
+
+    <rect x="0" y="98" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="118" text-anchor="middle" font-size="10" fill="#78350F">L3 Recording</text>
+
+    <rect x="0" y="136" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="156" text-anchor="middle" font-size="10" fill="#78350F">L4 AI Pipeline</text>
+
+    <rect x="0" y="174" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="194" text-anchor="middle" font-size="10" fill="#78350F">L2 Audit Service</text>
+
+    <rect x="0" y="212" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="232" text-anchor="middle" font-size="10" fill="#78350F">L5 Scheduler</text>
+
+    <rect x="0" y="250" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="270" text-anchor="middle" font-size="10" fill="#78350F">L6 Admin Portal</text>
+  </g>
+
+  <g stroke="#B45309" stroke-width="1.2" fill="none">
+    <path d="M 160 98 L 170 142" marker-end="url(#ld-event)"/>
+    <path d="M 160 136 L 170 170" marker-end="url(#ld-event)"/>
+    <path d="M 160 174 L 170 200" marker-end="url(#ld-event)"/>
+    <path d="M 160 212 L 170 228" marker-end="url(#ld-event)"/>
+    <path d="M 160 250 L 170 258" marker-end="url(#ld-event)"/>
+    <path d="M 160 288 L 170 290" marker-end="url(#ld-event)"/>
+    <path d="M 160 326 L 170 320" marker-end="url(#ld-event)"/>
+  </g>
+
+  <g transform="translate(360, 60)">
+    <text x="75" y="14" text-anchor="middle" font-size="10" font-weight="600" fill="#78350F">Subscribers</text>
+
+    <rect x="0" y="22" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="42" text-anchor="middle" font-size="10" fill="#78350F">L6 Agent Desktop</text>
+
+    <rect x="0" y="60" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="80" text-anchor="middle" font-size="10" fill="#78350F">L6 Supervisor</text>
+
+    <rect x="0" y="98" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="118" text-anchor="middle" font-size="10" fill="#78350F">L4 AI Pipeline</text>
+
+    <rect x="0" y="136" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="156" text-anchor="middle" font-size="10" fill="#78350F">L2 Audit Service</text>
+
+    <rect x="0" y="174" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="194" text-anchor="middle" font-size="10" fill="#78350F">L1 CRM Writeback</text>
+
+    <rect x="0" y="212" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="232" text-anchor="middle" font-size="10" fill="#78350F">L6 KPI Dashboard</text>
+
+    <rect x="0" y="250" width="150" height="32" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="75" y="270" text-anchor="middle" font-size="10" fill="#78350F">SIEM (外部)</text>
+  </g>
+
+  <g stroke="#B45309" stroke-width="1.2" fill="none">
+    <path d="M 350 142 L 360 98" marker-end="url(#ld-event)"/>
+    <path d="M 350 170 L 360 136" marker-end="url(#ld-event)"/>
+    <path d="M 350 200 L 360 174" marker-end="url(#ld-event)"/>
+    <path d="M 350 228 L 360 212" marker-end="url(#ld-event)"/>
+    <path d="M 350 258 L 360 250" marker-end="url(#ld-event)"/>
+    <path d="M 350 290 L 360 288" marker-end="url(#ld-event)"/>
+    <path d="M 350 320 L 360 326" marker-end="url(#ld-event)"/>
+  </g>
+
+  <text x="260" y="486" text-anchor="middle" font-size="10" font-style="italic" fill="#78350F">任何層可 publish；任何層可 subscribe；不形成直接耦合</text>
+</g>
+
+<g transform="translate(60, 700)">
+  <rect width="1160" height="80" rx="8" fill="#FFF7ED" stroke="#C05621" stroke-width="2"/>
+  <text x="20" y="24" font-size="13" font-weight="700" fill="#7B341E">③ AI Agent Cross-cutting Pattern  ·  AI Agent 跨層呼叫（C7 AI-Agent Native）</text>
+  <text x="20" y="44" font-size="10" fill="#92400E">AI Agent 不受層級限制 — 透過 FM-L4-AGENT-TOOLS-GATEWAY 可呼叫任何層的 capability</text>
+  <text x="20" y="60" font-size="10" fill="#92400E">L1（44 個 Adapter 包裝為 Tool）· L2（資料讀寫）· L3（通話 / 訊息）· L4（其他 AI 模組）· L5（編排）· L6（UI 觸發）</text>
+  <text x="20" y="74" font-size="10" fill="#92400E">關鍵控制：每個 Agent 有獨立 identity + scope；高風險 Tool 呼叫需人類核准（HITL）</text>
+</g>
+
+<g stroke="#7B341E" stroke-width="1.8" fill="none" opacity="0.7">
+  <path d="M 720 700 Q 760 600 540 488" marker-end="url(#ld-agent)"/>
+  <path d="M 720 700 Q 760 540 540 388" marker-end="url(#ld-agent)"/>
+  <path d="M 720 700 Q 760 480 540 288" marker-end="url(#ld-agent)"/>
+  <path d="M 720 700 Q 780 360 540 188" marker-end="url(#ld-agent)"/>
+  <path d="M 720 700 Q 800 240 540 88" marker-end="url(#ld-agent)"/>
+</g>
+<rect x="592" y="620" width="100" height="44" rx="6" fill="#FED7AA" stroke="#7B341E" stroke-width="1.5"/>
+<text x="642" y="640" text-anchor="middle" font-size="11" fill="#7B341E" font-weight="700">Agent</text>
+<text x="642" y="656" text-anchor="middle" font-size="11" fill="#7B341E" font-weight="700">可達任一層</text>
+
+<g transform="translate(60, 810)">
+  <text x="0" y="0" font-size="12" font-weight="700" fill="#2C5282">圖示說明</text>
+
+  <line x1="0" y1="22" x2="40" y2="22" stroke="#276749" stroke-width="2" marker-end="url(#ld-allow)"/>
+  <text x="50" y="26" font-size="10" fill="#4A5568">① 同步呼叫往下</text>
+
+  <line x1="180" y1="22" x2="220" y2="22" stroke="#276749" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#ld-allow)"/>
+  <text x="230" y="26" font-size="10" fill="#4A5568">允許跳層（需 ADR）</text>
+
+  <line x1="380" y1="22" x2="420" y2="22" stroke="#9B2C2C" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#ld-forbid)"/>
+  <text x="430" y="26" font-size="10" fill="#4A5568">禁止</text>
+
+  <line x1="510" y1="22" x2="550" y2="22" stroke="#B45309" stroke-width="1.5" marker-end="url(#ld-event)"/>
+  <text x="560" y="26" font-size="10" fill="#4A5568">② 事件反向流（Bus）</text>
+
+  <line x1="730" y1="22" x2="770" y2="22" stroke="#7B341E" stroke-width="2" marker-end="url(#ld-agent)"/>
+  <text x="780" y="26" font-size="10" fill="#4A5568">③ AI Agent 跨層呼叫（C7）</text>
+
+  <text x="0" y="56" font-size="11" font-weight="700" fill="#2C5282">三種 pattern 之間的關係</text>
+  <text x="0" y="76" font-size="10" fill="#4A5568">① 一般業務邏輯：上層觸發下層，遵守單向依賴 — 由 CI lint 自動驗證</text>
+  <text x="0" y="94" font-size="10" fill="#4A5568">② 即時通知：下層透過 Event Bus 通知上層，解耦發佈者與訂閱者</text>
+  <text x="0" y="112" font-size="10" fill="#4A5568">③ AI Agent 任務：Agent 可從任一進入點開始，透過 Tools Gateway 跨層完成 goal</text>
+  <text x="0" y="130" font-size="10" fill="#4A5568">    — Agent 受 C7 治理（identity / scope / HITL）但不受 ① 的層級限制</text>
+  <text x="0" y="148" font-size="10" fill="#4A5568">    — Agent 行為仍寫稽核（C2）+ 受 Guardrail 監控（C1 + C2）</text>
+</g>
+
+<text x="1265" y="1042" text-anchor="end" font-size="9" fill="#A0AEC0" font-style="italic">VOXEN SRS v2.10  ·  Layer Dependency + AI Agent Pattern  ·  2026-04</text>
+
+</svg>
