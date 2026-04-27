@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 920" font-family="Arial, '微軟正黑體', sans-serif">
+  <!-- 標題 -->
+  <text x="700" y="35" text-anchor="middle" font-size="24" font-weight="bold" fill="#0E5066">瑛聲 Demo Lab — 玉山 Outreach 案 POC 環境拓樸</text>
+  <text x="700" y="58" text-anchor="middle" font-size="13" font-style="italic" fill="#6B7B85">v1.0 · 2026-04-25 · Internal use only</text>
+
+  <!-- 圖例 -->
+  <g transform="translate(20, 80)">
+    <rect x="0" y="0" width="180" height="105" rx="4" fill="#F8F9F8" stroke="#CCCCCC"/>
+    <text x="10" y="18" font-size="11" font-weight="bold" fill="#0E5066">圖例</text>
+    <rect x="10" y="28" width="14" height="14" fill="#10A0A7"/><text x="32" y="40" font-size="11" fill="#1A2530">3CX 元件</text>
+    <rect x="10" y="46" width="14" height="14" fill="#2C9889"/><text x="32" y="58" font-size="11" fill="#1A2530">VOXEN 元件</text>
+    <rect x="10" y="64" width="14" height="14" fill="#0E5066"/><text x="32" y="76" font-size="11" fill="#1A2530">玉山環境模擬</text>
+    <rect x="10" y="82" width="14" height="14" fill="#D68910"/><text x="32" y="94" font-size="11" fill="#1A2530">外部 / 客戶端</text>
+  </g>
+
+  <!-- 玉山 demo workstations 區（左上） -->
+  <g transform="translate(220, 80)">
+    <rect x="0" y="0" width="280" height="105" rx="6" fill="none" stroke="#D68910" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="140" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#D68910">會議現場</text>
+
+    <rect x="15" y="30" width="120" height="60" rx="4" fill="#FFFFFF" stroke="#D68910"/>
+    <text x="75" y="47" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A2530">主講者筆電</text>
+    <text x="75" y="62" text-anchor="middle" font-size="9" fill="#6B7B85">投影機 + Pitch deck</text>
+    <text x="75" y="76" text-anchor="middle" font-size="9" fill="#6B7B85">不操控環境</text>
+
+    <rect x="145" y="30" width="120" height="60" rx="4" fill="#FFFFFF" stroke="#D68910"/>
+    <text x="205" y="47" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A2530">Demo 工程師筆電</text>
+    <text x="205" y="62" text-anchor="middle" font-size="9" fill="#6B7B85">SSH + 控制台</text>
+    <text x="205" y="76" text-anchor="middle" font-size="9" fill="#6B7B85">切螢幕 / 救援</text>
+  </g>
+
+  <!-- 模擬客戶端（右上） -->
+  <g transform="translate(540, 80)">
+    <rect x="0" y="0" width="380" height="105" rx="6" fill="none" stroke="#D68910" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="190" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#D68910">模擬客戶 + 模擬電信</text>
+
+    <rect x="15" y="30" width="115" height="60" rx="4" fill="#FFFFFF" stroke="#D68910"/>
+    <text x="72" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A2530">內部測試手機</text>
+    <text x="72" y="68" text-anchor="middle" font-size="9" fill="#6B7B85">2-3 支 GSM</text>
+    <text x="72" y="80" text-anchor="middle" font-size="9" fill="#6B7B85">人工扮客戶</text>
+
+    <rect x="135" y="30" width="115" height="60" rx="4" fill="#FFFFFF" stroke="#D68910"/>
+    <text x="192" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A2530">SIP Trunk Sim</text>
+    <text x="192" y="68" text-anchor="middle" font-size="9" fill="#6B7B85">FreeSWITCH</text>
+    <text x="192" y="80" text-anchor="middle" font-size="9" fill="#6B7B85">模擬中華電信</text>
+
+    <rect x="255" y="30" width="115" height="60" rx="4" fill="#FFFFFF" stroke="#D68910"/>
+    <text x="312" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A2530">客戶資料模擬</text>
+    <text x="312" y="68" text-anchor="middle" font-size="9" fill="#6B7B85">10 筆假客戶</text>
+    <text x="312" y="80" text-anchor="middle" font-size="9" fill="#6B7B85">含歷史通話</text>
+  </g>
+
+  <!-- 監控大螢幕 -->
+  <g transform="translate(960, 80)">
+    <rect x="0" y="0" width="220" height="105" rx="6" fill="none" stroke="#27AE60" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="110" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#27AE60">監控大螢幕</text>
+
+    <rect x="15" y="30" width="190" height="60" rx="4" fill="#FFFFFF" stroke="#27AE60"/>
+    <text x="110" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A2530">Grafana Dashboard</text>
+    <text x="110" y="65" text-anchor="middle" font-size="9" fill="#6B7B85">HA Status / Active Calls</text>
+    <text x="110" y="78" text-anchor="middle" font-size="9" fill="#6B7B85">Trunk Status / RTO 標記</text>
+  </g>
+
+  <!-- VPN / 邊界 -->
+  <g transform="translate(20, 220)">
+    <rect x="200" y="0" width="1100" height="40" rx="4" fill="#0E5066"/>
+    <text x="750" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">⟿ VPN Tunnel (IPsec) ⟿  Demo Lab Edge Firewall  ⟿  10G uplink ⟿</text>
+  </g>
+
+  <!-- Demo Lab 主體 -->
+  <g transform="translate(220, 290)">
+    <rect x="0" y="0" width="1080" height="610" rx="8" fill="#F8F9F8" stroke="#0E5066" stroke-width="2"/>
+    <text x="540" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0E5066">Demo Lab @ 瑛聲總部 (10.0.0.0/16)</text>
+
+    <!-- Tier 1: SBC + 監控 -->
+    <g transform="translate(20, 50)">
+      <rect x="0" y="0" width="1040" height="100" rx="4" fill="#FFFFFF" stroke="#CCCCCC"/>
+      <text x="10" y="18" font-size="11" font-weight="bold" fill="#6B7B85">DMZ Tier — 對外服務</text>
+
+      <rect x="20" y="30" width="180" height="60" rx="4" fill="#10A0A7"/>
+      <text x="110" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">SBC (AudioCodes)</text>
+      <text x="110" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Mediant 1000B</text>
+      <text x="110" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.1.10</text>
+
+      <rect x="220" y="30" width="180" height="60" rx="4" fill="#27AE60"/>
+      <text x="310" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Prometheus</text>
+      <text x="310" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.1.20</text>
+
+      <rect x="420" y="30" width="180" height="60" rx="4" fill="#27AE60"/>
+      <text x="510" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Grafana</text>
+      <text x="510" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.1.21</text>
+
+      <rect x="620" y="30" width="180" height="60" rx="4" fill="#27AE60"/>
+      <text x="710" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">ELK Stack</text>
+      <text x="710" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Syslog 集中</text>
+      <text x="710" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.1.22</text>
+
+      <rect x="820" y="30" width="200" height="60" rx="4" fill="#0E5066"/>
+      <text x="920" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">VPN Concentrator</text>
+      <text x="920" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">pfSense / Fortigate</text>
+      <text x="920" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.0.1</text>
+    </g>
+
+    <!-- Tier 2: 3CX HA Cluster -->
+    <g transform="translate(20, 170)">
+      <rect x="0" y="0" width="1040" height="120" rx="4" fill="#FFFFFF" stroke="#CCCCCC"/>
+      <text x="10" y="18" font-size="11" font-weight="bold" fill="#6B7B85">PBX Tier — 3CX V20 HA Cluster</text>
+
+      <rect x="40" y="30" width="220" height="80" rx="4" fill="#10A0A7"/>
+      <text x="150" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">3CX Primary (Active)</text>
+      <text x="150" y="63" text-anchor="middle" font-size="10" fill="#FFFFFF">pbx-ha-01</text>
+      <text x="150" y="76" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.2.11</text>
+      <text x="150" y="92" text-anchor="middle" font-size="9" fill="#FFFFFF">8 vCPU / 16 GB / 200 GB</text>
+
+      <rect x="290" y="30" width="220" height="80" rx="4" fill="#10A0A7"/>
+      <text x="400" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">3CX Standby</text>
+      <text x="400" y="63" text-anchor="middle" font-size="10" fill="#FFFFFF">pbx-ha-02</text>
+      <text x="400" y="76" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.2.12</text>
+      <text x="400" y="92" text-anchor="middle" font-size="9" fill="#FFFFFF">8 vCPU / 16 GB / 200 GB</text>
+
+      <rect x="540" y="30" width="180" height="80" rx="4" fill="#10A0A7" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="630" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Witness</text>
+      <text x="630" y="63" text-anchor="middle" font-size="10" fill="#FFFFFF">witness</text>
+      <text x="630" y="76" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.2.13</text>
+      <text x="630" y="92" text-anchor="middle" font-size="9" fill="#FFFFFF">2 vCPU / 4 GB</text>
+
+      <rect x="750" y="30" width="270" height="80" rx="4" fill="#10A0A7"/>
+      <text x="885" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">3CX Management</text>
+      <text x="885" y="63" text-anchor="middle" font-size="10" fill="#FFFFFF">Admin Web UI / API</text>
+      <text x="885" y="76" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.2.20</text>
+      <text x="885" y="92" text-anchor="middle" font-size="9" fill="#FFFFFF">4 vCPU / 8 GB</text>
+
+      <text x="150" y="125" text-anchor="middle" font-size="9" font-style="italic" fill="#6B7B85">↕ heartbeat 5s ↕</text>
+      <text x="400" y="125" text-anchor="middle" font-size="9" font-style="italic" fill="#6B7B85">↕ heartbeat 5s ↕</text>
+    </g>
+
+    <!-- Tier 3: VOXEN Application Layer -->
+    <g transform="translate(20, 310)">
+      <rect x="0" y="0" width="1040" height="100" rx="4" fill="#FFFFFF" stroke="#CCCCCC"/>
+      <text x="10" y="18" font-size="11" font-weight="bold" fill="#6B7B85">VOXEN Application Tier — 編排 / Bot / Adapter</text>
+
+      <rect x="20" y="30" width="200" height="60" rx="4" fill="#2C9889"/>
+      <text x="120" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">VOXEN 編排層</text>
+      <text x="120" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Routing + Rules</text>
+      <text x="120" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.3.10</text>
+
+      <rect x="240" y="30" width="200" height="60" rx="4" fill="#2C9889"/>
+      <text x="340" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">致行 Voice Bot</text>
+      <text x="340" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">ASR + LLM + TTS</text>
+      <text x="340" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.3.11</text>
+
+      <rect x="460" y="30" width="200" height="60" rx="4" fill="#2C9889"/>
+      <text x="560" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">3CX Adapter</text>
+      <text x="560" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Call Control API v2</text>
+      <text x="560" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.3.12</text>
+
+      <rect x="680" y="30" width="200" height="60" rx="4" fill="#2C9889"/>
+      <text x="780" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">OPEN/AD/CRM Adapter</text>
+      <text x="780" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">玉山環境 connector</text>
+      <text x="780" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.3.13</text>
+
+      <rect x="900" y="30" width="120" height="60" rx="4" fill="#2C9889"/>
+      <text x="960" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">LLM Gateway</text>
+      <text x="960" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Demo: Azure</text>
+    </g>
+
+    <!-- Tier 4: 玉山環境模擬 -->
+    <g transform="translate(20, 430)">
+      <rect x="0" y="0" width="1040" height="100" rx="4" fill="#FFFFFF" stroke="#CCCCCC"/>
+      <text x="10" y="18" font-size="11" font-weight="bold" fill="#6B7B85">玉山環境模擬 Tier — 既有資產對接驗證</text>
+
+      <rect x="20" y="30" width="180" height="60" rx="4" fill="#0E5066"/>
+      <text x="110" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">OPEN/TeleSA Mock</text>
+      <text x="110" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Webhook Receiver</text>
+      <text x="110" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.4.10</text>
+
+      <rect x="220" y="30" width="180" height="60" rx="4" fill="#0E5066"/>
+      <text x="310" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">玉山 NAS Mock</text>
+      <text x="310" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">SMB / NFS share</text>
+      <text x="310" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.4.20 / 2 TB</text>
+
+      <rect x="420" y="30" width="180" height="60" rx="4" fill="#0E5066"/>
+      <text x="510" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">玉山 AD/SSO Mock</text>
+      <text x="510" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">OpenLDAP / Keycloak</text>
+      <text x="510" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.4.30</text>
+
+      <rect x="620" y="30" width="180" height="60" rx="4" fill="#0E5066"/>
+      <text x="710" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">玉山 CRM Mock</text>
+      <text x="710" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">REST API + 客戶 360</text>
+      <text x="710" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.4.40</text>
+
+      <rect x="820" y="30" width="200" height="60" rx="4" fill="#0E5066"/>
+      <text x="920" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">錄音管理介面 Mock</text>
+      <text x="920" y="65" text-anchor="middle" font-size="10" fill="#FFFFFF">Web UI + 稽核日誌</text>
+      <text x="920" y="78" text-anchor="middle" font-size="10" fill="#FFFFFF">10.0.4.50</text>
+    </g>
+
+    <!-- Tier 5: Agent SoftPhone Pool -->
+    <g transform="translate(20, 550)">
+      <rect x="0" y="0" width="1040" height="50" rx="4" fill="#FFFFFF" stroke="#CCCCCC"/>
+      <text x="10" y="16" font-size="11" font-weight="bold" fill="#6B7B85">Agent Tier — SoftPhone 池</text>
+
+      <text x="180" y="36" font-size="11" fill="#1A2530">agent01-04 (SoftPhone, Hot-desking)</text>
+      <text x="450" y="36" font-size="11" fill="#1A2530">supervisor01 (Whisper/Barge/Take權限)</text>
+      <text x="780" y="36" font-size="11" fill="#1A2530">test_user (POC 玉山 IT 試用)</text>
+    </g>
+  </g>
+</svg>

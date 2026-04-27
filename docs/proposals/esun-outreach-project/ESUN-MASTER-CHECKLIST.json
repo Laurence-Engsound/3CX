@@ -1,0 +1,1262 @@
+{
+  "$schema": "../../internal/esun-checklist.schema.json",
+  "_comment": "E.SUN Outreach Project Master Checklist · Phase 1-3 (Pre-sales → Discovery → Contract) · 簽約後 Phase 4-9 待 NDA + 玉山 IT 對焦後展開細項",
+  "metadata": {
+    "case": "玉山銀行 Outreach (Phase 6)",
+    "version": "v0.1",
+    "horizon": "Phase 1-3 (Pre-sales → Contract)",
+    "scope_note": "Phase 4-9 (Project Setup / Implementation / Pilot / Go-live / Stabilization / Retirement) 暫不展開，待 Discovery 階段跟玉山 IT 對焦後 v0.2 補入",
+    "created_at": "2026-04-27",
+    "owner": "Laurence Lin",
+    "review_cadence": "weekly",
+    "last_updated_at": "2026-04-27"
+  },
+
+  "phases": [
+    {
+      "id": "P1",
+      "name": "Pre-sales",
+      "label_zh": "Pre-sales · 寄信 → 第一次會議結束",
+      "color": "#10B981",
+      "period_estimate": "2026-04-27 ~ 2026-05-15",
+      "description": "從 outreach email 寄出，到第一次正式會議結束 + 24hr follow-up email 寄出。完成 = 玉山方接受我們進入 Discovery 階段。"
+    },
+    {
+      "id": "P2",
+      "name": "Discovery",
+      "label_zh": "Discovery · NDA → 通過評選",
+      "color": "#F59E0B",
+      "period_estimate": "NDA 簽署後 ~ 簽約前 (預估 5-6 週)",
+      "description": "NDA 簽署、雙方資訊深度交換、技術 / 商業 / 法務多次會議、POC 規劃對齊、玉山內部評估與通過。完成 = 玉山內部簽核通過，進入合約議約。"
+    },
+    {
+      "id": "P3",
+      "name": "Contract",
+      "label_zh": "Contract · 合約議約 → 簽署 → Kickoff",
+      "color": "#3B82F6",
+      "period_estimate": "Discovery 完 ~ 合約簽署 + Kickoff (預估 3-4 週)",
+      "description": "SOW final、商業條款議價、IP / 法律條款協商、雙方簽核、實體簽署、Kickoff 安排。完成 = 合約簽署 + Kickoff 結束，進入 Phase 4 Implementation。"
+    }
+  ],
+
+  "categories": [
+    { "id": "outreach",      "label": "外聯 Outreach",          "phase": "P1", "icon": "📧" },
+    { "id": "preparation",   "label": "會前準備 Preparation",   "phase": "P1", "icon": "📋" },
+    { "id": "demo_readiness","label": "開發 / Demo Readiness",  "phase": "P1", "icon": "🔧" },
+    { "id": "rehearsal",     "label": "Dry Run 排練",            "phase": "P1", "icon": "🎭" },
+    { "id": "meeting_day",   "label": "會議當天 Meeting Day",    "phase": "P1", "icon": "🎤" },
+    { "id": "follow_up",     "label": "會後 24hr Follow-up",     "phase": "P1", "icon": "💌" },
+
+    { "id": "nda",           "label": "NDA 簽署",                 "phase": "P2", "icon": "🔐" },
+    { "id": "esun_provides", "label": "玉山方提供資料",          "phase": "P2", "icon": "📥" },
+    { "id": "engsound_provides", "label": "瑛聲方提供資料",       "phase": "P2", "icon": "📤" },
+    { "id": "tech_meetings", "label": "技術深探會議",            "phase": "P2", "icon": "⚙️" },
+    { "id": "biz_meetings",  "label": "商業議價會議",            "phase": "P2", "icon": "💼" },
+    { "id": "poc_planning",  "label": "POC 規劃對齊",            "phase": "P2", "icon": "🧪" },
+    { "id": "evaluation",    "label": "玉山內部評估",            "phase": "P2", "icon": "✅" },
+
+    { "id": "sow_final",     "label": "SOW final",                "phase": "P3", "icon": "📄" },
+    { "id": "commercial",    "label": "商業條款定案",            "phase": "P3", "icon": "💰" },
+    { "id": "sla",           "label": "SLA 條款",                 "phase": "P3", "icon": "⚡" },
+    { "id": "exit",          "label": "Exit / 終止條款",          "phase": "P3", "icon": "🚪" },
+    { "id": "legal",         "label": "法律附件",                 "phase": "P3", "icon": "⚖️" },
+    { "id": "signing",       "label": "簽核流程",                 "phase": "P3", "icon": "✍️" },
+    { "id": "kickoff",       "label": "Kickoff 安排",             "phase": "P3", "icon": "🚀" }
+  ],
+
+  "items": [
+    {
+      "id": "P1-001",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "Eric Lin review outreach email 草稿",
+      "description": "確認 placeholder 全部填妥、稱謂正確、語氣得宜、寄發時段合適",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "2026-04-28",
+      "acceptance": "Eric 簽字 OK 並標註任何修正",
+      "related_docs": ["proposals/esun-outreach-project/01-meeting-pack/OUTREACH-EMAIL-DRAFT.md"]
+    },
+    {
+      "id": "P1-002",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "確認玉山 IT 主管姓名 / 職稱 / Email 拼字",
+      "description": "100% 確認，不要猜。中英文版本都要對",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "2026-04-28",
+      "acceptance": "Email 寄出後不會被退信、稱謂無誤"
+    },
+    {
+      "id": "P1-003",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "Outreach email 所有 [姓名] / [手機] / [LINE] placeholder 填妥",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "2026-04-28",
+      "acceptance": "全文無 [...] 殘留",
+      "related_docs": ["proposals/esun-outreach-project/01-meeting-pack/OUTREACH-EMAIL-DRAFT.md"]
+    },
+    {
+      "id": "P1-004",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "Cross-check 瑛聲方主案三人行事曆 (5/5、5/8、5/13)",
+      "description": "Laurence + Tech Lead + Eric 三人確認三個提案時段都可出席",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "2026-04-28"
+    },
+    {
+      "id": "P1-005",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "MEETING-AGENDA-PROPOSAL.md 轉成 PDF (附件用)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "2026-04-28",
+      "related_docs": ["proposals/esun-outreach-project/01-meeting-pack/MEETING-AGENDA-PROPOSAL.md"]
+    },
+    {
+      "id": "P1-006",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "寄出 outreach email (建議週一 09:30-10:30)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "2026-04-28",
+      "acceptance": "Email 已寄出且 sent folder 留底；BCC 一份歸檔",
+      "depends_on": ["P1-001", "P1-002", "P1-003", "P1-004", "P1-005"]
+    },
+    {
+      "id": "P1-007",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "歸檔 sent email 到 04-post-meeting/sent/",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+0",
+      "depends_on": ["P1-006"]
+    },
+    {
+      "id": "P1-008",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "T+72h 若無回覆 → 寄禮貌追蹤信",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+72h",
+      "depends_on": ["P1-006"]
+    },
+    {
+      "id": "P1-009",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "T+5 工作日無回覆 → Laurence 致電玉山主辦人",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+5 工作日"
+    },
+    {
+      "id": "P1-010",
+      "phase": "P1",
+      "category": "outreach",
+      "name": "T+10 工作日無回覆 → Eric 致電玉山 IT 主管 (升級)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "T+10 工作日"
+    },
+
+    {
+      "id": "P1-011",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "回信玉山確認時段 + 預告 T-3 寄資料",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "玉山確認後 24 hr 內"
+    },
+    {
+      "id": "P1-012",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "在內部行事曆建立會議事件 (瑛聲方所有與會者)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "玉山確認後 24 hr 內"
+    },
+    {
+      "id": "P1-013",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "通知瑛聲技術 Lead + 法務 + 業務總監出席",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "玉山確認後 48 hr 內"
+    },
+    {
+      "id": "P1-014",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "鎖定瑛聲後援工程師 demo lab standby",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-7"
+    },
+    {
+      "id": "P1-015",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "確認玉山方會議室位置 + 樓層 + 警衛登記程序",
+      "owner": "玉山主辦",
+      "status": "pending",
+      "due": "T-3"
+    },
+    {
+      "id": "P1-016",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "確認線上連線平台 + 拿到測試連結 (Teams/Webex)",
+      "owner": "玉山 IT",
+      "status": "pending",
+      "due": "T-3"
+    },
+    {
+      "id": "P1-017",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "更新 MEETING-AGENDA-PROPOSAL 為 v1.1 (含實際日期 + 雙方確認名單)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T-5"
+    },
+    {
+      "id": "P1-018",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "重新檢視 Q&A Binder，刪掉跟確認名單無關的題目",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T-5",
+      "related_docs": ["proposals/esun-outreach-project/02-internal-prep/VOXEN-QA-Binder-ESUN-INTERNAL-v1.0.docx"]
+    },
+    {
+      "id": "P1-019",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "印 A4 紙本 5-8 份 (One-Pager)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T-1"
+    },
+    {
+      "id": "P1-020",
+      "phase": "P1",
+      "category": "preparation",
+      "name": "T-3 寄會前預讀 email (One-Pager + SOW v0.6)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T-3",
+      "acceptance": "Email 寄出 + sent folder 留底"
+    },
+
+    {
+      "id": "P1-D01",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Demo Lab 環境部署完成 (5 層 + 14 VM 全部 health green)",
+      "description": "依 POC-ENV-ARCHITECTURE.md 部署：DMZ + PBX + VOXEN + 玉山環境 mock + Agent SoftPhone 五層",
+      "owner": "Tech Lead + DevOps",
+      "status": "pending",
+      "due": "T-14",
+      "acceptance": "全 14 VM health check 全綠、可 SSH、可 SoftPhone 註冊",
+      "related_docs": ["proposals/esun-outreach-project/02-internal-prep/POC-ENV-ARCHITECTURE.md"]
+    },
+    {
+      "id": "P1-D02",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Mock 資料載入 (10 假客戶 + 30 CDR + 5 假錄音 + AD/CRM/NAS mock)",
+      "owner": "Tech Lead + DevOps",
+      "status": "pending",
+      "due": "T-10",
+      "acceptance": "CRM mock 可查 0912-XXX-001 王先生; AD mock 可登入 agent01-04; NAS 有 5 筆 demo 錄音",
+      "depends_on": ["P1-D01"]
+    },
+    {
+      "id": "P1-D03",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Demo 1 — 致行外撥 + 平滑轉真人 跑通 3 次",
+      "description": "依 DEMO-RUNBOOK.md 第 1 個 demo · 包含致行 Bot 開場 → 客戶提問 → Bot 觸發轉人 → agent01 接手帶 context",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-7",
+      "acceptance": "連續 3 次成功 ≤ 5 min、context 帶過去無遺失",
+      "related_docs": ["proposals/esun-outreach-project/02-internal-prep/DEMO-RUNBOOK.md"]
+    },
+    {
+      "id": "P1-D04",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Demo 2 — 3CX HA Failover 跑通 3 次",
+      "description": "主節點 stop → 備節點 30-60 秒接手 · 活通話不掉 (RTO 實測數據要記)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-7",
+      "acceptance": "連續 3 次成功、RTO 實測數據紀錄、活通話確認不掉"
+    },
+    {
+      "id": "P1-D05",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Demo 3 — 主管 Whisper / Barge-in / Take-over 跑通 3 次",
+      "description": "supervisor01 對 agent03 的三段介入 · 含錄音稽核日誌驗證",
+      "owner": "Tech Lead + 演員 (假裝客戶/agent)",
+      "status": "pending",
+      "due": "T-7",
+      "acceptance": "連續 3 次成功、錄音事件時間軸完整 4 個事件節點"
+    },
+    {
+      "id": "P1-D06",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Demo 4 — Last-Agent Routing 跑通 3 次 (備援 demo)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-7",
+      "acceptance": "0912-XXX-002 路由到 agent04、0912-XXX-099 路由到 round-robin"
+    },
+    {
+      "id": "P1-D07",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Backup demo 影片預錄 (4 個 demo 各 5 min)",
+      "description": "萬一現場 demo 失敗的 fallback · 用 OBS 錄製 lab 內成功 run 的畫面",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-3",
+      "acceptance": "4 個 .mp4 檔案 + 已預載到主講者筆電的瀏覽器分頁"
+    },
+    {
+      "id": "P1-D08",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "3CX HA failover 實測報告產出 (RTO/RPO 數字)",
+      "description": "Q&A T1 必問 · 要有 5 次以上實測平均值 + 標準差",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-3",
+      "acceptance": "PDF 報告 + 印 1 份紙本帶到現場備查"
+    },
+    {
+      "id": "P1-D09",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "3CX 容量壓力測試報告 (50 並發 SoftPhone + 30 同時錄音)",
+      "description": "Demo Lab scale 的壓測 (玉山真實 450 並發要 NDA 後再做) · 給 Q&A T2 用",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "T-3",
+      "acceptance": "SIPp 壓測腳本 + Grafana 儀表 + PDF 報告"
+    },
+    {
+      "id": "P1-D10",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "3CX Premium Partner 認證 cert / 編號取得 (給玉山採購歸檔)",
+      "owner": "Eric Lin (向 3CX APAC 索取)",
+      "status": "pending",
+      "due": "T-7",
+      "acceptance": "PDF 認證書 + 編號可上 3CX 官網查驗"
+    },
+    {
+      "id": "P1-D11",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Source Code Escrow 三方合約 sample (已遮密版)",
+      "description": "萬一玉山法務當場要看一眼 · 不必正本，遮掉前任客戶名稱即可",
+      "owner": "瑛聲法務",
+      "status": "pending",
+      "due": "T-3",
+      "acceptance": "PDF + 印 1 份紙本帶到現場"
+    },
+    {
+      "id": "P1-D12",
+      "phase": "P1",
+      "category": "demo_readiness",
+      "name": "Demo 工程師 + 主講者 hand signal / Slack 訊號對齊",
+      "description": "見 DEMO-RUNBOOK.md 跨 demo 共通注意事項 · OK / 等 / next / help 4 個信號",
+      "owner": "Laurence + Tech Lead",
+      "status": "pending",
+      "due": "T-1 (含在 Dry Run 同時演練)"
+    },
+    {
+      "id": "P1-021",
+      "phase": "P1",
+      "category": "rehearsal",
+      "name": "T-3 排內部 Dry Run (90 min × 7 人)",
+      "description": "依 VOXEN-DryRun-Playbook.docx 執行；含 32 題 mock Q&A + 3 段觀察員打分",
+      "owner": "Engagement Manager",
+      "status": "pending",
+      "due": "T-3",
+      "related_docs": ["proposals/esun-outreach-project/02-internal-prep/VOXEN-DryRun-Playbook-ESUN-INTERNAL-v1.0.docx"]
+    },
+    {
+      "id": "P1-022",
+      "phase": "P1",
+      "category": "rehearsal",
+      "name": "Dry Run 觀察員填評估表 + 列 Action Items",
+      "owner": "瑛聲團隊",
+      "status": "pending",
+      "due": "T-3 當天"
+    },
+    {
+      "id": "P1-023",
+      "phase": "P1",
+      "category": "rehearsal",
+      "name": "Dry Run 判定: 🟢/🟡/🔴 (主持人簽字)",
+      "description": "🟢 通過、🟡 條件通過 (T-1 短排練)、🔴 重大修正 (考慮延後玉山會議)",
+      "owner": "主持人 (Eric Lin)",
+      "status": "pending",
+      "due": "T-3 當天",
+      "depends_on": ["P1-021", "P1-022"]
+    },
+    {
+      "id": "P1-024",
+      "phase": "P1",
+      "category": "rehearsal",
+      "name": "Dry Run Action Items 3 天內完成",
+      "owner": "依分配",
+      "status": "pending",
+      "due": "T-1 前"
+    },
+    {
+      "id": "P1-025",
+      "phase": "P1",
+      "category": "rehearsal",
+      "name": "T-1 主講者快速 walk-through 肆 Why 3CX 段 (25 min)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T-1"
+    },
+    {
+      "id": "P1-026",
+      "phase": "P1",
+      "category": "rehearsal",
+      "name": "T-1 Pitch Deck 最終版本確認 + 紙本印製",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T-1"
+    },
+
+    {
+      "id": "P1-027",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 -60min 提早 30-60 分鐘抵達玉山總行 + 警衛登記",
+      "owner": "全體出席者",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-028",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 -60min 投影機 + HDMI + Teams 線上連線測試",
+      "owner": "Laurence + Tech Lead",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-029",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 -30min 紙本 One-Pager 每個座位先放好",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-030",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 -10min 主講者口腔潤滑 / 深呼吸 3 次",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-031",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 開場 Eric Lin 講 3 分鐘建立信任 (Copilot Phase II 經驗 anchor)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-032",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 主講者依議程節奏 walk-through (90 min)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-033",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 Q&A 階段主動引導到「下一步 Action Items」",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-034",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 結尾留 5 分鐘對齊：下一步 / 誰負責 / 何時",
+      "owner": "Laurence + Eric",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-035",
+      "phase": "P1",
+      "category": "meeting_day",
+      "name": "T+0 散會後跟玉山 IT 主管私下 5 min small talk",
+      "owner": "Laurence + Eric",
+      "status": "pending",
+      "due": "T+0"
+    },
+
+    {
+      "id": "P1-036",
+      "phase": "P1",
+      "category": "follow_up",
+      "name": "T+0 回辦公室路上口述會議重點到語音 memo",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+0"
+    },
+    {
+      "id": "P1-037",
+      "phase": "P1",
+      "category": "follow_up",
+      "name": "T+0 內部 30 min debrief (Eric + Tech Lead + Laurence)",
+      "owner": "全體",
+      "status": "pending",
+      "due": "T+0 當晚"
+    },
+    {
+      "id": "P1-038",
+      "phase": "P1",
+      "category": "follow_up",
+      "name": "T+0 ~ T+6h 起草 24hr Follow-up email",
+      "description": "依 FOLLOWUP-EMAIL-TEMPLATE.md 三變體擇一",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+6h",
+      "related_docs": ["proposals/esun-outreach-project/04-post-meeting/FOLLOWUP-EMAIL-TEMPLATE.md"]
+    },
+    {
+      "id": "P1-039",
+      "phase": "P1",
+      "category": "follow_up",
+      "name": "T+24h 內 Eric 過目後寄出 Follow-up email",
+      "owner": "Eric Lin → Laurence",
+      "status": "pending",
+      "due": "T+24h"
+    },
+    {
+      "id": "P1-040",
+      "phase": "P1",
+      "category": "follow_up",
+      "name": "T+1 day 更新 PROJECT-LOG.md 紀錄會議結論",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "T+1 day"
+    },
+
+    {
+      "id": "P2-001",
+      "phase": "P2",
+      "category": "nda",
+      "name": "玉山採購提供 NDA 範本",
+      "owner": "玉山採購",
+      "status": "pending",
+      "due": "T+5 工作日"
+    },
+    {
+      "id": "P2-002",
+      "phase": "P2",
+      "category": "nda",
+      "name": "瑛聲法務 review NDA 條款",
+      "owner": "瑛聲法務",
+      "status": "pending",
+      "due": "玉山給後 3 工作日內",
+      "depends_on": ["P2-001"]
+    },
+    {
+      "id": "P2-003",
+      "phase": "P2",
+      "category": "nda",
+      "name": "雙方法務協商修正 (如有)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "1 週內"
+    },
+    {
+      "id": "P2-004",
+      "phase": "P2",
+      "category": "nda",
+      "name": "雙方簽署 NDA",
+      "owner": "雙方法定代理人",
+      "status": "pending",
+      "due": "協商完成後 3 工作日內"
+    },
+    {
+      "id": "P2-005",
+      "phase": "P2",
+      "category": "nda",
+      "name": "NDA 簽署證明歸檔 (雙方各一份正本)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "簽署當天",
+      "depends_on": ["P2-004"]
+    },
+
+    {
+      "id": "P2-010",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山 SIP Trunk 廠商與設定 (中華電信 / 是方 / etc)",
+      "owner": "玉山 IT",
+      "status": "pending",
+      "due": "NDA 後 1 週",
+      "acceptance": "SIP Trunk IP / Port / 認證資訊 / 編解碼設定文件"
+    },
+    {
+      "id": "P2-011",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山 AD / SSO 規格 (PingFederate / OAuth2 / SAML)",
+      "owner": "玉山 IT",
+      "status": "pending",
+      "due": "NDA 後 1 週",
+      "acceptance": "可供 LDAP / OAuth2 / SAML 介接的技術規格"
+    },
+    {
+      "id": "P2-012",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山 CRM API 規格 + 客戶 360 schema",
+      "owner": "玉山 IT",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-013",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "OPEN/TeleSA 系統文件 + webhook spec",
+      "owner": "玉山 IT (or 瑛聲既有 OPEN team)",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-014",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山 NAS 規格 (容量、IOPS、頻寬、權限模型)",
+      "owner": "玉山 IT",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-015",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "現有錄音管理介面 (瑛聲既有產品) version + 設定",
+      "owner": "玉山 IT + 瑛聲 OPEN team",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-016",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山月度通話量歷史數據 (12 個月)",
+      "description": "進線 / 外撥分流、旺季淡季、尖峰時段分布",
+      "owner": "玉山 Outreach 業務部",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-017",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "現有 Genesys Engage 配置 export (如可)",
+      "owner": "玉山 IT",
+      "status": "pending",
+      "due": "NDA 後 2 週",
+      "acceptance": "包含 routing rule、queue、IVR、user / extension 配置"
+    },
+    {
+      "id": "P2-018",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山 IT security policy (對 vendor 的要求)",
+      "owner": "玉山 IT Security",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-019",
+      "phase": "P2",
+      "category": "esun_provides",
+      "name": "玉山個資法 / 金管會 H113-04 內部對應流程",
+      "owner": "玉山法遵",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+
+    {
+      "id": "P2-020",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "TCO 細項分項 (NDA 後正式版)",
+      "owner": "Eric Lin + 財務",
+      "status": "pending",
+      "due": "NDA 後 1 週",
+      "related_docs": ["proposals/esun-outreach-project/02-internal-prep/VOXEN-TCO-ESUN-v1.0.xlsx"]
+    },
+    {
+      "id": "P2-021",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "Q&A Binder 完整版 (含 datasheet 附件)",
+      "owner": "Laurence + Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-022",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "Demo 環境 VPN 連線資訊 (給玉山 IT 試用)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-023",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "3CX HA 實測報告 (RTO / RPO 數據)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-024",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "3CX 容量壓力測試報告 (450 並發 + 250 同時錄音)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 3 週"
+    },
+    {
+      "id": "P2-025",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "3CX 金融業案例 case study (向 APAC 取得)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-026",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "Source Code Escrow 三方合約樣本",
+      "owner": "瑛聲法務",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-027",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "個資法 + 金管會 H113-04 + PCI-DSS 對應檢核表",
+      "owner": "Tech Lead + 法務",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-028",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "Premium Partner 認證證明 (給玉山採購歸檔)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "NDA 後 1 週"
+    },
+    {
+      "id": "P2-029",
+      "phase": "P2",
+      "category": "engsound_provides",
+      "name": "瑛聲 Professional Indemnity Insurance 保單 (如有)",
+      "owner": "瑛聲法務 / 財務",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+
+    {
+      "id": "P2-030",
+      "phase": "P2",
+      "category": "tech_meetings",
+      "name": "第一次技術深探會議 (90 min, 玉山 IT + 瑛聲 Tech Lead)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 1-2 週"
+    },
+    {
+      "id": "P2-031",
+      "phase": "P2",
+      "category": "tech_meetings",
+      "name": "SIP Trunk 介接技術會議 (含中華電信 / ITSP)",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 2-3 週"
+    },
+    {
+      "id": "P2-032",
+      "phase": "P2",
+      "category": "tech_meetings",
+      "name": "AD / SSO 介接技術會議",
+      "owner": "Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 2-3 週"
+    },
+    {
+      "id": "P2-033",
+      "phase": "P2",
+      "category": "tech_meetings",
+      "name": "錄音管理 API 對接會議 (沿用既有介面)",
+      "owner": "Tech Lead + OPEN team",
+      "status": "pending",
+      "due": "NDA 後 2-3 週"
+    },
+    {
+      "id": "P2-034",
+      "phase": "P2",
+      "category": "tech_meetings",
+      "name": "Demo Lab 參觀 (玉山 IT 到瑛聲 office)",
+      "owner": "Eric + Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 3-4 週"
+    },
+
+    {
+      "id": "P2-040",
+      "phase": "P2",
+      "category": "biz_meetings",
+      "name": "第一次商業議價會議 (玉山採購 + 瑛聲業務總監)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-041",
+      "phase": "P2",
+      "category": "biz_meetings",
+      "name": "三授權模式 (PerYear/PerSeat/Hybrid) ROI 對照討論",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "NDA 後 3 週"
+    },
+    {
+      "id": "P2-042",
+      "phase": "P2",
+      "category": "biz_meetings",
+      "name": "SLA 條款逐條 review",
+      "owner": "Eric + 玉山採購 + Tech Lead",
+      "status": "pending",
+      "due": "NDA 後 3-4 週"
+    },
+    {
+      "id": "P2-043",
+      "phase": "P2",
+      "category": "biz_meetings",
+      "name": "Penalty / Exit 條款協商",
+      "owner": "Eric + 雙方法務",
+      "status": "pending",
+      "due": "NDA 後 4 週"
+    },
+
+    {
+      "id": "P2-050",
+      "phase": "P2",
+      "category": "poc_planning",
+      "name": "POC 業務群選定 (建議行銷外撥群)",
+      "owner": "玉山 Outreach 業務部",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-051",
+      "phase": "P2",
+      "category": "poc_planning",
+      "name": "POC 環境位置決定 (瑛聲 lab vs 玉山內部)",
+      "owner": "雙方共識",
+      "status": "pending",
+      "due": "NDA 後 2 週"
+    },
+    {
+      "id": "P2-052",
+      "phase": "P2",
+      "category": "poc_planning",
+      "name": "POC 25 項驗收 criteria 雙方共同確認",
+      "owner": "Tech Lead + 玉山 IT",
+      "status": "pending",
+      "due": "NDA 後 3 週",
+      "related_docs": ["proposals/esun-outreach-project/03-deliverables/POC-ACCEPTANCE-CRITERIA.md"]
+    },
+    {
+      "id": "P2-053",
+      "phase": "P2",
+      "category": "poc_planning",
+      "name": "POC 期限 + 通過標準 sign-off",
+      "owner": "雙方主管",
+      "status": "pending",
+      "due": "NDA 後 4 週"
+    },
+
+    {
+      "id": "P2-060",
+      "phase": "P2",
+      "category": "evaluation",
+      "name": "玉山內部評估委員會審查",
+      "owner": "玉山評估委員會",
+      "status": "pending",
+      "due": "Discovery 中後段"
+    },
+    {
+      "id": "P2-061",
+      "phase": "P2",
+      "category": "evaluation",
+      "name": "玉山 CISO sign-off (資安)",
+      "owner": "玉山 CISO",
+      "status": "pending",
+      "due": "Discovery 中後段"
+    },
+    {
+      "id": "P2-062",
+      "phase": "P2",
+      "category": "evaluation",
+      "name": "玉山 CFO sign-off (預算)",
+      "owner": "玉山 CFO",
+      "status": "pending",
+      "due": "Discovery 中後段"
+    },
+    {
+      "id": "P2-063",
+      "phase": "P2",
+      "category": "evaluation",
+      "name": "玉山主管最終決議 (採購批准)",
+      "owner": "玉山 IT 主管",
+      "status": "pending",
+      "due": "Discovery 結束",
+      "acceptance": "進入 Phase 3 合約議約"
+    },
+
+    {
+      "id": "P3-001",
+      "phase": "P3",
+      "category": "sow_final",
+      "name": "SOW v0.6 → v0.7 (含玉山 review 後修正)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "Discovery 結束後 1 週",
+      "related_docs": ["proposals/esun-outreach-project/03-deliverables/VOXEN-SOW-Draft-v0.6-ESUN.docx"]
+    },
+    {
+      "id": "P3-002",
+      "phase": "P3",
+      "category": "sow_final",
+      "name": "SOW v0.7 → v1.0 (final 版)",
+      "owner": "Laurence + Eric",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-003",
+      "phase": "P3",
+      "category": "sow_final",
+      "name": "SOW v1.0 雙方法務 final review pass",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 3 週"
+    },
+
+    {
+      "id": "P3-010",
+      "phase": "P3",
+      "category": "commercial",
+      "name": "授權模式最終決定 (PerYear / PerSeat / Hybrid)",
+      "owner": "雙方主管",
+      "status": "pending",
+      "due": "Phase 3 第 1 週"
+    },
+    {
+      "id": "P3-011",
+      "phase": "P3",
+      "category": "commercial",
+      "name": "報價單 v1.0 (玉山官方接受版)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-012",
+      "phase": "P3",
+      "category": "commercial",
+      "name": "付款條件議定 (預付 / 分期 / 里程碑式)",
+      "owner": "Eric + 玉山採購",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-013",
+      "phase": "P3",
+      "category": "commercial",
+      "name": "匯率鎖定條款 (USD → NTD)",
+      "owner": "Eric + 玉山採購",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-014",
+      "phase": "P3",
+      "category": "commercial",
+      "name": "折扣 / 優惠最終確認",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+
+    {
+      "id": "P3-020",
+      "phase": "P3",
+      "category": "sla",
+      "name": "SLA 4 級 Severity 定義 sign-off",
+      "owner": "Tech Lead + 玉山 IT",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-021",
+      "phase": "P3",
+      "category": "sla",
+      "name": "SLA Response / Resolve 時間 sign-off",
+      "owner": "Tech Lead + 玉山 IT",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-022",
+      "phase": "P3",
+      "category": "sla",
+      "name": "SLA Penalty 計算公式 sign-off",
+      "owner": "Eric + 玉山採購",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+
+    {
+      "id": "P3-030",
+      "phase": "P3",
+      "category": "exit",
+      "name": "終止條件確認 (正常 / 違約 / 不可抗力)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-031",
+      "phase": "P3",
+      "category": "exit",
+      "name": "退費機制議定",
+      "owner": "雙方法務 + Eric",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-032",
+      "phase": "P3",
+      "category": "exit",
+      "name": "90 天過渡支援條款",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-033",
+      "phase": "P3",
+      "category": "exit",
+      "name": "資料返還格式 + 銷毀證明條款",
+      "owner": "雙方法務 + Tech Lead",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+
+    {
+      "id": "P3-040",
+      "phase": "P3",
+      "category": "legal",
+      "name": "Source Code Escrow 三方合約 (玉山 + 瑛聲 + Iron Mountain/NCC)",
+      "owner": "雙方法務 + Escrow Agent",
+      "status": "pending",
+      "due": "Phase 3 第 3 週",
+      "acceptance": "三方簽署"
+    },
+    {
+      "id": "P3-041",
+      "phase": "P3",
+      "category": "legal",
+      "name": "MNDA 升級 (5 年保密)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-042",
+      "phase": "P3",
+      "category": "legal",
+      "name": "不可抗力定義條款 (天災 / 戰爭 / 政府禁令 / 網攻)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-043",
+      "phase": "P3",
+      "category": "legal",
+      "name": "爭議解決條款 (仲裁 vs 訴訟 / 管轄法院)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 2 週"
+    },
+    {
+      "id": "P3-044",
+      "phase": "P3",
+      "category": "legal",
+      "name": "IP 歸屬條款 (既有 IP / 新生 IP / 客製功能授權)",
+      "owner": "雙方法務 + Eric",
+      "status": "pending",
+      "due": "Phase 3 第 3 週"
+    },
+
+    {
+      "id": "P3-050",
+      "phase": "P3",
+      "category": "signing",
+      "name": "玉山內部簽核 (主管 → 副總 → 總經理)",
+      "owner": "玉山 IT 主管",
+      "status": "pending",
+      "due": "Phase 3 第 3 週"
+    },
+    {
+      "id": "P3-051",
+      "phase": "P3",
+      "category": "signing",
+      "name": "瑛聲簽核 (Eric → 業務總監 → 董事長)",
+      "owner": "Eric Lin",
+      "status": "pending",
+      "due": "Phase 3 第 3 週"
+    },
+    {
+      "id": "P3-052",
+      "phase": "P3",
+      "category": "signing",
+      "name": "雙方法務 final review pass",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "Phase 3 第 4 週",
+      "depends_on": ["P3-050", "P3-051"]
+    },
+    {
+      "id": "P3-053",
+      "phase": "P3",
+      "category": "signing",
+      "name": "實體簽署日 (擇日 + 雙方代表 + 見證人)",
+      "owner": "雙方法定代理人",
+      "status": "pending",
+      "due": "Phase 3 第 4 週",
+      "depends_on": ["P3-052"]
+    },
+    {
+      "id": "P3-054",
+      "phase": "P3",
+      "category": "signing",
+      "name": "合約存檔 (雙方各一份正本 + Iron Mountain 副本)",
+      "owner": "雙方法務",
+      "status": "pending",
+      "due": "簽署當天",
+      "depends_on": ["P3-053"]
+    },
+    {
+      "id": "P3-055",
+      "phase": "P3",
+      "category": "signing",
+      "name": "預付款開立發票 / 收款確認",
+      "owner": "雙方財務",
+      "status": "pending",
+      "due": "簽署後 5 工作日"
+    },
+
+    {
+      "id": "P3-060",
+      "phase": "P3",
+      "category": "kickoff",
+      "name": "Kickoff Meeting 排程 (簽約後 2 週內)",
+      "owner": "Laurence + 玉山 IT",
+      "status": "pending",
+      "due": "簽約後 1 週"
+    },
+    {
+      "id": "P3-061",
+      "phase": "P3",
+      "category": "kickoff",
+      "name": "Project Charter 起草 (時程 / 範圍 / 角色 / 溝通機制)",
+      "owner": "Laurence",
+      "status": "pending",
+      "due": "Kickoff 前 3 工作日"
+    },
+    {
+      "id": "P3-062",
+      "phase": "P3",
+      "category": "kickoff",
+      "name": "雙方 PM 指派 + 介紹",
+      "owner": "雙方 IT 主管",
+      "status": "pending",
+      "due": "Kickoff 當天"
+    },
+    {
+      "id": "P3-063",
+      "phase": "P3",
+      "category": "kickoff",
+      "name": "Kickoff Meeting 執行 + 共同確認 Phase 4 計畫",
+      "owner": "雙方全體",
+      "status": "pending",
+      "due": "Kickoff 當天",
+      "acceptance": "進入 Phase 4 Implementation"
+    }
+  ]
+}

@@ -1,0 +1,530 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1080" font-family="Microsoft JhengHei, Noto Sans CJK TC, sans-serif">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="gUser" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <linearGradient id="gExp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0FFF4"/>
+      <stop offset="100%" stop-color="#C6F6D5"/>
+    </linearGradient>
+    <linearGradient id="gVox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EBF9FA"/>
+      <stop offset="100%" stop-color="#D4F0F1"/>
+    </linearGradient>
+    <linearGradient id="gPbx" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFAF0"/>
+      <stop offset="100%" stop-color="#FEEBC8"/>
+    </linearGradient>
+    <linearGradient id="gEnv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+
+    <linearGradient id="cardGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0FFF4"/>
+    </linearGradient>
+    <linearGradient id="cardBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EBF9FA"/>
+    </linearGradient>
+    <linearGradient id="cardOrange" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FFFAF0"/>
+    </linearGradient>
+    <linearGradient id="cardGray" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F7FAFC"/>
+    </linearGradient>
+
+    <!-- Drop shadow filter -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="2" dy="3" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.18"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Arrows -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4A5568"/>
+    </marker>
+    <marker id="arrowDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#718096"/>
+    </marker>
+
+    <!-- ================== ICON SYMBOLS ================== -->
+    <!-- icAgent: 座席（耳機人頭） -->
+    <symbol id="icAgent" viewBox="0 0 40 40">
+      <circle cx="20" cy="14" r="7" fill="#4A5568"/>
+      <path d="M 8 32 Q 8 22 20 22 Q 32 22 32 32 Z" fill="#4A5568"/>
+      <path d="M 11 14 Q 11 8 20 8 Q 29 8 29 14" stroke="#2D3748" stroke-width="2" fill="none"/>
+      <rect x="9" y="14" width="3" height="6" rx="1.5" fill="#2D3748"/>
+      <rect x="28" y="14" width="3" height="6" rx="1.5" fill="#2D3748"/>
+    </symbol>
+    <!-- icSup: 主管（領帶人頭） -->
+    <symbol id="icSup" viewBox="0 0 40 40">
+      <circle cx="20" cy="13" r="7" fill="#0E5066"/>
+      <path d="M 8 32 Q 8 21 20 21 Q 32 21 32 32 Z" fill="#0E5066"/>
+      <polygon points="18,21 22,21 21,32 19,32" fill="#E53E3E"/>
+    </symbol>
+    <!-- icCust: 客戶（手機+人頭） -->
+    <symbol id="icCust" viewBox="0 0 40 40">
+      <circle cx="14" cy="13" r="6" fill="#805AD5"/>
+      <path d="M 4 30 Q 4 21 14 21 Q 24 21 24 30 Z" fill="#805AD5"/>
+      <rect x="26" y="10" width="11" height="20" rx="2" fill="#2D3748"/>
+      <rect x="27.5" y="12" width="8" height="13" fill="#A0AEC0"/>
+      <circle cx="31.5" cy="27.5" r="0.8" fill="#A0AEC0"/>
+    </symbol>
+    <!-- icAudit: 質檢（放大鏡+文件） -->
+    <symbol id="icAudit" viewBox="0 0 40 40">
+      <rect x="6" y="6" width="20" height="26" rx="2" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+      <line x1="9" y1="13" x2="22" y2="13" stroke="#4A5568" stroke-width="1.2"/>
+      <line x1="9" y1="17" x2="22" y2="17" stroke="#4A5568" stroke-width="1.2"/>
+      <line x1="9" y1="21" x2="20" y2="21" stroke="#4A5568" stroke-width="1.2"/>
+      <circle cx="29" cy="26" r="6" fill="none" stroke="#C53030" stroke-width="2.5"/>
+      <line x1="33" y1="30" x2="38" y2="35" stroke="#C53030" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+    <!-- icMonitor: 桌面螢幕 -->
+    <symbol id="icMonitor" viewBox="0 0 40 40">
+      <rect x="4" y="6" width="32" height="22" rx="2" fill="#2D3748"/>
+      <rect x="6" y="8" width="28" height="18" fill="#48BB78"/>
+      <rect x="17" y="28" width="6" height="4" fill="#2D3748"/>
+      <rect x="12" y="32" width="16" height="3" rx="1" fill="#2D3748"/>
+    </symbol>
+    <!-- icDashboard: 儀表板（圓餅+柱） -->
+    <symbol id="icDashboard" viewBox="0 0 40 40">
+      <rect x="3" y="6" width="34" height="24" rx="2" fill="#2D3748"/>
+      <rect x="5" y="8" width="30" height="20" fill="#FFFFFF"/>
+      <rect x="8" y="20" width="3" height="6" fill="#10A0A7"/>
+      <rect x="13" y="16" width="3" height="10" fill="#10A0A7"/>
+      <rect x="18" y="13" width="3" height="13" fill="#10A0A7"/>
+      <circle cx="29" cy="18" r="6" fill="none" stroke="#48BB78" stroke-width="2"/>
+      <path d="M 29 12 A 6 6 0 0 1 35 18" stroke="#ED8936" stroke-width="2" fill="none"/>
+      <rect x="12" y="32" width="16" height="3" rx="1" fill="#2D3748"/>
+    </symbol>
+    <!-- icRec: 錄音（圓盤+三角播放） -->
+    <symbol id="icRec" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="15" fill="#2D3748"/>
+      <circle cx="20" cy="20" r="11" fill="#4A5568"/>
+      <circle cx="20" cy="20" r="3" fill="#FFFFFF"/>
+      <circle cx="20" cy="11" r="2" fill="#E53E3E"/>
+    </symbol>
+    <!-- icWallboard: 大螢幕 -->
+    <symbol id="icWallboard" viewBox="0 0 40 40">
+      <rect x="3" y="5" width="34" height="25" rx="1" fill="#2D3748"/>
+      <rect x="5" y="7" width="30" height="21" fill="#1A202C"/>
+      <text x="20" y="20" text-anchor="middle" fill="#48BB78" font-size="10" font-weight="bold" font-family="monospace">KPI</text>
+      <rect x="14" y="30" width="12" height="3" fill="#2D3748"/>
+      <rect x="10" y="33" width="20" height="3" rx="1" fill="#2D3748"/>
+    </symbol>
+    <!-- icRoute: 路由（節點+連線） -->
+    <symbol id="icRoute" viewBox="0 0 40 40">
+      <circle cx="8" cy="20" r="4" fill="#10A0A7"/>
+      <circle cx="32" cy="10" r="4" fill="#10A0A7"/>
+      <circle cx="32" cy="30" r="4" fill="#10A0A7"/>
+      <line x1="12" y1="20" x2="28" y2="10" stroke="#10A0A7" stroke-width="2"/>
+      <line x1="12" y1="20" x2="28" y2="30" stroke="#10A0A7" stroke-width="2"/>
+    </symbol>
+    <!-- icRules: 規則（齒輪簡化） -->
+    <symbol id="icRules" viewBox="0 0 40 40">
+      <path d="M 20 6 L 23 8 L 27 7 L 28 11 L 32 13 L 31 17 L 34 20 L 31 23 L 32 27 L 28 29 L 27 33 L 23 32 L 20 34 L 17 32 L 13 33 L 12 29 L 8 27 L 9 23 L 6 20 L 9 17 L 8 13 L 12 11 L 13 7 L 17 8 Z" fill="#10A0A7"/>
+      <circle cx="20" cy="20" r="5" fill="#FFFFFF"/>
+    </symbol>
+    <!-- icDialog: 對話泡泡 -->
+    <symbol id="icDialog" viewBox="0 0 40 40">
+      <path d="M 5 8 L 28 8 Q 32 8 32 12 L 32 22 Q 32 26 28 26 L 14 26 L 8 32 L 9 26 Q 5 26 5 22 Z" fill="#10A0A7"/>
+      <circle cx="13" cy="17" r="1.8" fill="#FFFFFF"/>
+      <circle cx="19" cy="17" r="1.8" fill="#FFFFFF"/>
+      <circle cx="25" cy="17" r="1.8" fill="#FFFFFF"/>
+    </symbol>
+    <!-- icDb: 資料庫圓柱 -->
+    <symbol id="icDb" viewBox="0 0 40 40">
+      <ellipse cx="20" cy="9" rx="13" ry="4" fill="#10A0A7"/>
+      <path d="M 7 9 L 7 31 Q 7 35 20 35 Q 33 35 33 31 L 33 9" fill="#10A0A7"/>
+      <ellipse cx="20" cy="9" rx="13" ry="4" fill="#4EB7A7"/>
+      <ellipse cx="20" cy="18" rx="13" ry="4" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+      <ellipse cx="20" cy="26" rx="13" ry="4" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+    </symbol>
+    <!-- icShield: 資安盾牌 -->
+    <symbol id="icShield" viewBox="0 0 40 40">
+      <path d="M 20 4 L 34 9 L 34 22 Q 34 32 20 36 Q 6 32 6 22 L 6 9 Z" fill="#C53030"/>
+      <path d="M 14 20 L 18 24 L 26 14" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <!-- icObs: 觀測（折線圖） -->
+    <symbol id="icObs" viewBox="0 0 40 40">
+      <rect x="4" y="6" width="32" height="28" rx="2" fill="#FFFFFF" stroke="#DD6B20" stroke-width="1.5"/>
+      <polyline points="8,28 14,18 20,22 26,12 32,16" fill="none" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="14" cy="18" r="2" fill="#DD6B20"/>
+      <circle cx="26" cy="12" r="2" fill="#DD6B20"/>
+    </symbol>
+    <!-- icDevops: DevOps 無限符號 -->
+    <symbol id="icDevops" viewBox="0 0 40 40">
+      <path d="M 12 20 Q 8 14 14 14 Q 20 14 20 20 Q 20 26 26 26 Q 32 26 28 20 Q 32 14 26 14 Q 20 14 20 20 Q 20 26 14 26 Q 8 26 12 20 Z" fill="none" stroke="#805AD5" stroke-width="3"/>
+    </symbol>
+    <!-- icGov: 治理天平 -->
+    <symbol id="icGov" viewBox="0 0 40 40">
+      <line x1="20" y1="6" x2="20" y2="32" stroke="#22543D" stroke-width="2"/>
+      <line x1="6" y1="12" x2="34" y2="12" stroke="#22543D" stroke-width="2"/>
+      <path d="M 6 12 L 2 22 Q 6 26 10 22 Z" fill="#48BB78" stroke="#22543D" stroke-width="1.5"/>
+      <path d="M 34 12 L 30 22 Q 34 26 38 22 Z" fill="#48BB78" stroke="#22543D" stroke-width="1.5"/>
+      <rect x="14" y="30" width="12" height="4" fill="#22543D"/>
+    </symbol>
+    <!-- icAi: AI 機器人頭 -->
+    <symbol id="icAi" viewBox="0 0 40 40">
+      <rect x="8" y="10" width="24" height="20" rx="4" fill="#ED8936"/>
+      <circle cx="14" cy="20" r="3" fill="#FFFFFF"/>
+      <circle cx="26" cy="20" r="3" fill="#FFFFFF"/>
+      <circle cx="14" cy="20" r="1.2" fill="#2D3748"/>
+      <circle cx="26" cy="20" r="1.2" fill="#2D3748"/>
+      <line x1="20" y1="10" x2="20" y2="6" stroke="#ED8936" stroke-width="2"/>
+      <circle cx="20" cy="5" r="2" fill="#ED8936"/>
+      <line x1="14" y1="28" x2="26" y2="28" stroke="#FFFFFF" stroke-width="1.5"/>
+    </symbol>
+    <!-- icAdapter: 整合插頭 -->
+    <symbol id="icAdapter" viewBox="0 0 40 40">
+      <rect x="6" y="14" width="20" height="12" rx="2" fill="#10A0A7"/>
+      <line x1="26" y1="17" x2="32" y2="17" stroke="#10A0A7" stroke-width="3"/>
+      <line x1="26" y1="23" x2="32" y2="23" stroke="#10A0A7" stroke-width="3"/>
+      <rect x="32" y="14" width="4" height="12" fill="#0E5066"/>
+      <circle cx="11" cy="20" r="2" fill="#FFFFFF"/>
+      <circle cx="17" cy="20" r="2" fill="#FFFFFF"/>
+      <circle cx="22" cy="20" r="2" fill="#FFFFFF"/>
+    </symbol>
+    <!-- icPbx: PBX 機箱+電話 -->
+    <symbol id="icPbx" viewBox="0 0 40 40">
+      <rect x="6" y="14" width="28" height="18" rx="2" fill="#DD6B20"/>
+      <rect x="9" y="17" width="22" height="3" fill="#FFFFFF"/>
+      <circle cx="11" cy="25" r="1.5" fill="#FFFFFF"/>
+      <circle cx="16" cy="25" r="1.5" fill="#FFFFFF"/>
+      <circle cx="21" cy="25" r="1.5" fill="#FFFFFF"/>
+      <circle cx="26" cy="25" r="1.5" fill="#FFFFFF"/>
+      <circle cx="31" cy="25" r="1.5" fill="#FFFFFF"/>
+      <path d="M 14 6 Q 14 10 16 10 L 24 10 Q 26 10 26 6 L 22 6 Q 21 8 19 8 L 18 8 Q 16 6 14 6 Z" fill="#7C2D12"/>
+    </symbol>
+    <!-- icBot: 致行 OUTREACH（電話+AI） -->
+    <symbol id="icBot" viewBox="0 0 40 40">
+      <rect x="10" y="8" width="20" height="20" rx="3" fill="#48BB78"/>
+      <circle cx="16" cy="16" r="2" fill="#FFFFFF"/>
+      <circle cx="24" cy="16" r="2" fill="#FFFFFF"/>
+      <path d="M 14 22 Q 20 25 26 22" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M 6 30 Q 6 34 10 36 L 14 36 L 12 32 Q 8 30 6 30" fill="#22543D"/>
+    </symbol>
+    <!-- icOpen: OPEN/TeleSA（多人外撥） -->
+    <symbol id="icOpen" viewBox="0 0 40 40">
+      <rect x="3" y="8" width="34" height="24" rx="2" fill="#48BB78"/>
+      <rect x="5" y="10" width="30" height="20" fill="#FFFFFF"/>
+      <text x="20" y="22" text-anchor="middle" fill="#22543D" font-size="9" font-weight="bold">OPEN</text>
+      <text x="20" y="28" text-anchor="middle" fill="#22543D" font-size="6">TeleSA</text>
+    </symbol>
+    <!-- icNas: NAS 儲存 -->
+    <symbol id="icNas" viewBox="0 0 40 40">
+      <rect x="6" y="8" width="28" height="6" rx="1" fill="#4A5568"/>
+      <rect x="6" y="16" width="28" height="6" rx="1" fill="#4A5568"/>
+      <rect x="6" y="24" width="28" height="6" rx="1" fill="#4A5568"/>
+      <circle cx="30" cy="11" r="1" fill="#48BB78"/>
+      <circle cx="30" cy="19" r="1" fill="#48BB78"/>
+      <circle cx="30" cy="27" r="1" fill="#48BB78"/>
+    </symbol>
+    <!-- icAd: AD/SSO 鑰匙 -->
+    <symbol id="icAd" viewBox="0 0 40 40">
+      <circle cx="14" cy="20" r="8" fill="none" stroke="#4A5568" stroke-width="3"/>
+      <line x1="22" y1="20" x2="36" y2="20" stroke="#4A5568" stroke-width="3"/>
+      <line x1="30" y1="20" x2="30" y2="26" stroke="#4A5568" stroke-width="3"/>
+      <line x1="34" y1="20" x2="34" y2="24" stroke="#4A5568" stroke-width="3"/>
+    </symbol>
+    <!-- icCrm: CRM 客戶卡 -->
+    <symbol id="icCrm" viewBox="0 0 40 40">
+      <rect x="5" y="9" width="30" height="22" rx="2" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+      <circle cx="13" cy="18" r="4" fill="#4A5568"/>
+      <path d="M 7 28 Q 7 22 13 22 Q 19 22 19 28" fill="#4A5568"/>
+      <line x1="22" y1="14" x2="32" y2="14" stroke="#4A5568" stroke-width="1.5"/>
+      <line x1="22" y1="18" x2="32" y2="18" stroke="#4A5568" stroke-width="1.5"/>
+      <line x1="22" y1="22" x2="32" y2="22" stroke="#4A5568" stroke-width="1.5"/>
+      <line x1="22" y1="26" x2="29" y2="26" stroke="#4A5568" stroke-width="1.5"/>
+    </symbol>
+    <!-- icTrunk: 電信 trunk 信號塔 -->
+    <symbol id="icTrunk" viewBox="0 0 40 40">
+      <polygon points="14,32 20,8 26,32" fill="#4A5568"/>
+      <line x1="16" y1="22" x2="24" y2="22" stroke="#FFFFFF" stroke-width="1.2"/>
+      <line x1="17" y1="16" x2="23" y2="16" stroke="#FFFFFF" stroke-width="1.2"/>
+      <path d="M 8 14 Q 12 10 16 14" stroke="#48BB78" stroke-width="2" fill="none"/>
+      <path d="M 24 14 Q 28 10 32 14" stroke="#48BB78" stroke-width="2" fill="none"/>
+      <path d="M 4 12 Q 12 4 20 12" stroke="#48BB78" stroke-width="2" fill="none"/>
+      <path d="M 20 12 Q 28 4 36 12" stroke="#48BB78" stroke-width="2" fill="none"/>
+    </symbol>
+    <!-- icReport: 報表 -->
+    <symbol id="icReport" viewBox="0 0 40 40">
+      <rect x="6" y="6" width="22" height="28" rx="2" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+      <line x1="10" y1="13" x2="24" y2="13" stroke="#4A5568" stroke-width="1.5"/>
+      <line x1="10" y1="17" x2="24" y2="17" stroke="#4A5568" stroke-width="1.5"/>
+      <rect x="10" y="22" width="3" height="8" fill="#10A0A7"/>
+      <rect x="14" y="20" width="3" height="10" fill="#10A0A7"/>
+      <rect x="18" y="24" width="3" height="6" fill="#10A0A7"/>
+      <rect x="22" y="18" width="3" height="12" fill="#10A0A7"/>
+      <path d="M 28 6 L 36 6 L 36 14 Z" fill="#A0AEC0"/>
+    </symbol>
+  </defs>
+
+  <!-- Title -->
+  <text x="700" y="40" text-anchor="middle" font-size="28" font-weight="bold" fill="#1A202C">玉山 Outreach 案 — 整體架構</text>
+  <text x="700" y="68" text-anchor="middle" font-size="14" fill="#4A5568">VOXEN + 3CX + 沿用瑛聲既有資產 整合方案</text>
+
+  <!-- ==================== L0: USERS ==================== -->
+  <rect x="50" y="100" width="1300" height="100" rx="10" fill="url(#gUser)" stroke="#A0AEC0" stroke-width="1.5"/>
+  <text x="70" y="125" font-size="14" font-weight="bold" fill="#4A5568">使用者層  ·  Users</text>
+
+  <g filter="url(#shadow)">
+    <rect x="200" y="115" width="180" height="75" rx="8" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+  </g>
+  <use href="#icAgent" x="215" y="135" width="40" height="40"/>
+  <text x="320" y="153" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">450 外撥座席</text>
+  <text x="320" y="172" text-anchor="middle" font-size="11" fill="#4A5568">電話銷售 + 債務管理</text>
+
+  <g filter="url(#shadow)">
+    <rect x="430" y="115" width="180" height="75" rx="8" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+  </g>
+  <use href="#icSup" x="445" y="135" width="40" height="40"/>
+  <text x="550" y="153" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">主管 / 隊長</text>
+  <text x="550" y="172" text-anchor="middle" font-size="11" fill="#4A5568">即時監控 + 介入</text>
+
+  <g filter="url(#shadow)">
+    <rect x="660" y="115" width="180" height="75" rx="8" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+  </g>
+  <use href="#icCust" x="675" y="135" width="40" height="40"/>
+  <text x="780" y="153" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">客戶</text>
+  <text x="780" y="172" text-anchor="middle" font-size="11" fill="#4A5568">外撥對象</text>
+
+  <g filter="url(#shadow)">
+    <rect x="890" y="115" width="180" height="75" rx="8" fill="#FFFFFF" stroke="#4A5568" stroke-width="1.5"/>
+  </g>
+  <use href="#icAudit" x="905" y="135" width="40" height="40"/>
+  <text x="1010" y="153" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">質檢 / IT / 稽核</text>
+  <text x="1010" y="172" text-anchor="middle" font-size="11" fill="#4A5568">後勤管理</text>
+
+  <!-- ==================== L1: 體驗層 ==================== -->
+  <rect x="50" y="220" width="1300" height="135" rx="10" fill="url(#gExp)" stroke="#48BB78" stroke-width="2"/>
+  <text x="70" y="245" font-size="14" font-weight="bold" fill="#22543D">體驗層  ·  沿用瑛聲既有 OPEN/TeleSA + 增強</text>
+
+  <g filter="url(#shadow)">
+    <rect x="100" y="260" width="280" height="80" rx="8" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  </g>
+  <use href="#icMonitor" x="115" y="280" width="44" height="44"/>
+  <text x="270" y="285" text-anchor="middle" font-size="13" font-weight="bold" fill="#22543D">座席桌面（沿用 + 增強）</text>
+  <text x="270" y="305" text-anchor="middle" font-size="10" fill="#22543D">OPEN/TeleSA 既有 UI</text>
+  <text x="270" y="320" text-anchor="middle" font-size="10" fill="#22543D">+ 整合 3CX Call Control</text>
+  <text x="270" y="334" text-anchor="middle" font-size="10" fill="#22543D">+ Hot-desking</text>
+
+  <g filter="url(#shadow)">
+    <rect x="430" y="260" width="280" height="80" rx="8" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  </g>
+  <use href="#icDashboard" x="445" y="280" width="44" height="44"/>
+  <text x="600" y="285" text-anchor="middle" font-size="13" font-weight="bold" fill="#22543D">主管桌面（沿用 + 增強）</text>
+  <text x="600" y="305" text-anchor="middle" font-size="10" fill="#22543D">OPEN/TeleSA 既有 UI</text>
+  <text x="600" y="320" text-anchor="middle" font-size="10" fill="#22543D">+ 即時儀表板</text>
+  <text x="600" y="334" text-anchor="middle" font-size="10" fill="#22543D">+ Whisper / Barge-in / Take-over</text>
+
+  <g filter="url(#shadow)">
+    <rect x="760" y="260" width="280" height="80" rx="8" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  </g>
+  <use href="#icRec" x="775" y="280" width="44" height="44"/>
+  <text x="930" y="285" text-anchor="middle" font-size="13" font-weight="bold" fill="#22543D">錄音管理介面（沿用）</text>
+  <text x="930" y="305" text-anchor="middle" font-size="10" fill="#22543D">瑛聲既有產品</text>
+  <text x="930" y="320" text-anchor="middle" font-size="10" fill="#22543D">介面層完全保留</text>
+  <text x="930" y="334" text-anchor="middle" font-size="10" fill="#22543D">+ 改連 3CX 錄音</text>
+
+  <g filter="url(#shadow)">
+    <rect x="1060" y="260" width="240" height="80" rx="8" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  </g>
+  <use href="#icWallboard" x="1075" y="280" width="44" height="44"/>
+  <text x="1210" y="285" text-anchor="middle" font-size="13" font-weight="bold" fill="#22543D">Wallboard 大螢幕</text>
+  <text x="1210" y="305" text-anchor="middle" font-size="10" fill="#22543D">新增功能</text>
+  <text x="1210" y="320" text-anchor="middle" font-size="10" fill="#22543D">即時 KPI 顯示</text>
+
+  <!-- ==================== L2: VOXEN 平台 ==================== -->
+  <rect x="50" y="375" width="1300" height="195" rx="10" fill="url(#gVox)" stroke="#10A0A7" stroke-width="2"/>
+  <text x="70" y="400" font-size="14" font-weight="bold" fill="#0E5066">VOXEN 平台  ·  新部署（中介層）</text>
+
+  <!-- 編排層 -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="415" width="600" height="80" rx="8" fill="url(#cardBlue)" stroke="#10A0A7" stroke-width="2"/>
+  </g>
+  <text x="400" y="438" text-anchor="middle" font-size="13" font-weight="bold" fill="#0E5066">編排層 — 取代 Genesys URS</text>
+  <use href="#icRoute" x="120" y="455" width="32" height="32"/>
+  <text x="155" y="475" font-size="11" font-weight="bold" fill="#0E5066">路由引擎</text>
+  <use href="#icRules" x="280" y="455" width="32" height="32"/>
+  <text x="315" y="471" font-size="11" font-weight="bold" fill="#0E5066">規則引擎</text>
+  <text x="315" y="484" font-size="9" fill="#0E5066">Last-Agent</text>
+  <use href="#icDialog" x="490" y="455" width="32" height="32"/>
+  <text x="525" y="475" font-size="11" font-weight="bold" fill="#0E5066">對話流引擎</text>
+
+  <!-- 資料層 -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="510" width="600" height="50" rx="8" fill="url(#cardBlue)" stroke="#10A0A7" stroke-width="2"/>
+  </g>
+  <use href="#icDb" x="115" y="518" width="34" height="34"/>
+  <text x="220" y="540" text-anchor="middle" font-size="11" font-weight="bold" fill="#0E5066">客戶 360 統一視圖</text>
+  <use href="#icDb" x="395" y="518" width="34" height="34"/>
+  <text x="500" y="540" text-anchor="middle" font-size="11" font-weight="bold" fill="#0E5066">互動歷程資料庫</text>
+
+  <!-- 橫切柱 -->
+  <g filter="url(#shadow)">
+    <rect x="720" y="415" width="280" height="145" rx="8" fill="url(#cardBlue)" stroke="#10A0A7" stroke-width="2"/>
+  </g>
+  <text x="860" y="438" text-anchor="middle" font-size="13" font-weight="bold" fill="#0E5066">橫切支柱</text>
+  <use href="#icShield" x="735" y="448" width="28" height="28"/>
+  <text x="770" y="467" font-size="10" fill="#742A2A">資安 / 加密</text>
+  <use href="#icObs" x="865" y="448" width="28" height="28"/>
+  <text x="900" y="467" font-size="10" fill="#7C2D12">可觀測性</text>
+  <use href="#icDevops" x="735" y="481" width="28" height="28"/>
+  <text x="770" y="500" font-size="10" fill="#44337A">DevOps</text>
+  <use href="#icGov" x="865" y="481" width="28" height="28"/>
+  <text x="900" y="500" font-size="10" fill="#22543D">治理 / 合規</text>
+  <use href="#icAi" x="800" y="514" width="28" height="28"/>
+  <text x="840" y="533" font-size="10" font-weight="bold" fill="#7B341E">AI Agent 整合介面</text>
+  <text x="840" y="548" text-anchor="middle" font-size="9" fill="#7B341E">未來擴展</text>
+
+  <!-- 整合 Adapter -->
+  <g filter="url(#shadow)">
+    <rect x="1020" y="415" width="280" height="145" rx="8" fill="url(#cardBlue)" stroke="#10A0A7" stroke-width="2"/>
+  </g>
+  <text x="1160" y="438" text-anchor="middle" font-size="13" font-weight="bold" fill="#0E5066">整合 Adapter 層</text>
+  <use href="#icAdapter" x="1035" y="450" width="32" height="32"/>
+  <text x="1180" y="470" text-anchor="middle" font-size="10" font-weight="bold" fill="#0E5066">3CX Adapter（多年驗證）</text>
+  <use href="#icAdapter" x="1035" y="490" width="32" height="32"/>
+  <text x="1180" y="510" text-anchor="middle" font-size="10" fill="#0E5066">AD / SSO 整合</text>
+  <use href="#icAdapter" x="1035" y="525" width="32" height="32"/>
+  <text x="1180" y="545" text-anchor="middle" font-size="10" fill="#0E5066">CRM 整合（玉山 API）</text>
+
+  <!-- ==================== L3: PBX + 沿用瑛聲既有 ==================== -->
+  <rect x="50" y="590" width="1300" height="170" rx="10" fill="url(#gPbx)" stroke="#DD6B20" stroke-width="2"/>
+  <text x="70" y="615" font-size="14" font-weight="bold" fill="#7C2D12">PBX 層 + 沿用瑛聲既有外撥資產</text>
+
+  <!-- 3CX (替換) -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="630" width="320" height="115" rx="8" fill="url(#cardOrange)" stroke="#DD6B20" stroke-width="2"/>
+  </g>
+  <use href="#icPbx" x="115" y="660" width="50" height="50"/>
+  <text x="290" y="660" text-anchor="middle" font-size="14" font-weight="bold" fill="#7C2D12">3CX V20 PBX</text>
+  <text x="290" y="678" text-anchor="middle" font-size="11" fill="#7C2D12">替換 Genesys Engage</text>
+  <rect x="180" y="690" width="110" height="22" rx="4" fill="#FED7AA" stroke="#DD6B20" stroke-width="1"/>
+  <text x="235" y="705" text-anchor="middle" font-size="10" fill="#7C2D12">主備 HA Cluster</text>
+  <rect x="295" y="690" width="115" height="22" rx="4" fill="#FED7AA" stroke="#DD6B20" stroke-width="1"/>
+  <text x="352" y="705" text-anchor="middle" font-size="10" fill="#7C2D12">內建錄音 → NAS</text>
+  <text x="290" y="730" text-anchor="middle" font-size="9" fill="#7C2D12">取代 PBX / Routing 由 VOXEN 中介層做</text>
+
+  <!-- VOXEN OUTREACH 致行 -->
+  <g filter="url(#shadow)">
+    <rect x="445" y="630" width="320" height="115" rx="8" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  </g>
+  <use href="#icBot" x="460" y="660" width="50" height="50"/>
+  <text x="635" y="660" text-anchor="middle" font-size="14" font-weight="bold" fill="#22543D">致行 (VOXEN OUTREACH)</text>
+  <text x="635" y="678" text-anchor="middle" font-size="11" fill="#22543D">沿用 + 改 SIP 介接 3CX</text>
+  <rect x="525" y="690" width="115" height="22" rx="4" fill="#C6F6D5" stroke="#48BB78" stroke-width="1"/>
+  <text x="582" y="705" text-anchor="middle" font-size="10" fill="#22543D">智能語音機器人</text>
+  <rect x="645" y="690" width="115" height="22" rx="4" fill="#C6F6D5" stroke="#48BB78" stroke-width="1"/>
+  <text x="702" y="705" text-anchor="middle" font-size="10" fill="#22543D">212 並發授權</text>
+  <text x="635" y="730" text-anchor="middle" font-size="9" fill="#22543D">瑛聲既有產品 + 對話流改透過 VOXEN 編排層</text>
+
+  <!-- OPEN / TeleSA -->
+  <g filter="url(#shadow)">
+    <rect x="790" y="630" width="510" height="115" rx="8" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  </g>
+  <use href="#icOpen" x="805" y="660" width="50" height="50"/>
+  <text x="1075" y="660" text-anchor="middle" font-size="14" font-weight="bold" fill="#22543D">OPEN / TeleSA — 沿用 + 改 Call Control 介接</text>
+  <text x="1075" y="678" text-anchor="middle" font-size="11" fill="#22543D">瑛聲既有外撥系統 — 系統主體完全保留</text>
+  <rect x="870" y="690" width="135" height="22" rx="4" fill="#C6F6D5" stroke="#48BB78" stroke-width="1"/>
+  <text x="937" y="705" text-anchor="middle" font-size="10" fill="#22543D">名單 + 撥號排程</text>
+  <rect x="1015" y="690" width="135" height="22" rx="4" fill="#C6F6D5" stroke="#48BB78" stroke-width="1"/>
+  <text x="1082" y="705" text-anchor="middle" font-size="10" fill="#22543D">結果碼 + 配額</text>
+  <rect x="1160" y="690" width="125" height="22" rx="4" fill="#C6F6D5" stroke="#48BB78" stroke-width="1"/>
+  <text x="1222" y="705" text-anchor="middle" font-size="10" fill="#22543D">450 用戶</text>
+  <text x="1075" y="730" text-anchor="middle" font-size="9" fill="#22543D">SoftPhone Bar + Call Control 改連 3CX，業務邏輯不動</text>
+
+  <!-- ==================== L4: 玉山環境 ==================== -->
+  <rect x="50" y="780" width="1300" height="105" rx="10" fill="url(#gEnv)" stroke="#718096" stroke-width="2"/>
+  <text x="70" y="805" font-size="14" font-weight="bold" fill="#2D3748">玉山環境  ·  既有基礎設施</text>
+
+  <g filter="url(#shadow)">
+    <rect x="100" y="820" width="220" height="55" rx="8" fill="url(#cardGray)" stroke="#718096" stroke-width="2"/>
+  </g>
+  <use href="#icNas" x="113" y="828" width="38" height="38"/>
+  <text x="235" y="845" text-anchor="middle" font-size="12" font-weight="bold" fill="#2D3748">玉山 NAS</text>
+  <text x="235" y="862" text-anchor="middle" font-size="10" fill="#4A5568">錄音檔儲存（沿用）</text>
+
+  <g filter="url(#shadow)">
+    <rect x="340" y="820" width="220" height="55" rx="8" fill="url(#cardGray)" stroke="#718096" stroke-width="2"/>
+  </g>
+  <use href="#icAd" x="353" y="828" width="38" height="38"/>
+  <text x="475" y="845" text-anchor="middle" font-size="12" font-weight="bold" fill="#2D3748">玉山 AD / SSO</text>
+  <text x="475" y="862" text-anchor="middle" font-size="10" fill="#4A5568">Hot-desking 登入</text>
+
+  <g filter="url(#shadow)">
+    <rect x="580" y="820" width="220" height="55" rx="8" fill="url(#cardGray)" stroke="#718096" stroke-width="2"/>
+  </g>
+  <use href="#icCrm" x="593" y="828" width="38" height="38"/>
+  <text x="715" y="845" text-anchor="middle" font-size="12" font-weight="bold" fill="#2D3748">玉山 CRM</text>
+  <text x="715" y="862" text-anchor="middle" font-size="10" fill="#4A5568">客戶資料 360 整合</text>
+
+  <g filter="url(#shadow)">
+    <rect x="820" y="820" width="220" height="55" rx="8" fill="url(#cardGray)" stroke="#718096" stroke-width="2"/>
+  </g>
+  <use href="#icTrunk" x="833" y="828" width="38" height="38"/>
+  <text x="955" y="845" text-anchor="middle" font-size="12" font-weight="bold" fill="#2D3748">電信業者 SIP Trunk</text>
+  <text x="955" y="862" text-anchor="middle" font-size="10" fill="#4A5568">外撥語音對接</text>
+
+  <g filter="url(#shadow)">
+    <rect x="1060" y="820" width="240" height="55" rx="8" fill="url(#cardGray)" stroke="#718096" stroke-width="2"/>
+  </g>
+  <use href="#icReport" x="1073" y="828" width="38" height="38"/>
+  <text x="1200" y="845" text-anchor="middle" font-size="12" font-weight="bold" fill="#2D3748">玉山質檢 / 報表系統</text>
+  <text x="1200" y="862" text-anchor="middle" font-size="10" fill="#4A5568">既有資料庫整合</text>
+
+  <!-- ==================== ARROWS ==================== -->
+  <line x1="320" y1="190" x2="270" y2="260" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="190" x2="600" y2="260" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1010" y1="190" x2="930" y2="260" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <line x1="270" y1="340" x2="270" y2="415" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="600" y1="340" x2="500" y2="415" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="930" y1="340" x2="930" y2="630" stroke="#718096" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowDash)"/>
+  <text x="965" y="490" font-size="10" fill="#718096">錄音 metadata API</text>
+
+  <line x1="400" y1="560" x2="290" y2="630" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="500" y1="560" x2="635" y2="630" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="700" y1="560" x2="1075" y2="630" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <line x1="290" y1="745" x2="235" y2="820" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="290" y1="745" x2="955" y2="820" stroke="#718096" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arrowDash)"/>
+  <line x1="635" y1="745" x2="955" y2="820" stroke="#718096" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arrowDash)"/>
+
+  <line x1="270" y1="340" x2="475" y2="820" stroke="#718096" stroke-width="1" stroke-dasharray="4,3" opacity="0.5" marker-end="url(#arrowDash)"/>
+  <line x1="270" y1="340" x2="715" y2="820" stroke="#718096" stroke-width="1" stroke-dasharray="4,3" opacity="0.5" marker-end="url(#arrowDash)"/>
+
+  <!-- ==================== Legend ==================== -->
+  <rect x="50" y="905" width="1300" height="160" rx="10" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="1"/>
+  <text x="70" y="930" font-size="14" font-weight="bold" fill="#1A202C">圖例</text>
+
+  <rect x="80" y="945" width="22" height="18" rx="3" fill="url(#cardOrange)" stroke="#DD6B20" stroke-width="2"/>
+  <text x="115" y="959" font-size="12" fill="#7C2D12">替換 — Genesys Engage → 3CX V20</text>
+
+  <rect x="450" y="945" width="22" height="18" rx="3" fill="url(#cardBlue)" stroke="#10A0A7" stroke-width="2"/>
+  <text x="485" y="959" font-size="12" fill="#0E5066">新部署 — VOXEN 平台（編排 / 資料 / 整合）</text>
+
+  <rect x="900" y="945" width="22" height="18" rx="3" fill="url(#cardGreen)" stroke="#48BB78" stroke-width="2"/>
+  <text x="935" y="959" font-size="12" fill="#22543D">沿用 — 瑛聲既有資產</text>
+
+  <rect x="80" y="975" width="22" height="18" rx="3" fill="url(#cardGray)" stroke="#718096" stroke-width="2"/>
+  <text x="115" y="989" font-size="12" fill="#2D3748">玉山環境 — 既有基礎設施（NAS / AD / CRM / 電信 / 報表）</text>
+
+  <line x1="450" y1="983" x2="490" y2="983" stroke="#4A5568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="500" y="989" font-size="12" fill="#4A5568">資料 / 控制流</text>
+
+  <line x1="700" y1="983" x2="740" y2="983" stroke="#718096" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowDash)"/>
+  <text x="750" y="989" font-size="12" fill="#718096">整合介面 / 透傳</text>
+
+  <text x="80" y="1018" font-size="11" font-style="italic" fill="#4A5568">※ 圖內小圖示為 SVG 自繪示意，正式 Pitch 版本將另由設計師繪製插畫風視覺。</text>
+  <text x="80" y="1038" font-size="11" font-style="italic" fill="#4A5568">※ 圖內所示為 v0.4 草案，所有元件名稱與整合關係依議約版本為準。</text>
+</svg>

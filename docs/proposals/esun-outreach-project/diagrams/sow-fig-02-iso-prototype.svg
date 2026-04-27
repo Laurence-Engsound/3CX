@@ -1,0 +1,318 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" font-family="Microsoft JhengHei, Noto Sans CJK TC, sans-serif">
+  <!--
+    Isometric Migration Strategy — Prototype
+    Visual metaphor: 從 Genesys 舊大樓搬遷到 VOXEN+3CX 新大樓
+    Iso projection: x-axis 30° down-right, y-axis 30° down-left, z-axis vertical
+  -->
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EDF2F7"/>
+      <stop offset="100%" stop-color="#CBD5E0"/>
+    </linearGradient>
+    <linearGradient id="genTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FC8181"/>
+      <stop offset="100%" stop-color="#E53E3E"/>
+    </linearGradient>
+    <linearGradient id="genFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E53E3E"/>
+      <stop offset="100%" stop-color="#9B2C2C"/>
+    </linearGradient>
+    <linearGradient id="genRight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C53030"/>
+      <stop offset="100%" stop-color="#742A2A"/>
+    </linearGradient>
+    <linearGradient id="voxTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AE6B4"/>
+      <stop offset="100%" stop-color="#48BB78"/>
+    </linearGradient>
+    <linearGradient id="voxFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#48BB78"/>
+      <stop offset="100%" stop-color="#22543D"/>
+    </linearGradient>
+    <linearGradient id="voxRight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2F855A"/>
+      <stop offset="100%" stop-color="#1A3F2A"/>
+    </linearGradient>
+    <linearGradient id="bridgeTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FAF089"/>
+      <stop offset="100%" stop-color="#D69E2E"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="3" dy="6" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.25"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="700" y="40" text-anchor="middle" font-size="28" font-weight="bold" fill="#1A202C">Migration Strategy（isometric prototype）</text>
+  <text x="700" y="68" text-anchor="middle" font-size="14" fill="#4A5568">從 Genesys 舊系統搬遷至 VOXEN+3CX 新系統  ·  4 個月並行緩衝期 + Pilot 試跑</text>
+
+  <!-- ============= 等距地面 (isometric ground) ============= -->
+  <!--
+    Ground plane: large rhombus
+    Iso formula: (x, y) → screen_x = origin_x + (x - y) * 0.866; screen_y = origin_y + (x + y) * 0.5
+    Origin: (700, 600)
+    Plane corners (in iso 3D): (-450, -200), (450, -200), (450, 200), (-450, 200)
+  -->
+  <polygon points="
+    137,500
+    916,500
+    1263,700
+    484,700
+  " fill="url(#ground)" stroke="#A0AEC0" stroke-width="2"/>
+  <!-- Grid lines on ground for time axis -->
+  <g stroke="#A0AEC0" stroke-width="1" opacity="0.5">
+    <line x1="298" y1="592" x2="1077" y2="592"/>
+    <line x1="246" y1="562" x2="1025" y2="562"/>
+    <line x1="194" y1="532" x2="973" y2="532"/>
+  </g>
+
+  <!-- ============= GENESYS 舊大樓（左前方，3 層）============= -->
+  <!--
+    Tower base: at iso position (-300, -100), size 100×100×180
+  -->
+  <g filter="url(#softShadow)">
+    <!-- Right face -->
+    <polygon points="
+      284,548
+      284,398
+      370,355
+      370,505
+    " fill="url(#genRight)"/>
+    <!-- Front face -->
+    <polygon points="
+      198,505
+      198,355
+      284,398
+      284,548
+    " fill="url(#genFront)"/>
+    <!-- Top face -->
+    <polygon points="
+      198,355
+      284,312
+      370,355
+      284,398
+    " fill="url(#genTop)" stroke="#742A2A" stroke-width="1"/>
+  </g>
+  <!-- Genesys windows (front) -->
+  <g fill="#FFFFFF" opacity="0.6">
+    <rect x="215" y="380" width="14" height="20"/>
+    <rect x="240" y="395" width="14" height="20"/>
+    <rect x="265" y="408" width="14" height="20"/>
+    <rect x="215" y="420" width="14" height="20"/>
+    <rect x="240" y="433" width="14" height="20"/>
+    <rect x="265" y="446" width="14" height="20"/>
+    <rect x="215" y="460" width="14" height="20"/>
+    <rect x="240" y="473" width="14" height="20"/>
+    <rect x="265" y="486" width="14" height="20"/>
+  </g>
+  <!-- Genesys label -->
+  <g filter="url(#softShadow)">
+    <rect x="155" y="265" width="180" height="40" rx="6" fill="#FFFFFF" stroke="#C53030" stroke-width="2"/>
+  </g>
+  <text x="245" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="#742A2A">Genesys Engage</text>
+  <text x="245" y="300" text-anchor="middle" font-size="11" fill="#742A2A">舊系統 — 11/01 退場</text>
+
+  <!-- 「拆除中」 banner -->
+  <rect x="170" y="528" width="170" height="30" rx="4" fill="#742A2A"/>
+  <text x="255" y="548" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">逐步縮減 → 退場</text>
+
+  <!-- ============= VOXEN+3CX 新大樓（右前方，4 層 — 比舊樓高表示更先進）============= -->
+  <!--
+    Tower at iso position (200, -100), size 120×120×220
+  -->
+  <g filter="url(#softShadow)">
+    <!-- Right face -->
+    <polygon points="
+      1062,540
+      1062,360
+      1166,308
+      1166,488
+    " fill="url(#voxRight)"/>
+    <!-- Front face -->
+    <polygon points="
+      958,488
+      958,308
+      1062,360
+      1062,540
+    " fill="url(#voxFront)"/>
+    <!-- Top face -->
+    <polygon points="
+      958,308
+      1062,256
+      1166,308
+      1062,360
+    " fill="url(#voxTop)" stroke="#22543D" stroke-width="1"/>
+  </g>
+  <!-- VOXEN windows -->
+  <g fill="#FFFFFF" opacity="0.7">
+    <rect x="975" y="335" width="14" height="20"/>
+    <rect x="1000" y="348" width="14" height="20"/>
+    <rect x="1025" y="361" width="14" height="20"/>
+    <rect x="975" y="375" width="14" height="20"/>
+    <rect x="1000" y="388" width="14" height="20"/>
+    <rect x="1025" y="401" width="14" height="20"/>
+    <rect x="975" y="415" width="14" height="20"/>
+    <rect x="1000" y="428" width="14" height="20"/>
+    <rect x="1025" y="441" width="14" height="20"/>
+    <rect x="975" y="455" width="14" height="20"/>
+    <rect x="1000" y="468" width="14" height="20"/>
+    <rect x="1025" y="481" width="14" height="20"/>
+  </g>
+  <!-- VOXEN label -->
+  <g filter="url(#softShadow)">
+    <rect x="935" y="210" width="180" height="40" rx="6" fill="#FFFFFF" stroke="#22543D" stroke-width="2"/>
+  </g>
+  <text x="1025" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#22543D">VOXEN + 3CX</text>
+  <text x="1025" y="245" text-anchor="middle" font-size="11" fill="#22543D">新系統 — 06-30 Go-live</text>
+
+  <!-- 「建造中→運行」 banner -->
+  <rect x="950" y="510" width="170" height="30" rx="4" fill="#22543D"/>
+  <text x="1035" y="530" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">逐步擴大 → 全量</text>
+
+  <!-- ============= MIGRATION BRIDGE 搬遷路徑 ============= -->
+  <!-- Bridge connecting two towers, with 4 milestones along the way -->
+  <g filter="url(#softShadow)">
+    <!-- Bridge top (rhombus) -->
+    <polygon points="
+      355,420
+      943,420
+      990,438
+      402,438
+    " fill="url(#bridgeTop)" stroke="#B7791F" stroke-width="1.5"/>
+    <!-- Bridge front (the visible thickness) -->
+    <polygon points="
+      402,438
+      990,438
+      990,452
+      402,452
+    " fill="#B7791F"/>
+  </g>
+  <!-- Bridge edge texture -->
+  <g stroke="#744210" stroke-width="0.6">
+    <line x1="450" y1="420" x2="497" y2="438"/>
+    <line x1="550" y1="420" x2="597" y2="438"/>
+    <line x1="650" y1="420" x2="697" y2="438"/>
+    <line x1="750" y1="420" x2="797" y2="438"/>
+    <line x1="850" y1="420" x2="897" y2="438"/>
+  </g>
+
+  <!-- Milestones on the bridge as flag poles -->
+  <g>
+    <!-- M03 SIT - W6 -->
+    <line x1="475" y1="420" x2="475" y2="385" stroke="#D69E2E" stroke-width="2"/>
+    <polygon points="475,385 510,392 475,400" fill="#F6E05E" stroke="#B7791F" stroke-width="1"/>
+    <text x="475" y="378" text-anchor="middle" font-size="9" fill="#744210" font-weight="bold">SIT</text>
+
+    <!-- M04 UAT - W7 -->
+    <line x1="555" y1="420" x2="555" y2="385" stroke="#D69E2E" stroke-width="2"/>
+    <polygon points="555,385 590,392 555,400" fill="#F6E05E" stroke="#B7791F" stroke-width="1"/>
+    <text x="555" y="378" text-anchor="middle" font-size="9" fill="#744210" font-weight="bold">UAT</text>
+
+    <!-- M05 PAT - W8 -->
+    <line x1="635" y1="420" x2="635" y2="385" stroke="#D69E2E" stroke-width="2"/>
+    <polygon points="635,385 670,392 635,400" fill="#F6E05E" stroke="#B7791F" stroke-width="1"/>
+    <text x="635" y="378" text-anchor="middle" font-size="9" fill="#744210" font-weight="bold">PAT</text>
+
+    <!-- M06 ★ Go-live - W9 -->
+    <line x1="725" y1="420" x2="725" y2="365" stroke="#C53030" stroke-width="3"/>
+    <polygon points="725,365 760,355 760,378 725,388" fill="#E53E3E" stroke="#742A2A" stroke-width="1.5"/>
+    <text x="725" y="350" text-anchor="middle" font-size="11" font-weight="bold" fill="#C53030">★ Go-live</text>
+    <text x="725" y="338" text-anchor="middle" font-size="10" fill="#C53030">06-30</text>
+
+    <!-- M07 Pilot 通過 - W11 -->
+    <line x1="820" y1="420" x2="820" y2="385" stroke="#48BB78" stroke-width="2"/>
+    <polygon points="820,385 855,392 820,400" fill="#9AE6B4" stroke="#22543D" stroke-width="1"/>
+    <text x="820" y="378" text-anchor="middle" font-size="9" fill="#22543D" font-weight="bold">Pilot OK</text>
+
+    <!-- M08 全量 - W15 -->
+    <line x1="900" y1="420" x2="900" y2="385" stroke="#48BB78" stroke-width="2"/>
+    <polygon points="900,385 935,392 900,400" fill="#9AE6B4" stroke="#22543D" stroke-width="1"/>
+    <text x="900" y="378" text-anchor="middle" font-size="9" fill="#22543D" font-weight="bold">全量</text>
+  </g>
+
+  <!-- Walking figures on the bridge (very simple - showing migration in progress) -->
+  <g>
+    <!-- Figure 1 -->
+    <circle cx="495" cy="426" r="3" fill="#2D3748"/>
+    <line x1="495" y1="429" x2="495" y2="438" stroke="#2D3748" stroke-width="2"/>
+    <!-- Figure 2 -->
+    <circle cx="675" cy="426" r="3" fill="#2D3748"/>
+    <line x1="675" y1="429" x2="675" y2="438" stroke="#2D3748" stroke-width="2"/>
+    <!-- Figure 3 -->
+    <circle cx="855" cy="426" r="3" fill="#2D3748"/>
+    <line x1="855" y1="429" x2="855" y2="438" stroke="#2D3748" stroke-width="2"/>
+  </g>
+  <!-- Migration arrow -->
+  <path d="M 380 412 Q 670 400 970 412" fill="none" stroke="#22543D" stroke-width="2.5" marker-end="url(#bigArrow)" stroke-dasharray="6,3" opacity="0.6"/>
+  <defs>
+    <marker id="bigArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#22543D"/>
+    </marker>
+  </defs>
+  <text x="690" y="408" text-anchor="middle" font-size="11" font-style="italic" fill="#22543D" font-weight="bold">Migration（450 席分批搬遷）</text>
+
+  <!-- ============= PILOT 50 席「試橋」 — 較小的 isometric 平台 ============= -->
+  <!-- Below the main bridge, a smaller "trial bridge" showing Pilot 50 -->
+  <g filter="url(#softShadow)">
+    <polygon points="700,495 800,495 815,503 715,503" fill="#9AE6B4" stroke="#22543D" stroke-width="1.5"/>
+    <polygon points="715,503 815,503 815,512 715,512" fill="#48BB78"/>
+  </g>
+  <!-- 50 席 figure indicator -->
+  <text x="757" y="492" text-anchor="middle" font-size="10" font-weight="bold" fill="#22543D">Pilot 50 席（2 週）</text>
+  <text x="757" y="528" text-anchor="middle" font-size="9" fill="#22543D">試跑通過才走主橋</text>
+
+  <!-- ============= 三層安全網 / 風險緩釋（Below the scene） ============= -->
+  <g filter="url(#softShadow)">
+    <rect x="80" y="640" width="1240" height="200" rx="12" fill="#FFFFFF" stroke="#3182CE" stroke-width="2"/>
+  </g>
+  <text x="100" y="668" font-size="16" font-weight="bold" fill="#2C5282">三層安全網  ·  Three Layers of Safety</text>
+
+  <!-- Safety Net 1: Pilot -->
+  <g filter="url(#softShadow)">
+    <!-- Iso shield/badge -->
+    <polygon points="180,710 230,690 280,710 280,750 230,775 180,750" fill="#48BB78" stroke="#22543D" stroke-width="2"/>
+    <polygon points="180,710 230,730 280,710 230,690" fill="#9AE6B4" stroke="#22543D" stroke-width="1"/>
+  </g>
+  <text x="230" y="735" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFFFFF">1</text>
+  <text x="230" y="800" text-anchor="middle" font-size="13" font-weight="bold" fill="#22543D">Pilot 50 席</text>
+  <text x="230" y="817" text-anchor="middle" font-size="11" fill="#22543D">爆破半徑 ÷ 9</text>
+
+  <!-- Safety Net 2: Parallel Run -->
+  <g filter="url(#softShadow)">
+    <polygon points="630,710 680,690 730,710 730,750 680,775 630,750" fill="#3182CE" stroke="#2C5282" stroke-width="2"/>
+    <polygon points="630,710 680,730 730,710 680,690" fill="#63B3ED" stroke="#2C5282" stroke-width="1"/>
+  </g>
+  <text x="680" y="735" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFFFFF">2</text>
+  <text x="680" y="800" text-anchor="middle" font-size="13" font-weight="bold" fill="#2C5282">Parallel Run 4 個月</text>
+  <text x="680" y="817" text-anchor="middle" font-size="11" fill="#2C5282">隨時可 Rollback</text>
+
+  <!-- Safety Net 3: Phased Rollout -->
+  <g filter="url(#softShadow)">
+    <polygon points="1080,710 1130,690 1180,710 1180,750 1130,775 1080,750" fill="#DD6B20" stroke="#7C2D12" stroke-width="2"/>
+    <polygon points="1080,710 1130,730 1180,710 1130,690" fill="#F6AD55" stroke="#7C2D12" stroke-width="1"/>
+  </g>
+  <text x="1130" y="735" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFFFFF">3</text>
+  <text x="1130" y="800" text-anchor="middle" font-size="13" font-weight="bold" fill="#7C2D12">分批切換</text>
+  <text x="1130" y="817" text-anchor="middle" font-size="11" fill="#7C2D12">50 → 100 → 200 → 450</text>
+
+  <!-- Connection lines between safety nets -->
+  <line x1="285" y1="730" x2="625" y2="730" stroke="#4A5568" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="735" y1="730" x2="1075" y2="730" stroke="#4A5568" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="455" y="725" text-anchor="middle" font-size="10" font-style="italic" fill="#4A5568">疊加</text>
+  <text x="905" y="725" text-anchor="middle" font-size="10" font-style="italic" fill="#4A5568">疊加</text>
+
+  <!-- Time axis labels at the bottom of the ground plane -->
+  <g font-size="11" fill="#4A5568">
+    <text x="245" y="630" text-anchor="middle">W0  ·  04-26</text>
+    <text x="725" y="630" text-anchor="middle" fill="#C53030" font-weight="bold">W9  ·  06-30 Go-live</text>
+    <text x="1025" y="630" text-anchor="middle" fill="#C53030" font-weight="bold">W26  ·  11-01 退場</text>
+  </g>
+
+  <!-- Footnote -->
+  <text x="700" y="875" text-anchor="middle" font-size="11" font-style="italic" fill="#4A5568">本圖為 isometric prototype  ·  視覺概念展示  ·  正式 Pitch 版另由設計師繪製</text>
+</svg>
