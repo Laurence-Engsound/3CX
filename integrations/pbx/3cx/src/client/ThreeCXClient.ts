@@ -1,6 +1,7 @@
 import { EventEmitter } from 'node:events'
 import { request } from 'node:http'
 import { URL } from 'node:url'
+import { WebSocket } from 'ws'
 import type { ThreeCXCall, ThreeCXEventEnvelope, ThreeCXUser } from '../vendor/types.js'
 
 export interface ThreeCXClientConfig {
@@ -93,18 +94,23 @@ export class ThreeCXClient extends EventEmitter {
         this.emit('connected')
         resolve()
       })
-      this.ws!.addEventListener('error', (event: Event) => {
-        const err = new Error(`WebSocket error: ${(event as any).message ?? 'unknown'}`)
+      // Note: type annotations omitted — DOM's Event/CloseEvent/MessageEvent
+      // conflict with ws's own same-named types. Inferred types from ws's
+      // addEventListener signature work cleanly.
+      this.ws!.addEventListener('error', (event) => {
+        const err = new Error(`WebSocket error: ${(event as { message?: string }).message ?? 'unknown'}`)
         this.emit('error', err)
         if (!this.connected) reject(err)
       })
-      this.ws!.addEventListener('close', (event: CloseEvent) => {
+      this.ws!.addEventListener('close', (event) => {
         this.connected = false
         this.emit('disconnected', event.reason)
       })
-      this.ws!.addEventListener('message', (event: MessageEvent) => {
+      this.ws!.addEventListener('message', (event) => {
         try {
-          const data = typeof event.data === 'string' ? event.data : event.data.toString()
+          // ws message data is Buffer | ArrayBuffer | Buffer[] | string
+          const raw = event.data
+          const data = typeof raw === 'string' ? raw : raw.toString()
           const envelope = JSON.parse(data) as ThreeCXEventEnvelope
           this.emit('event', envelope)
         } catch (e) {

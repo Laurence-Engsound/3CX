@@ -17,6 +17,10 @@ export default defineConfig({
     build: {
       outDir: 'out/main',
       rollupOptions: {
+        // ws's optional native deps for perf. Mark external so rollup
+        // doesn't try to bundle them; ws gracefully falls back to JS impl
+        // if the runtime require() fails.
+        external: ['bufferutil', 'utf-8-validate'],
         input: {
           index: resolve('src/main/index.ts')
         }
