@@ -58,19 +58,6 @@ async function setupPbxAdapter(): Promise<void> {
 
   const xapi = getSetting('xapi') as XapiConfig | null
 
-  // Build base config (with empty token; populated below if XAPI configured)
-  const wsUrl = profile.wsUri
-  const config: ThreeCXAdapterConfig = {
-    adapterId: ADA_ADAPTER_ID,
-    tenantId: ENGSOUND_TENANT_ID,
-    recordingStorageBackend: 'local-engsound',
-    client: {
-      baseUrl: `https://${profile.pbxFqdn}`,
-      authToken: '',
-      ...(wsUrl ? { wsUrl } : {}),
-    },
-  }
-
   // Try to obtain XAPI access token from main-side OAuth
   let token: string | null = null
   if (xapi?.enabled && xapi.clientId) {
@@ -80,8 +67,22 @@ async function setupPbxAdapter(): Promise<void> {
     console.log(`     (xapi.enabled=${xapi?.enabled}, clientId="${xapi?.clientId ?? ''}")`)
   }
 
-  if (token) {
-    config.client.authToken = token
+  // Build adapter config. Use real 3CX V20 WS path + bearer-in-Upgrade
+  // header (W1D5 addition to @voxen/pbx-3cx).
+  const baseUrl = `https://${profile.pbxFqdn}`
+  const wsUrl = profile.wsUri ?? `wss://${profile.pbxFqdn}/callcontrol/ws`
+  const config: ThreeCXAdapterConfig = {
+    adapterId: ADA_ADAPTER_ID,
+    tenantId: ENGSOUND_TENANT_ID,
+    recordingStorageBackend: 'local-engsound',
+    client: {
+      baseUrl,
+      authToken: token ?? '',
+      wsUrl,
+      ...(token
+        ? { wsHeaders: { Authorization: `Bearer ${token}` } }
+        : {}),
+    },
   }
 
   // Instantiate (no network)
@@ -89,7 +90,8 @@ async function setupPbxAdapter(): Promise<void> {
   console.log('   ✓ ThreeCXAdapter instantiated')
   console.log(`     - adapterId: ${ADA_ADAPTER_ID}`)
   console.log(`     - tenantId:  ${ENGSOUND_TENANT_ID}`)
-  console.log(`     - baseUrl:   ${config.client.baseUrl}`)
+  console.log(`     - baseUrl:   ${baseUrl}`)
+  console.log(`     - wsUrl:     ${wsUrl}`)
   console.log(`     - extension: ${profile.extension}`)
   console.log(`     - authToken: ${token ? '***' + token.slice(-6) : '(empty)'}`)
 
@@ -98,21 +100,33 @@ async function setupPbxAdapter(): Promise<void> {
     return
   }
 
-  // adapter.start() intentionally deferred — see Day 4 retrospective below.
-  console.log('   ✓ Token in hand; ready to connect (start() deferred to W1D5)')
-  console.log('   ─────────────────────────────────────────────────────')
-  console.log('   📋 W1D4 retrospective:')
-  console.log('     ✓ ada → @voxen/core wiring works')
-  console.log('     ✓ ada → @voxen/pbx-3cx ThreeCXAdapter instantiated')
-  console.log('     ✓ Main-process OAuth (client_credentials) works')
-  console.log('     ✗ adapter.start() deferred — @voxen/pbx-3cx ThreeCXClient')
-  console.log('       needs two upgrades before it can connect to real 3CX V20:')
-  console.log('       (a) WS path + bearer-in-Upgrade auth (currently /events,')
-  console.log('           real 3CX uses /callcontrol/ws)')
-  console.log('       (b) EventEmitter error handler (unhandled "error" event')
-  console.log('           crashes main process — found the hard way today)')
-  console.log('   📅 W1D5 plan: extend ThreeCXClient with "real-3cx-v20" mode')
-  console.log('   ─────────────────────────────────────────────────────')
+  // W1D5: actually connect. Bounded with timeout — if 3CX rejects auth
+  // or path, we get a clean error event (no main-process crash thanks to
+  // ThreeCXClient's safety-net listener) and can keep ada running.
+  const START_TIMEOUT_MS = 10_000
+  try {
+    const startPromise = pbxAdapter.start()
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error(`adapter.start() timed out after ${START_TIMEOUT_MS}ms`)),
+        START_TIMEOUT_MS,
+      ),
+    )
+    await Promise.race([startPromise, timeoutPromise])
+    console.log('   🟢 ThreeCXAdapter STARTED — connected to real 3CX')
+
+    const health = await pbxAdapter.healthCheck()
+    console.log(`   ✓ healthCheck: healthy=${health.healthy}` +
+      (health.message ? ` message="${health.message}"` : ''))
+    if (health.details) {
+      for (const [k, v] of Object.entries(health.details)) {
+        console.log(`     - ${k}: ${JSON.stringify(v)}`)
+      }
+    }
+  } catch (err) {
+    console.log('   ⚠️  adapter.start() did not complete:', (err as Error).message)
+    console.log('     (ada continues normally; XAPI / Phase 1-5 features unaffected)')
+  }
 }
 
 /**

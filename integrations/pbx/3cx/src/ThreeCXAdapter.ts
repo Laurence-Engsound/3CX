@@ -62,6 +62,25 @@ export class ThreeCXAdapter implements PBXAdapter {
 
   async start(): Promise<void> {
     if (this.started) return
+
+    // Subscribe to client errors BEFORE connect — so any error during
+    // connect (auth fail, DNS, refused) gets logged + republished as a
+    // canonical system event rather than going to the EventEmitter
+    // safety-net no-op.
+    this.client.on('error', (err) => {
+      void this.bus.publish({
+        id: `evt_${'0'.repeat(26)}` as `evt_${string}`,
+        type: 'system.adapter.error',
+        tenantId: this.tenantId,
+        occurredAt: new Date().toISOString(),
+        ingestedAt: new Date().toISOString(),
+        sourceAdapterId: this.adapterId,
+        refs: {},
+        payload: { adapterId: this.adapterId, message: err.message },
+        payloadSchemaVersion: 'v1',
+      })
+    })
+
     await this.client.connect()
 
     // Hook the WS event stream

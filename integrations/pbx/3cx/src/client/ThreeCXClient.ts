@@ -7,10 +7,16 @@ import type { ThreeCXCall, ThreeCXEventEnvelope, ThreeCXUser } from '../vendor/t
 export interface ThreeCXClientConfig {
   /** Base URL, e.g. 'http://localhost:18080' (mock) or 'https://eSun-pbx.voxen.local:5001' (real). */
   baseUrl: string
-  /** OAuth2 access token or API key. */
+  /** OAuth2 access token or API key. Sent as `Authorization: Bearer` on REST. */
   authToken: string
-  /** WebSocket endpoint, e.g. 'ws://localhost:18080/events'. Defaults to baseUrl with ws:// scheme + /events. */
+  /** WebSocket endpoint. Defaults to baseUrl with ws(s):// scheme + /events. */
   wsUrl?: string
+  /**
+   * Headers to send on the WebSocket Upgrade request. Real 3CX V20 needs
+   *   { Authorization: `Bearer ${token}` }
+   * here. Mock server doesn't need any. Defaults to empty object.
+   */
+  wsHeaders?: Record<string, string>
 }
 
 export interface ThreeCXClientEvents {
@@ -39,6 +45,11 @@ export class ThreeCXClient extends EventEmitter {
 
   constructor(private readonly config: ThreeCXClientConfig) {
     super()
+    // Safety net: a default 'error' listener so EventEmitter doesn't crash
+    // the host process when no consumer subscribes. Consumers should still
+    // attach their own .on('error', ...) for real handling — multiple
+    // listeners coexist fine.
+    this.on('error', () => { /* swallowed */ })
   }
 
   // ===== REST =====
@@ -86,7 +97,13 @@ export class ThreeCXClient extends EventEmitter {
   async connect(): Promise<void> {
     if (this.connected) return
     const wsUrl = this.config.wsUrl ?? this.deriveWsUrl()
-    this.ws = new WebSocket(wsUrl)
+    const wsHeaders = this.config.wsHeaders
+    // ws library accepts headers via constructor options (Node-only
+    // feature; browser WebSocket cannot set custom headers). Real 3CX V20
+    // requires `Authorization: Bearer ${token}` here.
+    this.ws = wsHeaders
+      ? new WebSocket(wsUrl, { headers: wsHeaders })
+      : new WebSocket(wsUrl)
 
     return new Promise<void>((resolve, reject) => {
       this.ws!.addEventListener('open', () => {

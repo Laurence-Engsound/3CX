@@ -21,7 +21,8 @@ export const SystemEventTypeSchema = z.enum([
   'system.adapter.started',
   'system.adapter.stopped',
   'system.adapter.health_changed',
-  'system.error',
+  'system.adapter.error',  // adapter-scoped runtime error (e.g., WS disconnect, auth fail)
+  'system.error',          // catch-all for non-adapter system issues
 ])
 export type SystemEventType = z.infer<typeof SystemEventTypeSchema>
 
