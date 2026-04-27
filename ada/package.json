@@ -23,6 +23,8 @@
     "lint": "eslint \"src/**/*.{ts,vue}\""
   },
   "dependencies": {
+    "@voxen/core": "workspace:^",
+    "@voxen/pbx-3cx": "workspace:^",
     "@vueuse/core": "^11.0.0",
     "electron-store": "^8.2.0",
     "electron-updater": "^6.3.9",

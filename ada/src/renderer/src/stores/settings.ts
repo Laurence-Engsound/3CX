@@ -22,15 +22,17 @@ export const useSettingsStore = defineStore('settings', () => {
   const state = reactive<AppSettings>(structuredClone(defaultSettings))
 
   async function load(): Promise<void> {
-    const all = (await window.ada.settings.getAll()) as AppSettings
+    // settings.getAll returns Record<string,unknown>; cast via unknown first
+    // to satisfy strict type-overlap check.
+    const all = (await window.ada.settings.getAll()) as unknown as AppSettings
     Object.assign(state, all)
 
     // Migrate: older saved settings may only have triggerOn: ['inbound'].
     const to = state.screenPop?.triggerOn
     if (Array.isArray(to) && !to.includes('outbound')) {
-      const next = {
+      const next: ScreenPopConfig = {
         ...state.screenPop,
-        triggerOn: [...to, 'outbound']
+        triggerOn: [...to, 'outbound'] as ScreenPopConfig['triggerOn']
       }
       state.screenPop = next
       await window.ada.settings.set('screenPop', plain(next))

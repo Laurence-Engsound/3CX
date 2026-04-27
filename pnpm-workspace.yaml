@@ -1,4 +1,8 @@
 packages:
   - 'core'
   - 'integrations/*/*'
-  # ada/ has its own electron-vite tooling, kept independent for now
+  - 'ada'
+  # ada/ keeps electron-vite + vue-tsc tooling (not run by root tsc),
+  # but lives in the workspace so it can depend on @voxen/core via workspace:^.
+  # Phase 6 onwards, ada is the L6 reference application of the VOXEN platform.
+  # See docs/adr/ADR-0002-ada-as-voxen-l6-consumer.md

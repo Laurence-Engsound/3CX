@@ -6,11 +6,16 @@
  * on `window.ada`.
  */
 
+/** Mirror of NodeJS.Platform — declared explicitly so renderer (no @types/node) can use it. */
+export type Platform =
+  | 'aix' | 'android' | 'darwin' | 'freebsd' | 'haiku'
+  | 'linux' | 'openbsd' | 'sunos' | 'win32' | 'cygwin' | 'netbsd'
+
 export interface AdaApi {
   /** App metadata — version, platform, etc. */
   app: {
     getVersion(): Promise<string>
-    getPlatform(): Promise<NodeJS.Platform>
+    getPlatform(): Promise<Platform>
     quit(): void
   }
 

@@ -1,3 +1,11 @@
+/// <reference lib="dom" />
+// webview-preload runs in the embedded 3CX Web Client (browser context),
+// so it needs DOM types even though tsconfig.node.json doesn't include
+// "dom" lib (the rest of preload/main is pure Node).
+//
+// Pre-existing typecheck gap surfaced 2026-04-28 when ada was first
+// run through full build pipeline as part of Phase 6 monorepo migration.
+
 import { ipcRenderer } from 'electron'
 
 /**
