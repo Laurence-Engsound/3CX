@@ -3,6 +3,7 @@ import { createMainWindow } from './window'
 import { registerIpcHandlers } from './ipc'
 import { createTray, destroyTray } from './tray'
 import { setupAutoUpdater } from './updater'
+import { initVoxenIntegration } from './voxenIntegration'
 
 // Enforce single-instance — second launch focuses the existing window instead.
 const gotLock = app.requestSingleInstanceLock()
@@ -32,6 +33,7 @@ app.on('web-contents-created', (_event, contents) => {
 })
 
 app.whenReady().then(() => {
+  initVoxenIntegration()  // Phase 6 W1D2 — wire VOXEN platform into ada
   registerIpcHandlers()
   mainWindow = createMainWindow()
   createTray(mainWindow)
