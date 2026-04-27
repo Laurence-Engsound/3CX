@@ -11,7 +11,9 @@ import { ThreeCXAdapter } from './ThreeCXAdapter.js'
 import { startHealthServer } from './server/healthServer.js'
 
 export { ThreeCXAdapter } from './ThreeCXAdapter.js'
+export type { ThreeCXAdapterConfig } from './ThreeCXAdapter.js'
 export { ThreeCXClient } from './client/ThreeCXClient.js'
+export type { ThreeCXClientConfig } from './client/ThreeCXClient.js'
 export * from './mappers/index.js'
 export * from './vendor/types.js'
 
