@@ -648,6 +648,122 @@
     margin-bottom: 16px;
   }
 
+  /* ada Phase 6 — positioning + week roadmap */
+  .ada-positioning {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pos-item {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 13.5px;
+  }
+  .pos-label {
+    color: var(--slate-500);
+    font-weight: 500;
+  }
+  .pos-value {
+    color: var(--slate-700);
+  }
+
+  .week-roadmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .week-card {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: 8px;
+    padding: 14px;
+    transition: all 0.2s;
+  }
+  .week-card:hover {
+    border-color: var(--teal-light);
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.08);
+  }
+  .week-card.mvp {
+    border-color: var(--teal);
+    background: #f0fdfa;
+    box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.1);
+  }
+  .week-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .week-num {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    letter-spacing: 0.04em;
+  }
+  .week-status {
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .week-status.status-pending {
+    background: var(--slate-100);
+    color: var(--slate-500);
+  }
+  .week-status.status-in-progress {
+    background: #fef3c7;
+    color: #b45309;
+  }
+  .week-status.status-done {
+    background: #d1fae5;
+    color: #047857;
+  }
+  .week-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate-800);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .week-body {
+    font-size: 12.5px;
+    color: var(--slate-600);
+    line-height: 1.55;
+  }
+
+  .acceptance-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .acceptance-list li {
+    background: var(--slate-50);
+    border-left: 3px solid var(--slate-300);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    color: var(--slate-700);
+    line-height: 1.55;
+  }
+  .acceptance-list li.highlight {
+    background: #f0fdfa;
+    border-left-color: var(--teal);
+    color: var(--slate-800);
+  }
+  .acceptance-list li code {
+    background: #fff;
+    padding: 1px 5px;
+    border: 1px solid var(--slate-200);
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: "SF Mono", monospace;
+  }
+
   .checklist-cats { display: flex; flex-direction: column; gap: 14px; }
   .checklist-cat {
     background: #fff;
@@ -1198,9 +1314,10 @@
   <button data-tab="today"     class="active"><span class="num">1</span>今日</button>
   <button data-tab="map"                    ><span class="num">2</span>地圖</button>
   <button data-tab="esun"                   ><span class="num">3</span>E.SUN Outreach Project</button>
-  <button data-tab="timeline"               ><span class="num">4</span>時序</button>
-  <button data-tab="decisions"              ><span class="num">5</span>待覺察</button>
-  <button data-tab="team"                   ><span class="num">6</span>團隊</button>
+  <button data-tab="ada-p6"                 ><span class="num">4</span>ada Phase 6</button>
+  <button data-tab="timeline"               ><span class="num">5</span>時序</button>
+  <button data-tab="decisions"              ><span class="num">6</span>待覺察</button>
+  <button data-tab="team"                   ><span class="num">7</span>團隊</button>
 </nav>
 
 <!-- ============================================================
@@ -1430,6 +1547,145 @@
       <a class="quick-link" href="proposals/esun-outreach-project/03-deliverables/POC-ACCEPTANCE-CRITERIA.md">
         <div class="name">✓ POC 驗收標準書</div>
         <div class="path">03-deliverables/</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TAB · ada Phase 6 ─────────────────────────────────────────── -->
+<section class="tab-section" id="tab-ada-p6">
+  <h2 class="tab-title">ada Phase 6 — Softphone Bar</h2>
+  <p class="tab-subtitle">玉山 SIT 版本 · 8 週路線 · VOXEN L6 reference application</p>
+
+  <div class="esun-header">
+    <div class="card">
+      <h3><span class="icon">⏳</span>關鍵倒數</h3>
+      <div class="countdown-grid">
+        <div class="countdown-card warn">
+          <div class="days" id="cd-charter">~</div>
+          <div class="unit">天</div>
+          <div class="what">到 Charter<br>sign-off</div>
+        </div>
+        <div class="countdown-card">
+          <div class="days" id="cd-mvp">~</div>
+          <div class="unit">天</div>
+          <div class="what">⭐ MVP demo<br>(W2 結束)</div>
+        </div>
+        <div class="countdown-card">
+          <div class="days" id="cd-sit">~</div>
+          <div class="unit">天</div>
+          <div class="what">SIT-ready<br>(W8 完工)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="icon">🎯</span>專案定位</h3>
+      <div class="ada-positioning">
+        <div class="pos-item">
+          <div class="pos-label">交付物</div>
+          <div class="pos-value">ada v1.0 — 玉山 SIT 版 Softphone Bar</div>
+        </div>
+        <div class="pos-item">
+          <div class="pos-label">架構升級</div>
+          <div class="pos-value">獨立 Electron app → VOXEN L6 reference</div>
+        </div>
+        <div class="pos-item">
+          <div class="pos-label">Tech Lead</div>
+          <div class="pos-value">Laurence Lin</div>
+        </div>
+        <div class="pos-item">
+          <div class="pos-label">Sponsor</div>
+          <div class="pos-value">Eric Lin · 業務總監</div>
+        </div>
+        <div class="pos-item">
+          <div class="pos-label">主要 Stakeholder</div>
+          <div class="pos-value">玉山銀行 IT 團隊</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🗓️</span>8 週路線圖</h3>
+    <p style="font-size:13px; color:var(--slate-500); margin:0 0 16px;">
+      路線詳見 <a href="../ada/docs/PHASE6-PLAN.md" style="color:var(--teal-dark);">PHASE6-PLAN v2</a> · ⭐ 標記 Week 2 「Ada/CRM + Softphone 跑得起來」 milestone
+    </p>
+    <div class="week-roadmap">
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 1</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">砍廢 + Bar 骨架 + VOXEN 整合</div>
+        <div class="week-body">Vendor decoupling、BarWindow.vue、WindowManager、Tray icon</div>
+      </div>
+      <div class="week-card mvp">
+        <div class="week-header"><span class="week-num">Week 2 ⭐</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">XAPI 控制 + MVP demo runnable</div>
+        <div class="week-body">接 PBXAdapter、接 crm-mock、來電顯示客戶 → Ada/CRM+Softphone 端對端可 demo</div>
+      </div>
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 3</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">進階通話控制</div>
+        <div class="week-body">盲轉、諮詢轉、三方會議、轉回原通話</div>
+      </div>
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 4</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">自由座席登入</div>
+        <div class="week-body">LDAP module、auth method matrix、Win user → SIP creds</div>
+      </div>
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 5</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">SIP 密碼安全儲存</div>
+        <div class="week-body">DPAPI LocalMachine、ada-encrypt-creds.exe IT 工具</div>
+      </div>
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 6</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">UX 完整化</div>
+        <div class="week-body">來電通知、tray menu、tel:// 協定、CRM webhook 框架</div>
+      </div>
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 7</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">壓測 + 安全審查</div>
+        <div class="week-body">50 並發 SIPp 壓測、SBOM/DFD/Threat Model、第三方安全 review</div>
+      </div>
+      <div class="week-card">
+        <div class="week-header"><span class="week-num">Week 8</span><span class="week-status status-pending">待啟動</span></div>
+        <div class="week-title">SIT 包裝</div>
+        <div class="week-body">Code Signing、Windows Installer、玉山 IT 部署 / 使用者手冊</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">✓</span>Success Criteria（7 條，從 Charter 摘出）</h3>
+    <ul class="acceptance-list">
+      <li>Bar UI 通過視覺驗收（玉山 IT review）</li>
+      <li>所有通話控制 API 透過 <code>@voxen/core</code> PBXAdapter（<code>grep engsound.3cx.com.tw</code> 應為 0）</li>
+      <li>自由座席登入：3 個 Windows 帳號各自映射不同分機</li>
+      <li>DPAPI 加密 round-trip：encrypt → store → decrypt → 3CX register 成功</li>
+      <li class="highlight"><b>⭐ Week 2 MVP demo 可演</b>：incoming call → CRM 查詢 → Bar 顯示「王先生 + 上次 agent01 + 4 通歷史」</li>
+      <li>50 並發 SoftPhone 壓測：Bar 不卡、CPU 不超過 30%</li>
+      <li>E2E flow：玉山 IT 環境 mock 上跑通完整通話流程</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🔗</span>相關文件 · 一鍵跳轉</h3>
+    <div class="quick-links">
+      <a class="quick-link" href="projects/ada-phase6/PROJECT-CHARTER.md">
+        <div class="name">📋 PROJECT-CHARTER.md</div>
+        <div class="path">docs/projects/ada-phase6/</div>
+      </a>
+      <a class="quick-link" href="adr/ADR-0002-ada-as-voxen-l6-consumer.md">
+        <div class="name">🧭 ADR-0002 — ada as VOXEN L6 consumer</div>
+        <div class="path">docs/adr/</div>
+      </a>
+      <a class="quick-link" href="../ada/docs/PHASE6-PLAN.md">
+        <div class="name">🗺️ PHASE6-PLAN.md v2 — 8 週工程路線</div>
+        <div class="path">ada/docs/</div>
+      </a>
+      <a class="quick-link" href="adr/ADR-0001-electron-over-native.md">
+        <div class="name">⚡ ADR-0001 — 為什麼選 Electron</div>
+        <div class="path">docs/adr/</div>
       </a>
     </div>
   </div>
@@ -1736,17 +1992,17 @@ function switchTab(tabName, fromHash = false) {
 
 // =================== KEYBOARD ===================
 function setupKeyboardShortcuts() {
-  const tabs = ['today','map','esun','timeline','decisions','team'];
+  const tabs = ['today','map','esun','ada-p6','timeline','decisions','team'];
   document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const n = parseInt(e.key, 10);
-    if (n >= 1 && n <= 6) { switchTab(tabs[n - 1]); }
+    if (n >= 1 && n <= 7) { switchTab(tabs[n - 1]); }
     if (e.key === 'r' || e.key === 'R') {
       nextReflection(); renderReflection(true);
     }
     if (e.key === '?') {
-      alert('快捷鍵：\n  1-6 切換 tab\n  R 換覺察\n  ? 此說明');
+      alert('快捷鍵：\n  1-7 切換 tab\n  R 換覺察\n  ? 此說明');
     }
   });
 }
@@ -2231,7 +2487,11 @@ function updateCountdowns() {
   const targets = [
     { date: new Date('2026-05-08'), ids: ['cd-meeting', 'cd-meeting2'] },
     { date: new Date('2026-06-30'), ids: ['cd-golive',  'cd-golive2']  },
-    { date: new Date('2026-11-01'), ids: ['cd-eol',     'cd-eol2']     }
+    { date: new Date('2026-11-01'), ids: ['cd-eol',     'cd-eol2']     },
+    // ada Phase 6 milestones
+    { date: new Date('2026-04-28'), ids: ['cd-charter'] },  // T+0 Charter sign-off
+    { date: new Date('2026-05-12'), ids: ['cd-mvp']     },  // T+14 Week 2 MVP demo
+    { date: new Date('2026-06-23'), ids: ['cd-sit']     }   // T+56 Week 8 SIT-ready
   ];
   targets.forEach(t => {
     const days = Math.max(0, Math.ceil((t.date - today) / 86400000));
