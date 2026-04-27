@@ -1,0 +1,33 @@
+{
+  "name": "@voxen/pbx-3cx",
+  "version": "0.1.0",
+  "description": "VOXEN PBX adapter for 3CX V20 (Premium Partner integration)",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test test/**/*.test.ts",
+    "test:unit": "node --import tsx --test test/mappers/*.test.ts",
+    "test:integration": "node --import tsx --test test/integration/*.test.ts",
+    "smoke": "node --import tsx --test test/integration/smoke.test.ts",
+    "dev": "node --import tsx src/index.ts"
+  },
+  "dependencies": {
+    "@voxen/core": "workspace:^",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

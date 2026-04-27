@@ -1,0 +1,4 @@
+packages:
+  - 'core'
+  - 'integrations/*/*'
+  # ada/ has its own electron-vite tooling, kept independent for now

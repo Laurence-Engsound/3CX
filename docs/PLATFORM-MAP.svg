@@ -1,0 +1,479 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" font-family="Arial, '微軟正黑體', sans-serif">
+  <!-- ============ Background ============ -->
+  <rect width="1600" height="1200" fill="#FAFBFC"/>
+
+  <!-- ============ Reusable defs ============ -->
+  <defs>
+    <!-- Status legend dot shapes will be reused via <use href> -->
+    <circle id="dotBuilt"   r="6" fill="#10B981"/>
+    <circle id="dotPartial" r="6" fill="#F59E0B"/>
+    <circle id="dotPlanned" r="6" fill="#94A3B8"/>
+    <circle id="dotFuture"  r="6" fill="#C4B5FD"/>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0E5066"/>
+      <stop offset="100%" stop-color="#10A0A7"/>
+    </linearGradient>
+    <style type="text/css">
+      .block { transition: opacity 0.4s ease; }
+      .block.dim { opacity: 0.18; }
+      .block.hi { opacity: 1; }
+      .block:hover { cursor: pointer; }
+    </style>
+  </defs>
+
+  <!-- ============ Header ============ -->
+  <rect x="0" y="0" width="1600" height="70" fill="url(#headerGrad)"/>
+  <text x="30" y="42" font-size="26" font-weight="bold" fill="#FFFFFF">VOXEN Platform Map</text>
+  <text x="30" y="60" font-size="12" fill="#B8E0DD">A bird&apos;s-eye view of the platform — built · partial · planned · future</text>
+  <text x="1570" y="36" font-size="13" fill="#FFFFFF" text-anchor="end" font-weight="bold">v0.1</text>
+  <text x="1570" y="56" font-size="11" fill="#B8E0DD" text-anchor="end">2026-04-27 · 瑛聲科技</text>
+
+  <!-- ============ ROW 1: Active Engagements + Knowledge ============ -->
+
+  <!-- Active Engagements (left) -->
+  <g class="block" data-block="engagements" transform="translate(20, 90)">
+    <rect width="780" height="280" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+    <rect width="780" height="32" fill="#0E5066" rx="6"/>
+    <rect y="26" width="780" height="6" fill="#0E5066"/>
+    <text x="14" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">業務軸 · ACTIVE ENGAGEMENTS</text>
+    <text x="770" y="22" font-size="10" fill="#B8E0DD" text-anchor="end" font-style="italic">客戶與商業關係</text>
+
+    <!-- 玉山 case card -->
+    <g transform="translate(14, 50)">
+      <rect width="752" height="100" fill="#FEF3F2" stroke="#FB923C" rx="4"/>
+      <text x="14" y="22" font-size="14" font-weight="bold" fill="#1E293B">玉山銀行 Outreach 案 (Phase 6)</text>
+      <text x="14" y="40" font-size="11" fill="#475569">Genesys Engage 替代 · 450 outbound 座席 · Go-live 2026-06-30</text>
+
+      <text x="14" y="62" font-size="11" fill="#1E293B" font-weight="bold">階段：</text>
+      <text x="60" y="62" font-size="11" fill="#475569">提案 ready → 等寄 outreach email → 等開會</text>
+
+      <text x="14" y="80" font-size="11" fill="#1E293B" font-weight="bold">產出：</text>
+      <text x="60" y="80" font-size="11" fill="#475569">SOW v0.6 · Pitch v1.0 (25p) · One-Pager · QA Binder · TCO · Demo Runbook · POC criteria</text>
+
+      <text x="14" y="94" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">~/VOXEN/docs/proposals/eSun/</text>
+    </g>
+
+    <!-- Future clients placeholder -->
+    <g transform="translate(14, 162)">
+      <rect width="752" height="50" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+      <use href="#dotFuture" x="20" y="25"/>
+      <text x="36" y="28" font-size="12" fill="#475569" font-style="italic">未來客戶 placeholder — Teams + 3CX UC 平台案、其他金融業、其他產業</text>
+    </g>
+
+    <!-- Phase roadmap -->
+    <g transform="translate(14, 222)">
+      <text x="0" y="14" font-size="11" font-weight="bold" fill="#0E5066">下一個里程碑</text>
+      <text x="0" y="32" font-size="11" fill="#475569">→ 寄玉山 outreach email · → 同事補完 RESOURCE-INVENTORY · → M2 IVR Webhook</text>
+      <text x="0" y="48" font-size="10" fill="#94A3B8" font-style="italic">日誌見 ~/VOXEN/PROJECT-LOG.md</text>
+    </g>
+  </g>
+
+  <!-- Knowledge / Docs (right) -->
+  <g class="block" data-block="knowledge" transform="translate(810, 90)">
+    <rect width="770" height="280" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+    <rect width="770" height="32" fill="#0E5066" rx="6"/>
+    <rect y="26" width="770" height="6" fill="#0E5066"/>
+    <text x="14" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">知識軸 · KNOWLEDGE &amp; DOCS</text>
+    <text x="760" y="22" font-size="10" fill="#B8E0DD" text-anchor="end" font-style="italic">內外溝通與決策痕跡</text>
+
+    <!-- Doc grid 2x4 -->
+    <g transform="translate(14, 50)" font-size="11" fill="#1E293B">
+      <!-- Row 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">SRS v3.0</text>
+        <text x="30" y="36" font-size="10" fill="#475569">35 章 + 7 附錄 + 12 架構圖</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/SRS/</text>
+      </g>
+      <g transform="translate(380, 0)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">CANONICAL-MODEL</text>
+        <text x="30" y="36" font-size="10" fill="#475569">8 entity TS interface + vendor mapping</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/internal/</text>
+      </g>
+      <!-- Row 2 -->
+      <g transform="translate(0, 56)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">INTEGRATION-PATTERNS</text>
+        <text x="30" y="36" font-size="10" fill="#475569">5 種整合模式 (M1-M5) · 3CX IVR 主例</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/internal/</text>
+      </g>
+      <g transform="translate(380, 56)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">PHILOSOPHICAL-FOUNDATION</text>
+        <text x="30" y="36" font-size="10" fill="#475569">VOX + ZEN 雙根 · 每日讀</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/</text>
+      </g>
+      <!-- Row 3 -->
+      <g transform="translate(0, 112)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">EXTENSIBILITY-MANIFESTO</text>
+        <text x="30" y="36" font-size="10" fill="#475569">對外宣言 · 架構承諾</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/</text>
+      </g>
+      <g transform="translate(380, 112)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">PROJECT-LOG</text>
+        <text x="30" y="36" font-size="10" fill="#475569">時序工作紀錄 · 每日更新</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">PROJECT-LOG.md</text>
+      </g>
+      <!-- Row 4 -->
+      <g transform="translate(0, 168)">
+        <rect width="370" height="48" fill="#FFFBEB" stroke="#FCD34D" rx="4"/>
+        <use href="#dotPartial" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">RESOURCE-INVENTORY</text>
+        <text x="30" y="36" font-size="10" fill="#475569">v0.1 框架 · 80% cells 待同事填</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/internal/</text>
+      </g>
+      <g transform="translate(380, 168)">
+        <rect width="370" height="48" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="24"/>
+        <text x="30" y="20" font-weight="bold">ADR-0001</text>
+        <text x="30" y="36" font-size="10" fill="#475569">第一筆架構決策紀錄 · 之後會持續累積</text>
+        <text x="365" y="20" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">docs/adr/</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============ ROW 2: Apps ============ -->
+  <g class="block" data-block="apps" transform="translate(20, 380)">
+    <rect width="1560" height="100" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+    <rect width="1560" height="32" fill="#2C9889" rx="6"/>
+    <rect y="26" width="1560" height="6" fill="#2C9889"/>
+    <text x="14" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">使用者面 · APPS</text>
+    <text x="1550" y="22" font-size="10" fill="#B8E0DD" text-anchor="end" font-style="italic">人 / AI Agent / 第三方 直接接觸的介面</text>
+
+    <!-- 4 app cards horizontally -->
+    <g transform="translate(14, 50)">
+      <g transform="translate(0, 0)">
+        <rect width="380" height="38" fill="#FFFBEB" stroke="#FCD34D" rx="4"/>
+        <use href="#dotPartial" x="14" y="19"/>
+        <text x="30" y="16" font-size="12" font-weight="bold" fill="#1E293B">ADA — Agent Desktop App</text>
+        <text x="30" y="30" font-size="10" fill="#475569">Electron + TypeScript + Vue 3 · Win + Linux</text>
+        <text x="375" y="16" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">ada/</text>
+      </g>
+      <g transform="translate(388, 0)">
+        <rect width="380" height="38" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+        <use href="#dotPlanned" x="14" y="19"/>
+        <text x="30" y="16" font-size="12" font-weight="bold" fill="#475569">Web Management Console</text>
+        <text x="30" y="30" font-size="10" fill="#94A3B8" font-style="italic">⏳ 規劃 · 給 IT / 系統管理員</text>
+      </g>
+      <g transform="translate(776, 0)">
+        <rect width="380" height="38" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+        <use href="#dotPlanned" x="14" y="19"/>
+        <text x="30" y="16" font-size="12" font-weight="bold" fill="#475569">Supervisor Dashboard</text>
+        <text x="30" y="30" font-size="10" fill="#94A3B8" font-style="italic">⏳ 規劃 · 給 主管 / 隊長</text>
+      </g>
+      <g transform="translate(1164, 0)">
+        <rect width="368" height="38" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+        <use href="#dotFuture" x="14" y="19"/>
+        <text x="30" y="16" font-size="12" font-weight="bold" fill="#475569">Customer Self-service Portal</text>
+        <text x="30" y="30" font-size="10" fill="#94A3B8" font-style="italic">🔮 遠期</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============ ROW 3: Integrations (大區塊) ============ -->
+  <g class="block" data-block="integrations" transform="translate(20, 490)">
+    <rect width="1560" height="320" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+    <rect width="1560" height="32" fill="#10A0A7" rx="6"/>
+    <rect y="26" width="1560" height="6" fill="#10A0A7"/>
+    <text x="14" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">整合面 · INTEGRATIONS — Adapter Farm</text>
+    <text x="1550" y="22" font-size="10" fill="#B8E0DD" text-anchor="end" font-style="italic">vendor 翻譯機，每個 sub-domain 一群 adapter</text>
+
+    <!-- Sub-domain rows -->
+    <g transform="translate(14, 50)" font-size="11">
+      <!-- PBX -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">PBX</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/pbx/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+          <use href="#dotBuilt" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#1E293B">3CX V20</text>
+          <text x="30" y="26" font-size="9" fill="#475569">@voxen/pbx-3cx · 37 tests ✓</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Microsoft Teams Phone</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ Multi-PBX 案會用</text>
+        </g>
+        <g transform="translate(600, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Genesys (legacy)</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ 玉山 Pilot 期間 passive 觀察</text>
+        </g>
+      </g>
+
+      <!-- Business -->
+      <g transform="translate(0, 42)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">Business</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/business/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#FFFBEB" stroke="#FCD34D" rx="4"/>
+          <use href="#dotPartial" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#1E293B">OPEN / TeleSA</text>
+          <text x="30" y="26" font-size="9" fill="#475569">瑛聲既有客服系統 · 玉山 450 user 部署</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">瑛聲 Wallboard</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳</text>
+        </g>
+      </g>
+
+      <!-- Identity -->
+      <g transform="translate(0, 84)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">Identity</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/identity/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">AD / LDAP</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ 玉山 SSO 走這個</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Keycloak / OAuth2</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ Multi-tenant 用</text>
+        </g>
+      </g>
+
+      <!-- CRM -->
+      <g transform="translate(0, 126)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">CRM</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/crm/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">玉山 CRM (REST)</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ 玉山案 Customer 360 用</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotFuture" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Salesforce / HubSpot</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">🔮 SaaS 客戶</text>
+        </g>
+      </g>
+
+      <!-- AI -->
+      <g transform="translate(770, 0)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">AI</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/ai/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Azure OpenAI</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ LLM Gateway</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">致行 Voice Bot</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ 玉山案 Demo 1 後端</text>
+        </g>
+      </g>
+
+      <g transform="translate(770, 42)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">　</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Whisper (local)</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ on-prem STT 選項</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Local LLM (Llama / Qwen)</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ on-prem LLM 選項</text>
+        </g>
+      </g>
+
+      <!-- Storage -->
+      <g transform="translate(770, 84)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">Storage</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/storage/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">玉山 NAS (SMB / NFS)</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳ 錄音歸檔</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotFuture" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">AWS S3 / Object Storage</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">🔮 cloud 客戶</text>
+        </g>
+      </g>
+
+      <!-- Messaging -->
+      <g transform="translate(770, 126)">
+        <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">Messaging</text>
+        <text x="0" y="28" font-size="9" fill="#94A3B8">integrations/messaging/</text>
+        <g transform="translate(140, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotPlanned" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">Email (SMTP / IMAP)</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">⏳</text>
+        </g>
+        <g transform="translate(370, 0)">
+          <rect width="220" height="32" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+          <use href="#dotFuture" x="14" y="16"/>
+          <text x="30" y="14" font-weight="bold" fill="#475569">LINE / WhatsApp / Slack</text>
+          <text x="30" y="26" font-size="9" fill="#94A3B8" font-style="italic">🔮 omnichannel</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- right-side note -->
+    <text x="1546" y="305" text-anchor="end" font-size="9" fill="#94A3B8" font-style="italic">每個 adapter 都按 INTEGRATION-PATTERNS.md 的 7 步 checklist 開發</text>
+  </g>
+
+  <!-- ============ ROW 4: @voxen/core ============ -->
+  <g class="block" data-block="core" transform="translate(20, 820)">
+    <rect width="1100" height="200" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+    <rect width="1100" height="32" fill="#0E5066" rx="6"/>
+    <rect y="26" width="1100" height="6" fill="#0E5066"/>
+    <text x="14" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">基礎建設 · @voxen/core</text>
+    <text x="1090" y="22" font-size="10" fill="#B8E0DD" text-anchor="end" font-style="italic">vendor-agnostic · 所有 adapter 的 import target</text>
+
+    <!-- 三排：entities / contracts / infra -->
+    <g transform="translate(14, 50)">
+      <!-- Entities -->
+      <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">Canonical Entities (Zod schemas)</text>
+      <g transform="translate(0, 22)" font-size="11">
+        <g transform="translate(0, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Tenant</text></g>
+        <g transform="translate(95, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Agent</text></g>
+        <g transform="translate(180, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Queue</text></g>
+        <g transform="translate(265, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Customer</text></g>
+        <g transform="translate(370, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B" font-weight="bold">Call ★</text></g>
+        <g transform="translate(450, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Recording</text></g>
+        <g transform="translate(560, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Event</text></g>
+        <g transform="translate(640, 0)"><use href="#dotPlanned" x="6" y="10"/><text x="20" y="14" fill="#475569">Interaction (omnichannel)</text></g>
+      </g>
+
+      <!-- Contracts -->
+      <text x="0" y="74" font-size="12" font-weight="bold" fill="#0E5066">Adapter Contracts (TypeScript interfaces)</text>
+      <g transform="translate(0, 82)" font-size="11">
+        <g transform="translate(0, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">Adapter (base)</text></g>
+        <g transform="translate(150, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">PBXAdapter</text></g>
+        <g transform="translate(280, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">IEventBus</text></g>
+        <g transform="translate(395, 0)"><use href="#dotPlanned" x="6" y="10"/><text x="20" y="14" fill="#475569">CRMAdapter</text></g>
+        <g transform="translate(510, 0)"><use href="#dotPlanned" x="6" y="10"/><text x="20" y="14" fill="#475569">IdentityAdapter</text></g>
+        <g transform="translate(630, 0)"><use href="#dotPlanned" x="6" y="10"/><text x="20" y="14" fill="#475569">AIAdapter</text></g>
+      </g>
+
+      <!-- Infra -->
+      <text x="0" y="134" font-size="12" font-weight="bold" fill="#0E5066">Infrastructure</text>
+      <g transform="translate(0, 142)" font-size="11">
+        <g transform="translate(0, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">ULID id generator (10 typed prefixes)</text></g>
+        <g transform="translate(265, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">E.164 phone normalizer</text></g>
+        <g transform="translate(460, 0)"><use href="#dotBuilt" x="6" y="10"/><text x="20" y="14" fill="#1E293B">InProcessEventBus (default)</text></g>
+        <g transform="translate(700, 0)"><use href="#dotPlanned" x="6" y="10"/><text x="20" y="14" fill="#475569">NATS / Kafka (production)</text></g>
+      </g>
+    </g>
+
+    <text x="1086" y="190" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="9" fill="#6B7280">~/VOXEN/core/src/</text>
+  </g>
+
+  <!-- ============ ROW 4 right: DevOps / Quality ============ -->
+  <g class="block" data-block="devops" transform="translate(1130, 820)">
+    <rect width="450" height="200" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+    <rect width="450" height="32" fill="#475569" rx="6"/>
+    <rect y="26" width="450" height="6" fill="#475569"/>
+    <text x="14" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">品質 / 運維 · DEVOPS &amp; QUALITY</text>
+
+    <g transform="translate(14, 50)" font-size="11">
+      <g transform="translate(0, 0)">
+        <rect width="422" height="34" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="17"/>
+        <text x="30" y="14" font-weight="bold" fill="#1E293B">Tests</text>
+        <text x="30" y="28" font-size="10" fill="#475569">37 / 37 passing — node:test (built-in)</text>
+        <text x="412" y="22" text-anchor="end" font-size="14" fill="#10B981" font-weight="bold">37 ✓</text>
+      </g>
+      <g transform="translate(0, 42)">
+        <rect width="422" height="34" fill="#F0FDF4" stroke="#86EFAC" rx="4"/>
+        <use href="#dotBuilt" x="14" y="17"/>
+        <text x="30" y="14" font-weight="bold" fill="#1E293B">TypeScript strict</text>
+        <text x="30" y="28" font-size="10" fill="#475569">兩個 package 都 clean</text>
+      </g>
+      <g transform="translate(0, 84)">
+        <rect width="422" height="34" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+        <use href="#dotPlanned" x="14" y="17"/>
+        <text x="30" y="14" font-weight="bold" fill="#475569">CI / CD</text>
+        <text x="30" y="28" font-size="10" fill="#94A3B8" font-style="italic">⏳ GitHub Actions / GitLab CI</text>
+      </g>
+      <g transform="translate(0, 126)">
+        <rect width="422" height="34" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="3,2" rx="4"/>
+        <use href="#dotPlanned" x="14" y="17"/>
+        <text x="30" y="14" font-weight="bold" fill="#475569">Container build / Deploy</text>
+        <text x="30" y="28" font-size="10" fill="#94A3B8" font-style="italic">⏳ Dockerfile · K8s manifest</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============ FOOTER: Legend + Stats ============ -->
+  <g transform="translate(20, 1030)">
+    <rect width="1560" height="150" fill="#FFFFFF" stroke="#CBD5E1" rx="6"/>
+
+    <!-- Legend -->
+    <g transform="translate(20, 20)">
+      <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">圖例 · LEGEND</text>
+      <g transform="translate(0, 24)" font-size="11" fill="#1E293B">
+        <use href="#dotBuilt" x="8" y="10"/><text x="22" y="14">已建 / Built — 可用、有 test</text>
+        <g transform="translate(220, 0)"><use href="#dotPartial" x="8" y="10"/><text x="22" y="14">部分 / Partial — 有 v0.1 框架，需補完</text></g>
+        <g transform="translate(0, 22)"><use href="#dotPlanned" x="8" y="10"/><text x="22" y="14">規劃中 / Planned — 已決定要做、未開工</text></g>
+        <g transform="translate(220, 22)"><use href="#dotFuture" x="8" y="10"/><text x="22" y="14">遠期 / Future — 想做但時機未到</text></g>
+      </g>
+    </g>
+
+    <!-- Stats -->
+    <g transform="translate(540, 20)">
+      <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">數字 · STATS (as of 2026-04-27)</text>
+      <g transform="translate(0, 30)" font-size="11" fill="#1E293B">
+        <text x="0" y="0">.ts source files: <tspan font-weight="bold" fill="#0E5066">35</tspan></text>
+        <text x="0" y="18">Unit tests: <tspan font-weight="bold" fill="#10B981">35</tspan></text>
+        <text x="0" y="36">Integration tests: <tspan font-weight="bold" fill="#10B981">2</tspan></text>
+        <text x="0" y="54">Canonical entities: <tspan font-weight="bold" fill="#0E5066">7 / 8</tspan></text>
+        <text x="180" y="0">Workspace packages: <tspan font-weight="bold" fill="#0E5066">2</tspan></text>
+        <text x="180" y="18">Built adapters: <tspan font-weight="bold" fill="#10B981">1</tspan></text>
+        <text x="180" y="36">Planned adapters: <tspan font-weight="bold" fill="#94A3B8">15+</tspan></text>
+        <text x="180" y="54">Internal docs: <tspan font-weight="bold" fill="#0E5066">8</tspan></text>
+        <text x="380" y="0">Active engagements: <tspan font-weight="bold" fill="#0E5066">1</tspan> (玉山)</text>
+        <text x="380" y="18">SRS chapters: <tspan font-weight="bold" fill="#0E5066">35 + 7</tspan></text>
+        <text x="380" y="36">Architecture diagrams: <tspan font-weight="bold" fill="#0E5066">12</tspan></text>
+        <text x="380" y="54">Days from SRS to running code: <tspan font-weight="bold" fill="#0E5066">~1</tspan> (2026-04-26)</text>
+      </g>
+    </g>
+
+    <!-- Quick navigation -->
+    <g transform="translate(1180, 20)">
+      <text x="0" y="14" font-size="12" font-weight="bold" fill="#0E5066">快捷 · QUICK NAV</text>
+      <g transform="translate(0, 28)" font-family="Consolas, Menlo, monospace" font-size="9.5" fill="#0E5066">
+        <text x="0" y="0">PROJECT-LOG.md</text>
+        <text x="0" y="14">README.md</text>
+        <text x="0" y="28">docs/SRS/</text>
+        <text x="0" y="42">docs/internal/</text>
+        <text x="0" y="56">docs/proposals/eSun/</text>
+        <text x="0" y="70">core/src/</text>
+        <text x="0" y="84">integrations/pbx/3cx/</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom signature -->
+  <text x="800" y="1192" text-anchor="middle" font-size="9" fill="#94A3B8" font-style="italic">VOXEN Platform Map · 不是最終版 · 當有新覺察時即可修訂</text>
+</svg>
