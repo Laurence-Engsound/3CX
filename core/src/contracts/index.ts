@@ -1,3 +1,5 @@
 export * from './Adapter.js'
 export * from './PBXAdapter.js'
 export * from './EventBus.js'
+export * from './CustomerLookupAdapter.js'
+export * from './CallHistoryAdapter.js'
