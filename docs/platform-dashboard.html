@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOXEN Platform Dashboard · v0.2</title>
+<style>
+  /* ============================================================
+     VARS · RESET · BASE
+     ============================================================ */
+  :root {
+    --teal-dark: #0E5066;
+    --teal: #10A0A7;
+    --teal-mid: #2C9889;
+    --teal-light: #B8E0DD;
+    --teal-pale: #E8F4F3;
+    --slate-900: #1E293B;
+    --slate-700: #334155;
+    --slate-500: #64748B;
+    --slate-400: #94A3B8;
+    --slate-300: #CBD5E1;
+    --slate-200: #E2E8F0;
+    --slate-100: #F1F5F9;
+    --slate-50: #F8FAFC;
+    --bg: #FAFBFC;
+    --status-built: #10B981;
+    --status-partial: #F59E0B;
+    --status-planned: #94A3B8;
+    --status-future: #C4B5FD;
+    --status-blocked: #EF4444;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 8px 32px rgba(15, 23, 42, 0.12);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--slate-900);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  code, .mono {
+    font-family: "SF Mono", "Consolas", "Menlo", "Roboto Mono", monospace;
+    font-size: 0.92em;
+  }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ============================================================
+     HEADER + TABS
+     ============================================================ */
+  header.app-header {
+    background: linear-gradient(95deg, var(--teal-dark) 0%, var(--teal) 100%);
+    color: #fff;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .brand h1 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .brand .ver {
+    font-size: 12px;
+    color: var(--teal-light);
+    background: rgba(255,255,255,0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-controls .today {
+    font-size: 13px;
+    color: var(--teal-light);
+    text-align: right;
+  }
+  .header-controls .today strong { color: #fff; font-size: 15px; }
+
+  .persona-picker {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,0.14);
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  .persona-picker label {
+    font-size: 12px;
+    color: var(--teal-light);
+    margin-right: 10px;
+  }
+  .persona-picker select {
+    background: rgba(255,255,255,0.95);
+    border: none;
+    color: var(--slate-900);
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    min-width: 200px;
+  }
+
+  /* Tab nav */
+  nav.tabs {
+    background: #fff;
+    border-bottom: 1px solid var(--slate-200);
+    padding: 0 32px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 80px;
+    z-index: 90;
+  }
+  nav.tabs button {
+    background: transparent;
+    border: none;
+    padding: 16px 20px 14px;
+    font-size: 15px;
+    color: var(--slate-500);
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  nav.tabs button:hover { color: var(--teal-dark); }
+  nav.tabs button.active {
+    color: var(--teal-dark);
+    border-bottom-color: var(--teal);
+    font-weight: 600;
+  }
+  nav.tabs button .num {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    background: var(--slate-100);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--slate-500);
+    margin-right: 8px;
+    font-weight: 700;
+    font-family: "SF Mono", monospace;
+  }
+  nav.tabs button.active .num {
+    background: var(--teal-pale);
+    color: var(--teal-dark);
+  }
+
+  /* ============================================================
+     PERSONA CONTEXT BAR (persistent across tabs)
+     ============================================================ */
+  .persona-bar {
+    background: linear-gradient(90deg, var(--teal-pale) 0%, #fff 70%);
+    border-left: 4px solid var(--teal);
+    padding: 14px 32px;
+    margin: 0;
+  }
+  .persona-bar .label {
+    font-size: 11px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .persona-bar .title { font-size: 16px; font-weight: 600; color: var(--teal-dark); }
+  .persona-bar .quote {
+    font-size: 14px;
+    color: var(--slate-700);
+    font-style: italic;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     MAIN + TAB CONTENT
+     ============================================================ */
+  main {
+    padding: 24px 32px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  section.tab-section { display: none; }
+  section.tab-section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .tab-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin: 0 0 6px;
+  }
+  .tab-subtitle {
+    font-size: 14px;
+    color: var(--slate-500);
+    margin: 0 0 28px;
+  }
+
+  /* Card */
+  .card {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .card h3 {
+    font-size: 18px;
+    margin: 0 0 16px;
+    color: var(--slate-900);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card h3 .icon { font-size: 22px; }
+
+  /* ============================================================
+     TAB · 今日 (TODAY)
+     ============================================================ */
+  .today-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 1024px) { .today-grid { grid-template-columns: 1fr; } }
+
+  .reflection-big {
+    background: linear-gradient(135deg, #fff 0%, var(--teal-pale) 100%);
+    border: 1px solid var(--teal-light);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    margin-bottom: 20px;
+  }
+  .reflection-big .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal-mid);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .reflection-big .prompt {
+    font-size: 26px;
+    line-height: 1.55;
+    color: var(--slate-900);
+    font-weight: 400;
+    margin: 0;
+  }
+  .reflection-big .prompt::before { content: "「"; color: var(--teal); }
+  .reflection-big .prompt::after { content: "」"; color: var(--teal); }
+  .reflection-big .source {
+    font-size: 13px;
+    color: var(--slate-500);
+    margin-top: 16px;
+    font-style: italic;
+  }
+  .reflection-big .reroll {
+    font-size: 13px;
+    color: var(--teal);
+    background: transparent;
+    border: 1px solid var(--teal-light);
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin-top: 14px;
+  }
+  .reflection-big .reroll:hover { background: var(--teal-pale); }
+
+  .next-action {
+    background: #FFFBEB;
+    border-left: 4px solid var(--status-partial);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+  }
+  .next-action .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--status-partial);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .next-action .what { font-size: 17px; color: var(--slate-900); line-height: 1.55; }
+
+  .pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .pulse-cell {
+    background: var(--slate-50);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align: center;
+    border: 1px solid var(--slate-200);
+  }
+  .pulse-cell .num {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    line-height: 1;
+  }
+  .pulse-cell .num.green { color: var(--status-built); }
+  .pulse-cell .num.amber { color: var(--status-partial); }
+  .pulse-cell .label {
+    font-size: 11px;
+    color: var(--slate-500);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================================
+     TAB · 地圖 (MAP)
+     ============================================================ */
+  .map-view-toggle {
+    display: inline-flex;
+    background: var(--slate-100);
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 18px;
+    gap: 2px;
+  }
+  .vt-btn {
+    background: transparent;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    color: var(--slate-700);
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .vt-btn.active {
+    background: #fff;
+    color: var(--teal-dark);
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+  }
+  .vt-btn:hover:not(.active) { color: var(--teal-dark); }
+  .vt-btn .sub { font-size: 11px; color: var(--slate-400); margin-left: 4px; font-weight: 400; }
+  .vt-btn.active .sub { color: var(--teal-mid); }
+  .map-meta {
+    background: var(--teal-pale);
+    border-left: 3px solid var(--teal);
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--slate-700);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .map-meta strong { color: var(--teal-dark); }
+
+  .map-wrap {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .map-wrap object {
+    width: 100%;
+    height: auto;
+    display: block;
+    min-height: 600px;
+  }
+  .map-legend {
+    background: var(--slate-50);
+    border-top: 1px solid var(--slate-200);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+  }
+  .map-legend .legend-items {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .map-legend .legend-item { display: flex; gap: 6px; align-items: center; }
+  .map-legend .dot {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+  }
+  .map-legend .hint { color: var(--slate-500); font-style: italic; }
+
+  /* ============================================================
+     TAB · E.SUN Outreach Project (ESUN)
+     ============================================================ */
+  .esun-header {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 20px;
+    margin-bottom: 20px;
+    align-items: start;
+  }
+  @media (max-width: 1024px) { .esun-header { grid-template-columns: 1fr; } }
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .countdown-card {
+    background: linear-gradient(135deg, var(--teal-pale) 0%, #fff 100%);
+    border: 1px solid var(--teal-light);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+  .countdown-card .days {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    line-height: 1;
+  }
+  .countdown-card .unit { font-size: 13px; color: var(--slate-500); margin-top: 4px; }
+  .countdown-card .what {
+    font-size: 12px;
+    color: var(--slate-700);
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+  .countdown-card.warn { border-color: var(--status-partial); background: linear-gradient(135deg, #FEF3C7 0%, #fff 100%); }
+  .countdown-card.warn .days { color: var(--status-partial); }
+
+  .pipeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pipeline-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    background: var(--slate-50);
+    font-size: 15px;
+    color: var(--slate-700);
+    border: 1px solid var(--slate-200);
+  }
+  .pipeline-item.done { background: #ECFDF5; color: var(--slate-900); border-color: #A7F3D0; }
+  .pipeline-item.current {
+    background: #FEF3C7;
+    color: var(--slate-900);
+    border-color: var(--status-partial);
+    font-weight: 600;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
+  }
+  .pipeline-item.future { color: var(--slate-400); }
+  .pipeline-marker {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .pipeline-item.done .pipeline-marker { background: var(--status-built); }
+  .pipeline-item.current .pipeline-marker { background: var(--status-partial); animation: pulse 2.5s ease-in-out infinite; }
+  .pipeline-item.future .pipeline-marker { background: var(--slate-300); }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+    50% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+  }
+
+  /* TODO list (E.SUN Outreach Project) */
+  .todo-cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 18px;
+  }
+  .todo-cat {
+    background: var(--slate-50);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .todo-cat h4 {
+    font-size: 14px;
+    margin: 0 0 10px;
+    color: var(--slate-900);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+  .todo-cat h4 .badge {
+    font-size: 10px;
+    background: var(--slate-200);
+    color: var(--slate-700);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .todo-cat.urgent  { border-color: #FCA5A5; background: #FEF2F2; }
+  .todo-cat.urgent  h4 { color: #B91C1C; }
+  .todo-cat.urgent  h4 .badge { background: #FECACA; color: #B91C1C; }
+  .todo-cat.prep    { border-color: #FCD34D; background: #FFFBEB; }
+  .todo-cat.prep    h4 { color: #92400E; }
+  .todo-cat.prep    h4 .badge { background: #FDE68A; color: #92400E; }
+  .todo-cat.day     { border-color: #93C5FD; background: #EFF6FF; }
+  .todo-cat.day     h4 { color: #1E40AF; }
+  .todo-cat.day     h4 .badge { background: #BFDBFE; color: #1E40AF; }
+  .todo-cat.after   { border-color: #86EFAC; background: #F0FDF4; }
+  .todo-cat.after   h4 { color: #166534; }
+  .todo-cat.after   h4 .badge { background: #BBF7D0; color: #166534; }
+  .todo-cat.ongoing { border-color: #C4B5FD; background: #F5F3FF; }
+  .todo-cat.ongoing h4 { color: #5B21B6; }
+  .todo-cat.ongoing h4 .badge { background: #DDD6FE; color: #5B21B6; }
+  .todo-cat.future  { border-color: var(--slate-300); background: var(--slate-50); }
+  .todo-cat.future  h4 { color: var(--slate-700); }
+
+  .todo-list { list-style: none; padding: 0; margin: 0; }
+  .todo-list li {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-size: 13.5px;
+    color: var(--slate-700);
+    line-height: 1.5;
+  }
+  .todo-list li:last-child { border-bottom: none; }
+  .todo-list li .check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--slate-400);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: rgba(255,255,255,0.6);
+  }
+  .todo-list li.done .check {
+    background: var(--status-built);
+    border-color: var(--status-built);
+    color: #fff;
+    text-align: center;
+    line-height: 13px;
+    font-size: 11px;
+  }
+  .todo-list li.done .what { text-decoration: line-through; color: var(--slate-400); }
+  .todo-list li .what { flex: 1; }
+  .todo-list li .who {
+    font-size: 11px;
+    color: var(--slate-500);
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 1px 7px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .todo-list li .due {
+    font-size: 11px;
+    color: var(--slate-500);
+    font-family: "SF Mono", monospace;
+    flex-shrink: 0;
+  }
+
+  /* Phase tabs (in E.SUN Outreach Project TODO card) */
+  .phase-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .phase-tab {
+    background: var(--slate-50);
+    border: 2px solid var(--slate-200);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    text-align: left;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .phase-tab:hover { border-color: var(--teal-light); }
+  .phase-tab.active {
+    background: linear-gradient(135deg, var(--teal-pale) 0%, #fff 100%);
+    border-color: var(--teal);
+    box-shadow: var(--shadow-sm);
+  }
+  .phase-tab .phase-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--slate-900);
+  }
+  .phase-tab.active .phase-name { color: var(--teal-dark); }
+  .phase-tab .phase-period {
+    font-size: 11px;
+    color: var(--slate-500);
+    margin-top: 2px;
+  }
+  .phase-tab .phase-count {
+    font-size: 13px;
+    color: var(--teal-mid);
+    font-weight: 600;
+    margin-top: 6px;
+    font-family: "SF Mono", monospace;
+  }
+
+  .phase-desc {
+    background: var(--slate-50);
+    border-left: 3px solid var(--teal);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--slate-700);
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .checklist-cats { display: flex; flex-direction: column; gap: 14px; }
+  .checklist-cat {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .checklist-cat h4 {
+    font-size: 14px;
+    margin: 0 0 10px;
+    color: var(--slate-900);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+  .checklist-cat h4 .badge {
+    margin-left: auto;
+    font-size: 11px;
+    background: var(--slate-100);
+    color: var(--slate-700);
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-family: "SF Mono", monospace;
+    font-weight: 500;
+  }
+  .checklist-list { list-style: none; padding: 0; margin: 0; }
+  .checklist-list li {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--slate-100);
+    cursor: pointer;
+  }
+  .checklist-list li:last-child { border-bottom: none; }
+  .checklist-list li:hover { background: var(--slate-50); }
+  .checklist-list li .check {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--slate-400);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: rgba(255,255,255,0.6);
+    text-align: center;
+    line-height: 15px;
+    font-size: 11px;
+    color: transparent;
+  }
+  .checklist-list li.done .check {
+    background: var(--status-built);
+    border-color: var(--status-built);
+    color: #fff;
+  }
+  .checklist-list li.done .item-name { text-decoration: line-through; color: var(--slate-400); }
+  .item-body { flex: 1; min-width: 0; }
+  .item-name { font-size: 14px; color: var(--slate-900); line-height: 1.45; }
+  .item-desc {
+    font-size: 12px;
+    color: var(--slate-500);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .meta-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--slate-100);
+    color: var(--slate-600);
+    border: 1px solid transparent;
+  }
+  .meta-tag.owner  { background: #EFF6FF; color: #1E40AF; }
+  .meta-tag.due    { background: #FFFBEB; color: #92400E; font-family: "SF Mono", monospace; }
+  .meta-tag.accept { background: #F0FDF4; color: #166534; cursor: help; }
+  .meta-tag.deps   { background: #F5F3FF; color: #5B21B6; cursor: help; }
+  .meta-tag.docs   { background: #FEF3C7; color: #78350F; }
+  .meta-tag.idtag  { background: transparent; color: var(--slate-400); font-family: "SF Mono", monospace; font-size: 10px; margin-left: auto; }
+
+  .quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .quick-link {
+    display: block;
+    background: var(--slate-50);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--slate-700);
+    font-size: 14px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .quick-link:hover { background: var(--teal-pale); border-color: var(--teal-light); }
+  .quick-link .name { font-weight: 600; color: var(--slate-900); }
+  .quick-link .path { font-family: "SF Mono", monospace; font-size: 11px; color: var(--slate-500); margin-top: 2px; }
+
+  /* ============================================================
+     TAB · 時序 (TIMELINE)
+     ============================================================ */
+  .timeline-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--slate-50);
+    border: 1px solid var(--slate-200);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--slate-700);
+    transition: all 0.2s;
+  }
+  .filter-btn.active {
+    background: var(--teal-dark);
+    color: #fff;
+    border-color: var(--teal-dark);
+  }
+  .filter-btn:hover:not(.active) { background: var(--teal-pale); border-color: var(--teal-light); }
+
+  .timeline-list { list-style: none; padding: 0; margin: 0; }
+  .timeline-list li {
+    display: grid;
+    grid-template-columns: 180px 30px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--slate-100);
+    align-items: start;
+  }
+  .timeline-list li:last-child { border-bottom: none; }
+  .timeline-list .time {
+    font-family: "SF Mono", monospace;
+    font-size: 13px;
+    color: var(--slate-500);
+    line-height: 1.5;
+  }
+  .timeline-list .cat {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--slate-300);
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .timeline-list li.tech .cat { background: var(--teal); }
+  .timeline-list li.biz  .cat { background: #F59E0B; }
+  .timeline-list li.doc  .cat { background: #8B5CF6; }
+  .timeline-list .what {
+    font-size: 15px;
+    color: var(--slate-700);
+    line-height: 1.55;
+  }
+
+  /* ============================================================
+     TAB · 待覺察 (DECISIONS)
+     ============================================================ */
+  .decision-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+  }
+  .decision-card {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-left: 4px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .decision-card h4 {
+    font-size: 16px;
+    margin: 0 0 12px;
+    color: var(--slate-900);
+    line-height: 1.45;
+  }
+  .decision-card .why {
+    font-size: 13px;
+    color: var(--slate-500);
+    font-style: italic;
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .decision-card .meta {
+    font-size: 12px;
+    color: var(--slate-400);
+    border-top: 1px solid var(--slate-100);
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .decision-card .meta span { display: inline-flex; align-items: center; gap: 4px; }
+
+  /* ============================================================
+     TAB · 團隊 (TEAM)
+     ============================================================ */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  .team-card {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    position: relative;
+  }
+  .team-card.is-self { border-color: var(--teal); border-width: 2px; }
+  .team-card .self-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--teal);
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+  .team-card h3 {
+    font-size: 19px;
+    margin: 0 0 4px;
+    color: var(--slate-900);
+  }
+  .team-card .role-label {
+    font-size: 13px;
+    color: var(--slate-500);
+    margin-bottom: 16px;
+  }
+  .team-card .focus {
+    background: var(--teal-pale);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: var(--slate-900);
+  }
+  .team-card .focus .label {
+    font-size: 11px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .team-card .section-label {
+    font-size: 12px;
+    color: var(--slate-500);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 14px 0 8px;
+  }
+  .team-card ul.tasks { list-style: none; padding: 0; margin: 0; }
+  .team-card ul.tasks li {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    background: var(--slate-50);
+    color: var(--slate-700);
+    display: flex;
+    gap: 10px;
+    align-items: start;
+  }
+  .team-card ul.tasks li .ico {
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    color: var(--slate-400);
+  }
+  .team-card ul.tasks li.done { color: var(--slate-500); text-decoration: line-through; }
+  .team-card ul.tasks li.done .ico { color: var(--status-built); }
+  .team-card ul.tasks li.in_progress .ico { color: var(--status-partial); }
+  .team-card ul.tasks li.blocked { background: #FEF2F2; color: var(--status-blocked); }
+  .team-card ul.tasks li .due {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--slate-400);
+    font-family: "SF Mono", monospace;
+  }
+  .team-card .help { font-size: 13px; color: var(--slate-700); }
+  .team-card .help .tag {
+    display: inline-block;
+    background: #F0FDFA;
+    color: var(--teal-dark);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px 4px 2px 0;
+    font-size: 12px;
+  }
+  .team-card .timestamp {
+    border-top: 1px solid var(--slate-100);
+    padding-top: 12px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--slate-400);
+    display: flex;
+    justify-content: space-between;
+  }
+  .team-card .edit-btn {
+    background: transparent;
+    border: 1px solid var(--teal);
+    color: var(--teal-dark);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+  .team-card .edit-btn:hover { background: var(--teal); color: #fff; }
+
+  .team-warning {
+    background: #FFFBEB;
+    border: 1px solid #FCD34D;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--slate-700);
+  }
+  .team-warning strong { color: #92400E; }
+
+  /* ============================================================
+     MODAL (edit team status)
+     ============================================================ */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--slate-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-header h2 { font-size: 20px; margin: 0; }
+  .modal-header .close {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--slate-400);
+    line-height: 1;
+  }
+  .modal-body { padding: 24px 28px; }
+  .modal-body label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 16px 0 6px;
+  }
+  .modal-body label:first-child { margin-top: 0; }
+  .modal-body input[type="text"], .modal-body textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--slate-300);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .modal-body textarea { min-height: 80px; resize: vertical; }
+  .modal-body input:focus, .modal-body textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-pale);
+  }
+  .modal-task-row {
+    display: grid;
+    grid-template-columns: 1fr 130px 110px 30px;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .modal-task-row select {
+    border: 1px solid var(--slate-300);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .modal-task-row .remove-btn {
+    background: var(--slate-100);
+    border: 1px solid var(--slate-200);
+    border-radius: 6px;
+    color: var(--slate-500);
+    font-size: 16px;
+  }
+  .modal-task-row .remove-btn:hover { background: #FEF2F2; color: var(--status-blocked); }
+  .add-row-btn {
+    background: var(--slate-50);
+    border: 1px dashed var(--slate-300);
+    border-radius: 6px;
+    color: var(--teal-dark);
+    padding: 8px 14px;
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  .add-row-btn:hover { background: var(--teal-pale); border-color: var(--teal); }
+  .modal-footer {
+    padding: 16px 28px;
+    border-top: 1px solid var(--slate-200);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: var(--slate-50);
+  }
+  .btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-secondary {
+    background: #fff;
+    border-color: var(--slate-300);
+    color: var(--slate-700);
+  }
+  .btn-secondary:hover { background: var(--slate-100); }
+  .btn-primary {
+    background: var(--teal-dark);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--teal); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--slate-900);
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    z-index: 2000;
+    transition: transform 0.3s ease;
+    max-width: 600px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast code {
+    background: rgba(255,255,255,0.15);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    text-align: center;
+    padding: 36px 32px 48px;
+    border-top: 1px solid var(--slate-100);
+    background: #fff;
+  }
+  footer .aphorism {
+    font-size: 15px;
+    color: var(--slate-700);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  footer .aphorism em { color: var(--teal-dark); font-weight: 600; font-style: normal; }
+  footer .meta {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--slate-400);
+    line-height: 1.7;
+  }
+  footer .meta a { color: var(--teal); text-decoration: none; }
+  footer .meta a:hover { text-decoration: underline; }
+  footer .keys {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--slate-400);
+  }
+  footer .keys kbd {
+    background: var(--slate-100);
+    border: 1px solid var(--slate-200);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: "SF Mono", monospace;
+    font-size: 10px;
+    color: var(--slate-700);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER + TABS
+     ============================================================ -->
+<header class="app-header">
+  <div class="brand">
+    <h1>VOXEN Platform Dashboard</h1>
+    <span class="ver">v0.2</span>
+  </div>
+  <div class="header-controls">
+    <div class="persona-picker">
+      <label for="persona">角色 / 視角</label>
+      <select id="persona"></select>
+    </div>
+    <div class="today">
+      <div id="today-date"></div>
+      <strong id="today-day"></strong>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tab-nav">
+  <button data-tab="today"     class="active"><span class="num">1</span>今日</button>
+  <button data-tab="map"                    ><span class="num">2</span>地圖</button>
+  <button data-tab="esun"                   ><span class="num">3</span>E.SUN Outreach Project</button>
+  <button data-tab="timeline"               ><span class="num">4</span>時序</button>
+  <button data-tab="decisions"              ><span class="num">5</span>待覺察</button>
+  <button data-tab="team"                   ><span class="num">6</span>團隊</button>
+</nav>
+
+<!-- ============================================================
+     PERSONA CONTEXT BAR
+     ============================================================ -->
+<div class="persona-bar">
+  <div class="label">當前視角</div>
+  <div class="title" id="persona-title">VOXEN 自身視角</div>
+  <div class="quote" id="persona-quote">「VOXEN 在每張臉前都真實。」</div>
+</div>
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+<main>
+
+<!-- ─── TAB · 今日 ─────────────────────────────────────────── -->
+<section class="tab-section active" id="tab-today">
+  <h2 class="tab-title">今日</h2>
+  <p class="tab-subtitle">每天一次，把 VOXEN 「現在的樣子」帶進你心裡</p>
+
+  <div class="reflection-big">
+    <div class="label">今天的覺察 · DAILY REFLECTION</div>
+    <p class="prompt" id="reflection-prompt">…</p>
+    <div class="source" id="reflection-source"></div>
+    <button class="reroll" id="reroll-btn">換一條 →</button>
+  </div>
+
+  <div class="next-action">
+    <div class="label">給此刻角色 · NEXT ACTION</div>
+    <div class="what" id="next-action-text">…</div>
+  </div>
+
+  <div class="today-grid">
+    <div>
+      <div class="card">
+        <h3><span class="icon">📊</span>健康儀表 · Health Pulse</h3>
+        <div class="pulse-grid">
+          <div class="pulse-cell">
+            <div class="num green">37/37</div>
+            <div class="label">tests passing</div>
+          </div>
+          <div class="pulse-cell">
+            <div class="num green">2/2</div>
+            <div class="label">packages clean</div>
+          </div>
+          <div class="pulse-cell">
+            <div class="num">7/8</div>
+            <div class="label">canonical entities</div>
+          </div>
+          <div class="pulse-cell">
+            <div class="num">1/16+</div>
+            <div class="label">adapters built</div>
+          </div>
+          <div class="pulse-cell">
+            <div class="num">8</div>
+            <div class="label">internal docs</div>
+          </div>
+          <div class="pulse-cell">
+            <div class="num green">1</div>
+            <div class="label">active engagement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3><span class="icon">⏳</span>關鍵倒數</h3>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <div style="font-size:32px; font-weight:700; color:var(--status-partial); line-height:1;" id="cd-meeting">~</div>
+            <div style="font-size:12px; color:var(--slate-500); margin-top:4px;">天到第一次玉山會議 (目標 5/8)</div>
+          </div>
+          <div>
+            <div style="font-size:32px; font-weight:700; color:var(--teal-dark); line-height:1;" id="cd-golive">~</div>
+            <div style="font-size:12px; color:var(--slate-500); margin-top:4px;">天到玉山 Go-live (2026-06-30)</div>
+          </div>
+          <div>
+            <div style="font-size:32px; font-weight:700; color:var(--slate-500); line-height:1;" id="cd-eol">~</div>
+            <div style="font-size:12px; color:var(--slate-500); margin-top:4px;">天到 Genesys EOL (2026-11-01)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TAB · 地圖 ─────────────────────────────────────────── -->
+<section class="tab-section" id="tab-map">
+  <h2 class="tab-title">整體地圖</h2>
+  <p class="tab-subtitle">兩種視角看 VOXEN — 切換看不同層次的真實</p>
+
+  <div class="map-view-toggle">
+    <button class="vt-btn active" data-view="tooling">工程地圖 <span class="sub">— 現狀（什麼建了 / 沒建）</span></button>
+    <button class="vt-btn" data-view="architecture">架構地圖 <span class="sub">— 6×7×4 設計藍圖</span></button>
+  </div>
+
+  <div id="view-tooling">
+    <div class="map-meta">
+      <strong>工程視角</strong> — VOXEN 平台「<strong>現在的樣子</strong>」。每個 block 都有狀態燈：已建、部分、規劃、遠期。切換上方角色 → 跟你相關的區塊保持原色、其他變淡（呼應卷三「應物而現」）。
+    </div>
+    <div class="map-wrap">
+      <object id="platform-svg" data="PLATFORM-MAP.svg" type="image/svg+xml"
+              aria-label="VOXEN Platform Map"></object>
+      <div class="map-legend">
+        <div class="legend-items">
+          <span class="legend-item"><span class="dot" style="background:var(--status-built)"></span>已建</span>
+          <span class="legend-item"><span class="dot" style="background:var(--status-partial)"></span>部分</span>
+          <span class="legend-item"><span class="dot" style="background:var(--status-planned)"></span>規劃</span>
+          <span class="legend-item"><span class="dot" style="background:var(--status-future)"></span>遠期</span>
+        </div>
+        <div class="hint">切換角色 → 跟你相關的區塊保持原色，無關區塊變淡</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-architecture" style="display:none;">
+    <div class="map-meta">
+      <strong>架構視角</strong> — VOXEN 平台「<strong>設計上是什麼</strong>」。<br>
+      <strong>6 層</strong>（L1-L6 由下而上的能力堆疊）×　<strong>7 橫切柱</strong>（C1-C7 跨層共用的關注點）×　<strong>4 平台營運</strong>（P1-P4 對外的營運面）。<br>
+      源於 SRS Ch 6 / Fig 2 master architecture。
+    </div>
+    <div class="map-wrap">
+      <object id="architecture-svg" data="diagrams/fig-02-master-architecture.svg" type="image/svg+xml"
+              aria-label="VOXEN 6×7×4 Architecture"></object>
+      <div class="map-legend">
+        <div class="legend-items" style="font-size:12px; color:var(--slate-700);">
+          <span><strong>L1-L6</strong> 六層能力</span>
+          <span><strong>C1-C7</strong> 七橫切柱</span>
+          <span><strong>P1-P4</strong> 四營運塊</span>
+        </div>
+        <div class="hint">完整章節請見 SRS Ch 6 (架構總覽) · Ch 12-17 (各層細節) · Ch 18-23 (橫切柱) · Ch 24-27 (P1-P4)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TAB · E.SUN Outreach Project ───────────────────────────────────────── -->
+<section class="tab-section" id="tab-esun">
+  <h2 class="tab-title">E.SUN Outreach Project — Phase 6 Outreach</h2>
+  <p class="tab-subtitle">450 席外撥替代 Genesys Engage · Go-live 2026-06-30</p>
+
+  <div class="esun-header">
+    <div class="card">
+      <h3><span class="icon">⏳</span>關鍵倒數</h3>
+      <div class="countdown-grid">
+        <div class="countdown-card warn">
+          <div class="days" id="cd-meeting2">~</div>
+          <div class="unit">天</div>
+          <div class="what">到第一次<br>玉山會議</div>
+        </div>
+        <div class="countdown-card">
+          <div class="days" id="cd-golive2">~</div>
+          <div class="unit">天</div>
+          <div class="what">到 Go-live<br>(2026-06-30)</div>
+        </div>
+        <div class="countdown-card">
+          <div class="days" id="cd-eol2">~</div>
+          <div class="unit">天</div>
+          <div class="what">到 Genesys EOL<br>(2026-11-01)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="icon">🎯</span>當前進度</h3>
+      <div class="pipeline-list" id="pipeline-list"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">📋</span>待辦工作 · E.SUN Outreach Project To-Do</h3>
+    <p style="font-size:13px; color:var(--slate-500); margin:0 0 16px;">
+      依時序分類 · 共 <span id="todo-total">0</span> 項 · <span id="todo-done">0</span> 完成 · 點 ▢ 可標記完成（記在 localStorage）
+    </p>
+    <div id="todo-cats"></div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🔗</span>相關文件 · 一鍵跳轉</h3>
+    <div class="quick-links">
+      <a class="quick-link" href="proposals/esun-outreach-project/01-meeting-pack/OUTREACH-EMAIL-DRAFT.md">
+        <div class="name">📧 Outreach Email 草稿</div>
+        <div class="path">01-meeting-pack/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/01-meeting-pack/MEETING-AGENDA-PROPOSAL.md">
+        <div class="name">📅 會議議程提案</div>
+        <div class="path">01-meeting-pack/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/01-meeting-pack/PRE-MEETING-CHECKLIST.md">
+        <div class="name">✓ 會前 Checklist</div>
+        <div class="path">01-meeting-pack/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/01-meeting-pack/VOXEN-Pitch-ESUN-v1.0.pptx">
+        <div class="name">🎬 Pitch Deck v1.0 (25 頁)</div>
+        <div class="path">01-meeting-pack/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/01-meeting-pack/VOXEN-OnePager-ESUN-v1.0.pdf">
+        <div class="name">📄 Executive One-Pager</div>
+        <div class="path">01-meeting-pack/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/03-deliverables/VOXEN-SOW-Draft-v0.6-ESUN.pdf">
+        <div class="name">📋 SOW Draft v0.6</div>
+        <div class="path">03-deliverables/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/02-internal-prep/VOXEN-QA-Binder-ESUN-INTERNAL-v1.0.pdf">
+        <div class="name">📚 Q&A Binder (內部)</div>
+        <div class="path">02-internal-prep/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/02-internal-prep/VOXEN-TCO-ESUN-v1.0.xlsx">
+        <div class="name">💰 TCO 試算表</div>
+        <div class="path">02-internal-prep/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/02-internal-prep/VOXEN-DryRun-Playbook-ESUN-INTERNAL-v1.0.pdf">
+        <div class="name">🎭 Dry Run Playbook</div>
+        <div class="path">02-internal-prep/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/02-internal-prep/DEMO-RUNBOOK.md">
+        <div class="name">🎬 Demo Runbook</div>
+        <div class="path">02-internal-prep/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/04-post-meeting/FOLLOWUP-EMAIL-TEMPLATE.md">
+        <div class="name">💌 24hr Follow-up Email 模板</div>
+        <div class="path">04-post-meeting/</div>
+      </a>
+      <a class="quick-link" href="proposals/esun-outreach-project/03-deliverables/POC-ACCEPTANCE-CRITERIA.md">
+        <div class="name">✓ POC 驗收標準書</div>
+        <div class="path">03-deliverables/</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TAB · 時序 ─────────────────────────────────────────── -->
+<section class="tab-section" id="tab-timeline">
+  <h2 class="tab-title">時序流</h2>
+  <p class="tab-subtitle">VOXEN 的節奏 · 從 PROJECT-LOG.md 抽取</p>
+
+  <div class="timeline-filter" id="timeline-filter">
+    <button class="filter-btn active" data-cat="all">全部</button>
+    <button class="filter-btn" data-cat="tech">技術 (tech)</button>
+    <button class="filter-btn" data-cat="biz">商業 (biz)</button>
+    <button class="filter-btn" data-cat="doc">文件 (doc)</button>
+  </div>
+
+  <div class="card">
+    <ul class="timeline-list" id="timeline-list"></ul>
+  </div>
+</section>
+
+<!-- ─── TAB · 待覺察 ───────────────────────────────────────── -->
+<section class="tab-section" id="tab-decisions">
+  <h2 class="tab-title">待覺察 · Pending Decisions</h2>
+  <p class="tab-subtitle">不急於決定，但要意識到 · 切換角色看跟你相關的</p>
+
+  <div class="decision-grid" id="decision-grid"></div>
+</section>
+
+<!-- ─── TAB · 團隊 ─────────────────────────────────────────── -->
+<section class="tab-section" id="tab-team">
+  <h2 class="tab-title">團隊</h2>
+  <p class="tab-subtitle">每位成員當前狀態 · 自助更新</p>
+
+  <div class="team-warning" id="team-warning" style="display:none;"></div>
+
+  <div class="team-grid" id="team-grid"></div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     EDIT MODAL
+     ============================================================ -->
+<div class="modal-backdrop" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>編輯我的狀態</h2>
+      <button class="close" id="modal-close">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-member-id">
+      <label>姓名</label>
+      <input type="text" id="edit-name" placeholder="你的名字">
+      <label>職稱</label>
+      <input type="text" id="edit-role-label" placeholder="例：工程師、業務總監">
+      <label>現在專注 (一句話)</label>
+      <input type="text" id="edit-focus" placeholder="你現在主要在投入什麼">
+
+      <label>本週任務</label>
+      <div id="edit-tasks"></div>
+      <button class="add-row-btn" id="add-task-btn">+ 新增任務</button>
+
+      <label>障礙中 (一行一個，可空)</label>
+      <textarea id="edit-blocked" placeholder="等什麼人 / 什麼決定 / 什麼資料&#10;一行一個"></textarea>
+
+      <label>可幫忙的領域 (一行一個)</label>
+      <textarea id="edit-help" placeholder="你願意被找的領域&#10;一行一個"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancel-btn">取消</button>
+      <button class="btn btn-primary" id="save-btn">⬇ 下載更新後的 JSON</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="aphorism">
+    <em>VOXEN 不在這個畫面裡。</em><br>
+    VOXEN 在你看完這個畫面，<br>
+    回頭做下一件事的方式裡。
+  </div>
+  <div class="meta">
+    Source of truth：<a href="../PROJECT-LOG.md">PROJECT-LOG.md</a> ·
+    <a href="VOXEN-PHILOSOPHICAL-FOUNDATION.md">PHILOSOPHICAL-FOUNDATION</a> ·
+    <a href="internal/CANONICAL-MODEL.md">CANONICAL-MODEL</a> ·
+    <a href="../team-status.json">team-status.json</a><br>
+    本頁面為 VOXEN 自我覺察工具 · v0.2 · 不是最終版 · 當有新覺察時即可修訂
+  </div>
+  <div class="keys">
+    快捷鍵：<kbd>1</kbd>-<kbd>6</kbd> 切換 tab · <kbd>R</kbd> 換覺察 · <kbd>?</kbd> 此快捷說明
+  </div>
+</footer>
+
+<!-- ============================================================
+     DATA + LOGIC
+     ============================================================ -->
+<script>
+// =================== DATA ===================
+const REFLECTIONS = [
+  { text: "這段程式假設了某種特定使用者嗎？如果是 — 是否能更通用？", source: "卷五 · 寫程式時自問", scope: ["engineer"] },
+  { text: "這段程式假設了某種特定情境嗎？如果是 — 是否能更彈性？", source: "卷五 · 寫程式時自問", scope: ["engineer"] },
+  { text: "這段程式 5 年後還會被人 / AI Agent 使用嗎？如何讓它好被使用？", source: "卷五 · 寫程式時自問", scope: ["engineer"] },
+  { text: "這段話假設讀者是誰？", source: "卷五 · 寫文件時自問", scope: ["engineer", "pm", "sales"] },
+  { text: "如果換一個 TA 來讀，這段話還成立嗎？", source: "卷五 · 寫文件時自問", scope: ["engineer", "pm", "sales", "legal"] },
+  { text: "我是否在用某種職業習慣的語言（工程師話 / 行銷話 / 業務話）強加 perspective？", source: "卷五 · 寫文件時自問", scope: ["all"] },
+  { text: "這個選擇是出於覺察，還是出於慣性？", source: "卷五 · 設計決策時自問", scope: ["engineer", "pm"] },
+  { text: "我能說出『我為什麼選 A 而非 B』嗎？", source: "卷五 · 設計決策時自問", scope: ["engineer", "pm"] },
+  { text: "未來如果 B 變成更好的選擇，這個架構能轉換嗎？", source: "卷五 · 設計決策時自問", scope: ["engineer"] },
+  { text: "我此刻說的，是 VOXEN 全部嗎？— 一定不是。每次都只是一個面相。", source: "卷五 · 對外溝通時自問", scope: ["pm", "sales"] },
+  { text: "我說的這個面相，對方此刻真的需要聽嗎？", source: "卷五 · 對外溝通時自問", scope: ["pm", "sales"] },
+  { text: "我有沒有為了『方便溝通』而扭曲事實？", source: "卷五 · 對外溝通時自問", scope: ["all"] }
+];
+
+const PERSONAS = [
+  { id: "all",       label: "─ 我是 VOXEN（看全部）", group: "meta",     title: "VOXEN 自身視角",    quote: "「VOXEN 在每張臉前都真實。」",                                                                              relevant: ["engagements","knowledge","apps","integrations","core","devops"] },
+  { id: "engineer",  label: "工程師（內部）",         group: "internal", title: "工程師視角",        quote: "「我等待被需要 — 由誰呼叫、用何方式、是否取代我，皆可。」",                                                       relevant: ["core","integrations","devops"] },
+  { id: "pm",        label: "PM / Engagement Manager", group: "internal", title: "PM 視角",           quote: "「不執著於『我希望別人這樣看我』，而能承擔多面相。」",                                                            relevant: ["engagements","devops","knowledge"] },
+  { id: "sales",     label: "業務 / Sales",            group: "internal", title: "業務視角",          quote: "「我說的這個面相，對方此刻真的需要聽嗎？」",                                                                      relevant: ["engagements","apps"] },
+  { id: "legal",     label: "法務（內部）",           group: "internal", title: "法務視角",          quote: "「合約條款是覺察的痕跡，不是箝制。」",                                                                            relevant: ["engagements","knowledge"] },
+  { id: "banking-it", label: "銀行 IT 部門（外部）",   group: "external", title: "對銀行 IT 部門：",  quote: "「VOXEN 是符合金管會、PCI、個資法的合規平台。客戶資料不出境，地端 LLM 可選，稽核 7 年完整。」",                  relevant: ["integrations","core","devops"] },
+  { id: "smb",       label: "SMB 中小企業（外部）",   group: "external", title: "對 SMB 中小企業：", quote: "「VOXEN 是 1-2 週可開台的 SaaS 客服雲。月費合理、AI 即用、整合主流 CRM。」",                                     relevant: ["apps","integrations"] },
+  { id: "investor",  label: "投資者（外部）",         group: "external", title: "對投資者：",        quote: "「VOXEN 是 AI Agent-native 的客戶互動平台。TAM 從客服中心擴張至客戶接觸全領域。」",                              relevant: ["engagements","apps","integrations"] },
+  { id: "developer", label: "開發者 / SI（外部）",    group: "external", title: "對開發者 / 系統整合商：", quote: "「VOXEN 是 plugin-first 的開放平台。Adapter 可擴展、SDK 完整、Marketplace 規劃中。」",                  relevant: ["core","integrations"] },
+  { id: "supervisor", label: "客服中心主管（外部）",   group: "external", title: "對客服中心主管：",  quote: "「VOXEN 讓座席產能 +25%、流失率 -30%、客戶滿意度上升。」",                                                       relevant: ["apps","integrations"] },
+  { id: "agent",     label: "座席員工（外部）",       group: "external", title: "對座席員工：",      quote: "「VOXEN 減少你打字、減少你查資料，讓你能真正專注於客戶。」",                                                     relevant: ["apps"] },
+  { id: "customer",  label: "客戶（最終消費者）",     group: "external", title: "對客戶：",          quote: "「VOXEN 不存在於你眼前。但你打的每通電話、發的每個訊息，都因為它而被聽見、被理解、被尊重。」",                  relevant: [] }
+];
+
+const NEXT_ACTIONS = {
+  all:        "看完此頁後，回頭做你正在做的那件事 — 帶著新的覺察。",
+  engineer:   "今天可以做：(a) 跑 pnpm test 看 37/37、(b) 看 INTEGRATION-PATTERNS 想 M2 IVR webhook、(c) 為 @voxen/core 加新 Interaction entity",
+  pm:         "今天可以做：(a) 確認玉山 outreach email 寄發時機、(b) check 同事 RESOURCE-INVENTORY 進度、(c) 寫下次 dry run 排期",
+  sales:      "今天可以做：(a) review 玉山 outreach email 草稿（請 Eric 過目）、(b) 校對 SOW v0.6 商業條款段、(c) 想下一個 ballpark 數字回應",
+  legal:      "今天可以做：(a) review SOW v0.6 法務章節、(b) 確認 Source Code Escrow 三方合約樣本、(c) 個資法對應檢核",
+  "banking-it": "你看到的 VOXEN：合規面 + 整合面。重點看 INTEGRATIONS 中的 PBX / Identity / Storage 區塊跟 DEVOPS 的稽核能力。",
+  smb:        "你看到的 VOXEN：APPS（多久能開台）+ INTEGRATIONS（接得到我的工具嗎）。",
+  investor:   "你看到的 VOXEN：ENGAGEMENTS（有真實案例）+ INTEGRATIONS（廣度）+ APPS（產品力）。",
+  developer:  "你看到的 VOXEN：@voxen/core 的 contracts + INTEGRATIONS 的 adapter pattern。試試讀 INTEGRATION-PATTERNS.md。",
+  supervisor: "你看到的 VOXEN：APPS 中的 Supervisor Dashboard（規劃中）+ INTEGRATIONS 中的錄音管理。",
+  agent:      "你看到的 VOXEN：APPS 中的 ADA（你每天會用）。",
+  customer:   "你看不到 VOXEN — 但每通電話都因為它而被聽見、被理解、被尊重。"
+};
+
+const PIPELINE = [
+  { name: "SRS / 提案準備",                    status: "done" },
+  { name: "Pitch + SOW + QA Binder ready",     status: "done" },
+  { name: "寄 Outreach Email",                 status: "current" },
+  { name: "第一次正式會議",                    status: "future" },
+  { name: "NDA 簽署",                          status: "future" },
+  { name: "POC 階段",                          status: "future" },
+  { name: "合約簽訂",                          status: "future" },
+  { name: "Pilot Production Run (50 席 / 2 週)", status: "future" },
+  { name: "Go-live (450 席 · 2026-06-30)",     status: "future" },
+  { name: "Genesys 退役 (2026-11-01)",         status: "future" }
+];
+
+const ACTIVITY = [
+  { time: "2026-04-27 早晨", cat: "tech", what: "Platform Dashboard v0.2 重構（tabs + 放大字 + persona 變色 + 團隊 tab）" },
+  { time: "2026-04-27 早上", cat: "doc",  what: "Platform Map SVG · 一覽地圖 · 加 data-block 屬性" },
+  { time: "2026-04-26 20:30", cat: "tech", what: "本機驗證：37/37 tests 全綠（在 Mac 上）" },
+  { time: "2026-04-26 19:50", cat: "tech", what: "P5 端對端 smoke test — mock 3CX → adapter → bus 完整鏈路" },
+  { time: "2026-04-26 19:35", cat: "tech", what: "P4 ThreeCXAdapter + healthServer + index.ts 主入口" },
+  { time: "2026-04-26 19:34", cat: "tech", what: "P3 ThreeCXClient + Mock 3CX server (含 RFC 6455 WS)" },
+  { time: "2026-04-26 19:30", cat: "tech", what: "P2 3CX vendor types + 3 組 mappers + 17 unit tests" },
+  { time: "2026-04-26 19:21", cat: "tech", what: "P1 @voxen/core — 8 entity Zod schemas + utils + InProcessEventBus" },
+  { time: "2026-04-26 19:20", cat: "tech", what: "P0 monorepo 骨架 (pnpm workspaces + tsconfig.base)" },
+  { time: "2026-04-26 18:10", cat: "doc",  what: "CANONICAL-MODEL.md (8 entity TypeScript interface + vendor mapping)" },
+  { time: "2026-04-26 14:55", cat: "doc",  what: "INTEGRATION-PATTERNS.md (5 種整合模式 M1-M5 · 3CX IVR 主例)" },
+  { time: "2026-04-26 14:35", cat: "doc",  what: "RESOURCE-INVENTORY.md v0.1 框架 (待同事填 80 cells)" },
+  { time: "2026-04-26 14:20", cat: "biz",  what: "Pre-meeting Logistics Checklist" },
+  { time: "2026-04-26 14:19", cat: "biz",  what: "Meeting Agenda 提案 (90 分鐘 hybrid)" },
+  { time: "2026-04-26 14:18", cat: "biz",  what: "玉山 Outreach Email 草稿 (3 個提案時段)" },
+  { time: "2026-04-26 14:10", cat: "biz",  what: "POC 驗收標準書 (5 維度 25 項 criteria)" },
+  { time: "2026-04-26 14:09", cat: "biz",  what: "POC 環境配套說明 (網段 + 14 VM + 成本)" },
+  { time: "2026-04-26 14:07", cat: "biz",  what: "POC 環境拓樸圖 SVG" },
+  { time: "2026-04-26 14:06", cat: "biz",  what: "Demo Runbook (4 demo 實機操作手冊)" },
+  { time: "2026-04-26 14:03", cat: "biz",  what: "Dry Run Playbook (32 題刁鑽 mock Q&A + 評估表)" },
+  { time: "2026-04-26 13:51", cat: "biz",  what: "本機 reorganize · 5 個子資料夾結構" },
+  { time: "2026-04-26 13:16", cat: "biz",  what: "24hr Follow-up Email 模板 (3 種變體)" },
+  { time: "2026-04-26 13:14", cat: "biz",  what: "5 個 PDF 統一加浮水印 (對外淺青 / 對內紅)" },
+  { time: "2026-04-26 13:12", cat: "biz",  what: "3 年 TCO 對照試算表 (6 sheet · 160 公式 · 零錯誤)" },
+  { time: "2026-04-26 13:08", cat: "biz",  what: "內部 Q&A 深度準備本 (21 頁 · 6 系列 25+ 題)" },
+  { time: "2026-04-26 13:01", cat: "biz",  what: "Executive One-Pager A4 (給未到場長官)" },
+  { time: "2026-04-26 13:00", cat: "biz",  what: "Pitch Deck v1.0 完整版 (25 頁 · 玉山品牌視覺 · Speaker Notes)" },
+  { time: "2026-04-26 11:58", cat: "biz",  what: "SOW v0.6 最終版 (玉山 teal + isometric 圖)" },
+  { time: "2026-04-26 11:57", cat: "doc",  what: "整體架構圖 Fig 1 (5 層整合 · 玉山 teal)" },
+  { time: "2026-04-26 11:56", cat: "biz",  what: "4 個現場 Demo 腳本" }
+];
+
+const DECISIONS = [
+  { what: "玉山 IT 主管 outreach email · 何時寄", why: "建議 2026-04-28 週一上班時段，需要 Eric 先 review", scope: ["pm", "sales"], help: "Eric Lin", by: "2026-04-28" },
+  { what: "Resource Inventory 80% cells 待填", why: "等同事補完 (人力 / 雲帳號 / 監控工具等)，影響開發優先序判斷", scope: ["pm", "engineer"], help: "技術 Lead + Eric", by: "2026-05-02" },
+  { what: "Schema validation 庫鎖 major version", why: "Zod 已選但 v3 → v4 升級時的兼容策略要決議", scope: ["engineer"], help: "—", by: "2026-05-15" },
+  { what: "Production Event Bus 選型", why: "NATS / Kafka / Redis Streams 三選一，影響跨 process 部署架構", scope: ["engineer"], help: "技術 Lead + DevOps", by: "2026-05-31" },
+  { what: "Customer Engagement domain canonical", why: "Phase 6 上線後需要 (omnichannel)，目前只有 telephony domain 的 canonical", scope: ["engineer", "pm"], help: "—", by: "2026-Q3" },
+  { what: "AI sub-domain canonical", why: "Copilot 整合時需要，影響 KnowledgeChunk / AgentSession 的設計", scope: ["engineer"], help: "AI 工程師", by: "2026-Q3" },
+  { what: "Multi-region ULID monotonicity", why: "上規模時跨 region event 排序問題", scope: ["engineer"], help: "—", by: "2026-Q4" }
+];
+
+// E.SUN Outreach Project Master Checklist — 從 ESUN-MASTER-CHECKLIST.json 載入 (Phase 1-3, 112 項)
+let ESUN_CHECKLIST = null;  // 載入後填入 { phases, categories, items }
+
+// =================== STATE ===================
+const STATE = {
+  persona: localStorage.getItem('voxen-persona') || 'all',
+  reflectionIndex: parseInt(localStorage.getItem('voxen-reflection-idx') || '-1', 10),
+  currentTab: 'today',
+  teamData: null,  // loaded from team-status.json
+  teamLoadError: null
+};
+
+// =================== INIT ===================
+async function init() {
+  renderHeader();
+  renderPersonaPicker();
+  setupTabRouting();
+  setupKeyboardShortcuts();
+  setupMapViewToggle();
+  await Promise.all([loadTeamData(), loadEsunChecklist()]);
+  applyAll();
+}
+
+function renderHeader() {
+  const now = new Date();
+  document.getElementById('today-date').textContent =
+    now.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('today-day').textContent =
+    `星期${['日','一','二','三','四','五','六'][now.getDay()]}`;
+}
+
+function renderPersonaPicker() {
+  const sel = document.getElementById('persona');
+  sel.innerHTML = '';
+  let lastGroup = null;
+  PERSONAS.forEach(p => {
+    if (p.group !== lastGroup) {
+      lastGroup = p.group;
+      if (p.group !== 'meta') {
+        const div = document.createElement('option');
+        div.disabled = true;
+        div.textContent = p.group === 'internal' ? '─── 內部角色 ───' : '─── 對外 TA ───';
+        sel.appendChild(div);
+      }
+    }
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.label;
+    if (p.id === STATE.persona) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', (e) => {
+    STATE.persona = e.target.value;
+    localStorage.setItem('voxen-persona', STATE.persona);
+    applyAll();
+  });
+}
+
+function applyAll() {
+  applyPersona(STATE.persona);
+  renderReflection();
+  renderNextAction();
+  renderPipeline();
+  renderEsunTodos();
+  renderTimeline('all');
+  renderDecisions();
+  renderTeam();
+  updateCountdowns();
+}
+
+// =================== TAB ROUTING ===================
+function setupTabRouting() {
+  document.querySelectorAll('#tab-nav button').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+  // hashchange
+  window.addEventListener('hashchange', readHash);
+  readHash();
+}
+function readHash() {
+  const tab = (window.location.hash || '').replace('#', '') || 'today';
+  if (['today','map','esun','timeline','decisions','team'].includes(tab)) {
+    switchTab(tab, true);
+  }
+}
+function switchTab(tabName, fromHash = false) {
+  STATE.currentTab = tabName;
+  document.querySelectorAll('section.tab-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+  document.querySelectorAll('#tab-nav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabName);
+  });
+  if (!fromHash) window.location.hash = tabName;
+  // Scroll top of main
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// =================== KEYBOARD ===================
+function setupKeyboardShortcuts() {
+  const tabs = ['today','map','esun','timeline','decisions','team'];
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 6) { switchTab(tabs[n - 1]); }
+    if (e.key === 'r' || e.key === 'R') {
+      nextReflection(); renderReflection(true);
+    }
+    if (e.key === '?') {
+      alert('快捷鍵：\n  1-6 切換 tab\n  R 換覺察\n  ? 此說明');
+    }
+  });
+}
+
+// =================== REFLECTION ===================
+function reflectionPool() {
+  return REFLECTIONS.filter(r =>
+    r.scope.includes('all') || r.scope.includes(STATE.persona) || STATE.persona === 'all'
+  );
+}
+function reflectionForToday() {
+  const pool = reflectionPool();
+  if (STATE.reflectionIndex >= 0 && STATE.reflectionIndex < pool.length) return pool[STATE.reflectionIndex];
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+  STATE.reflectionIndex = dayOfYear % pool.length;
+  return pool[STATE.reflectionIndex];
+}
+function nextReflection() {
+  const pool = reflectionPool();
+  STATE.reflectionIndex = ((STATE.reflectionIndex + 1) % pool.length + pool.length) % pool.length;
+  localStorage.setItem('voxen-reflection-idx', STATE.reflectionIndex);
+}
+function renderReflection(animate = false) {
+  const r = reflectionForToday();
+  const promptEl = document.getElementById('reflection-prompt');
+  const sourceEl = document.getElementById('reflection-source');
+  const set = () => {
+    promptEl.textContent = r.text;
+    sourceEl.textContent = `— ${r.source}`;
+  };
+  if (animate) {
+    promptEl.style.transition = 'opacity 0.25s';
+    promptEl.style.opacity = '0';
+    setTimeout(() => { set(); promptEl.style.opacity = '1'; }, 200);
+  } else { set(); }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('reroll-btn').addEventListener('click', () => {
+    nextReflection(); renderReflection(true);
+  });
+});
+
+// =================== NEXT ACTION ===================
+function renderNextAction() {
+  document.getElementById('next-action-text').textContent = NEXT_ACTIONS[STATE.persona] || NEXT_ACTIONS.all;
+}
+
+// =================== PERSONA APPLY (UI + SVG) ===================
+function applyPersona(personaId) {
+  const p = PERSONAS.find(x => x.id === personaId) || PERSONAS[0];
+  document.getElementById('persona-title').textContent = p.title;
+  document.getElementById('persona-quote').textContent = p.quote;
+  applyPersonaToSvg(p);
+}
+function applyPersonaToSvg(persona) {
+  const obj = document.getElementById('platform-svg');
+  const apply = () => {
+    try {
+      const svgDoc = obj.contentDocument;
+      if (!svgDoc) return;
+      svgDoc.querySelectorAll('[data-block]').forEach(el => {
+        const blockId = el.getAttribute('data-block');
+        const isRelevant = persona.id === 'all' || persona.relevant.includes(blockId);
+        if (isRelevant) { el.classList.remove('dim'); el.classList.add('hi'); }
+        else            { el.classList.add('dim');    el.classList.remove('hi'); }
+      });
+    } catch (e) { /* CORS or load timing — silent */ }
+  };
+  if (obj.contentDocument) apply();
+  obj.addEventListener('load', apply);
+}
+
+// =================== PIPELINE ===================
+function renderPipeline() {
+  const wrap = document.getElementById('pipeline-list');
+  wrap.innerHTML = '';
+  PIPELINE.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = `pipeline-item ${s.status}`;
+    const marker = s.status === 'done' ? '✓' : (s.status === 'current' ? '●' : (i + 1));
+    div.innerHTML = `<span class="pipeline-marker">${marker}</span><span>${s.name}</span>`;
+    wrap.appendChild(div);
+  });
+}
+
+// =================== ESUN MASTER CHECKLIST ===================
+async function loadEsunChecklist() {
+  try {
+    const res = await fetch('proposals/esun-outreach-project/ESUN-MASTER-CHECKLIST.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    ESUN_CHECKLIST = await res.json();
+  } catch (err) {
+    console.warn('[ESUN] checklist load failed:', err.message);
+    ESUN_CHECKLIST = { phases: [], categories: [], items: [], _loadError: err.message };
+  }
+}
+function getEsunDoneSet() {
+  try { return new Set(JSON.parse(localStorage.getItem('voxen-esun-todos-done') || '[]')); }
+  catch { return new Set(); }
+}
+function saveEsunDoneSet(set) {
+  localStorage.setItem('voxen-esun-todos-done', JSON.stringify([...set]));
+}
+function toggleEsunTodo(id) {
+  const done = getEsunDoneSet();
+  if (done.has(id)) done.delete(id); else done.add(id);
+  saveEsunDoneSet(done);
+  renderEsunTodos();
+}
+function getActiveEsunPhase() {
+  return localStorage.getItem('voxen-esun-active-phase') || 'P1';
+}
+function setActiveEsunPhase(phaseId) {
+  localStorage.setItem('voxen-esun-active-phase', phaseId);
+  renderEsunTodos();
+}
+
+function renderEsunTodos() {
+  const wrap = document.getElementById('todo-cats');
+  if (!wrap) return;
+  if (!ESUN_CHECKLIST) { wrap.innerHTML = '<div style="color:var(--slate-500);">載入中…</div>'; return; }
+  if (ESUN_CHECKLIST._loadError) {
+    wrap.innerHTML = `<div class="team-warning" style="margin:0;"><strong>⚠ 無法載入 ESUN-MASTER-CHECKLIST.json</strong> — ${ESUN_CHECKLIST._loadError}<br>
+      可能原因：file:// 協定 CORS 擋住 fetch。解法：用 <code>cd ~/VOXEN && python3 -m http.server 8000</code> 然後逛 <code>http://localhost:8000/docs/platform-dashboard.html</code></div>`;
+    return;
+  }
+
+  const done = getEsunDoneSet();
+  const activePhase = getActiveEsunPhase();
+  const items = ESUN_CHECKLIST.items;
+  const total = items.length;
+  const totalDone = items.filter(t => done.has(t.id)).length;
+
+  // Update header counters
+  const tEl = document.getElementById('todo-total');
+  const dEl = document.getElementById('todo-done');
+  if (tEl) tEl.textContent = total;
+  if (dEl) dEl.textContent = totalDone;
+
+  // Build phase tabs
+  const phaseTabsHtml = ESUN_CHECKLIST.phases.map(p => {
+    const phaseItems = items.filter(it => it.phase === p.id);
+    const phaseDone = phaseItems.filter(it => done.has(it.id)).length;
+    return `
+      <button class="phase-tab ${p.id === activePhase ? 'active' : ''}" data-phase="${p.id}">
+        <div class="phase-name">${p.id} · ${escapeHtml(p.name)}</div>
+        <div class="phase-period">${escapeHtml(p.period_estimate || '')}</div>
+        <div class="phase-count">${phaseDone} / ${phaseItems.length}</div>
+      </button>
+    `;
+  }).join('');
+
+  // Active phase content — categories
+  const activePhaseObj = ESUN_CHECKLIST.phases.find(p => p.id === activePhase);
+  const activePhaseDesc = activePhaseObj?.description || '';
+  const activeItems = items.filter(it => it.phase === activePhase);
+  const activeCats = ESUN_CHECKLIST.categories.filter(c => c.phase === activePhase);
+
+  const catsHtml = activeCats.map(cat => {
+    const catItems = activeItems.filter(it => it.category === cat.id);
+    if (!catItems.length) return '';
+    const catDone = catItems.filter(it => done.has(it.id)).length;
+    const itemsHtml = catItems.map(it => `
+      <li class="${done.has(it.id) ? 'done' : ''}" data-tid="${escapeHtml(it.id)}">
+        <span class="check">${done.has(it.id) ? '✓' : ''}</span>
+        <div class="item-body">
+          <div class="item-name">${escapeHtml(it.name)}</div>
+          ${it.description ? `<div class="item-desc">${escapeHtml(it.description)}</div>` : ''}
+          <div class="item-meta">
+            ${it.owner ? `<span class="meta-tag owner">👤 ${escapeHtml(it.owner)}</span>` : ''}
+            ${it.due ? `<span class="meta-tag due">📅 ${escapeHtml(it.due)}</span>` : ''}
+            ${it.acceptance ? `<span class="meta-tag accept" title="${escapeHtml(it.acceptance)}">✓ 驗收標準</span>` : ''}
+            ${it.depends_on?.length ? `<span class="meta-tag deps" title="${it.depends_on.map(escapeHtml).join(', ')}">🔗 依賴 ${it.depends_on.length}</span>` : ''}
+            ${it.related_docs?.length ? `<span class="meta-tag docs">📄 ${it.related_docs.length} 文件</span>` : ''}
+            <span class="meta-tag idtag">${escapeHtml(it.id)}</span>
+          </div>
+        </div>
+      </li>
+    `).join('');
+    return `
+      <div class="checklist-cat">
+        <h4>${cat.icon || ''} ${escapeHtml(cat.label)}<span class="badge">${catDone} / ${catItems.length}</span></h4>
+        <ul class="checklist-list">${itemsHtml}</ul>
+      </div>
+    `;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="phase-tabs">${phaseTabsHtml}</div>
+    <div class="phase-desc">${escapeHtml(activePhaseDesc)}</div>
+    <div class="checklist-cats">${catsHtml || '<div style="color:var(--slate-500); padding:20px;">本 phase 尚無項目</div>'}</div>
+  `;
+
+  // Bind phase tab clicks
+  wrap.querySelectorAll('.phase-tab').forEach(tab => {
+    tab.addEventListener('click', () => setActiveEsunPhase(tab.dataset.phase));
+  });
+  // Bind item toggles
+  wrap.querySelectorAll('li[data-tid]').forEach(li => {
+    li.addEventListener('click', (e) => {
+      // Don't trigger when clicking on a tooltip-bearing meta-tag
+      if (e.target.closest('.meta-tag.accept, .meta-tag.deps')) return;
+      toggleEsunTodo(li.dataset.tid);
+    });
+    li.style.cursor = 'pointer';
+  });
+}
+
+// =================== MAP VIEW TOGGLE (工程 vs 架構) ===================
+function setupMapViewToggle() {
+  document.querySelectorAll('.vt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.vt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const view = btn.dataset.view;
+      document.getElementById('view-tooling').style.display      = (view === 'tooling') ? '' : 'none';
+      document.getElementById('view-architecture').style.display = (view === 'architecture') ? '' : 'none';
+    });
+  });
+}
+
+// =================== TIMELINE ===================
+function renderTimeline(filter = 'all') {
+  const ul = document.getElementById('timeline-list');
+  ul.innerHTML = '';
+  const list = filter === 'all' ? ACTIVITY : ACTIVITY.filter(a => a.cat === filter);
+  list.forEach(a => {
+    const li = document.createElement('li');
+    li.className = a.cat;
+    const catLabel = { tech: 'T', biz: 'B', doc: 'D' }[a.cat] || '?';
+    li.innerHTML = `
+      <span class="time">${a.time}</span>
+      <span class="cat">${catLabel}</span>
+      <span class="what">${a.what}</span>
+    `;
+    ul.appendChild(li);
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#timeline-filter .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#timeline-filter .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimeline(btn.dataset.cat);
+    });
+  });
+});
+
+// =================== DECISIONS ===================
+function renderDecisions() {
+  const grid = document.getElementById('decision-grid');
+  grid.innerHTML = '';
+  const list = STATE.persona === 'all' ? DECISIONS : DECISIONS.filter(d => d.scope.includes(STATE.persona));
+  const final = list.length ? list : DECISIONS;
+  final.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'decision-card';
+    card.innerHTML = `
+      <h4>${d.what}</h4>
+      <div class="why">${d.why}</div>
+      <div class="meta">
+        <span>👥 找誰：${d.help || '—'}</span>
+        <span>📅 期限：${d.by || '—'}</span>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// =================== TEAM ===================
+async function loadTeamData() {
+  try {
+    const res = await fetch('../team-status.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    STATE.teamData = await res.json();
+  } catch (err) {
+    STATE.teamLoadError = err.message;
+    // Fallback: embedded sample
+    STATE.teamData = {
+      last_updated_at: '2026-04-27',
+      members: [{
+        id: 'demo', name: '示範成員', role_label: '請建立 ~/VOXEN/team-status.json',
+        current_focus: '無法載入 team-status.json — 顯示 demo 資料',
+        this_week: [], blocked_on: [], available_for_help_with: [],
+        last_self_update: '—'
+      }]
+    };
+  }
+}
+
+function renderTeam() {
+  const grid = document.getElementById('team-grid');
+  const warn = document.getElementById('team-warning');
+  grid.innerHTML = '';
+
+  if (STATE.teamLoadError) {
+    warn.style.display = 'block';
+    warn.innerHTML = `<strong>⚠ 無法載入 team-status.json</strong> — ${STATE.teamLoadError}<br>
+      可能原因：(1) 直接 file:// 開啟頁面被瀏覽器 CORS 擋住、(2) 檔案不存在於 <code>~/VOXEN/team-status.json</code>。<br>
+      解法：用本地 web server 開啟（例如 <code>cd ~/VOXEN && python3 -m http.server 8000</code> 然後逛 <code>http://localhost:8000/docs/platform-dashboard.html</code>），或直接編輯 <code>team-status.json</code>。`;
+  } else {
+    warn.style.display = 'none';
+  }
+
+  if (!STATE.teamData?.members) return;
+
+  // Determine "self" — match persona role to member role
+  const selfRoleMap = { engineer: 'engineer', pm: 'pm', sales: 'sales', legal: 'legal' };
+  const selfRole = selfRoleMap[STATE.persona];
+
+  STATE.teamData.members.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    if (m.role && selfRole && m.role.includes(selfRole)) {
+      card.classList.add('is-self');
+    }
+    const tasksHtml = (m.this_week || []).map(t => {
+      const ico = t.status === 'done' ? '✓' : t.status === 'in_progress' ? '🔄' : t.status === 'blocked' ? '🚫' : '⏳';
+      return `<li class="${t.status}"><span class="ico">${ico}</span>${escapeHtml(t.what)}<span class="due">${t.due || ''}</span></li>`;
+    }).join('') || '<li style="color:var(--slate-400); font-style:italic;">本週無任務（或還沒填）</li>';
+
+    const helpHtml = (m.available_for_help_with || []).map(h =>
+      `<span class="tag">${escapeHtml(h)}</span>`
+    ).join('') || '<span style="color:var(--slate-400); font-style:italic;">—</span>';
+
+    const blockedHtml = (m.blocked_on || []).length
+      ? '<ul class="tasks">' + m.blocked_on.map(b =>
+          `<li class="blocked"><span class="ico">🚫</span>${escapeHtml(b)}</li>`
+        ).join('') + '</ul>'
+      : '<div style="color:var(--slate-400); font-style:italic; font-size:13px;">無</div>';
+
+    card.innerHTML = `
+      ${card.classList.contains('is-self') ? '<span class="self-badge">這是你</span>' : ''}
+      <h3>${escapeHtml(m.name)}</h3>
+      <div class="role-label">${escapeHtml(m.role_label || m.role || '')}</div>
+
+      <div class="focus">
+        <div class="label">現在專注</div>
+        ${escapeHtml(m.current_focus || '—')}
+      </div>
+
+      <div class="section-label">本週任務</div>
+      <ul class="tasks">${tasksHtml}</ul>
+
+      <div class="section-label">障礙中</div>
+      ${blockedHtml}
+
+      <div class="section-label">可幫忙</div>
+      <div class="help">${helpHtml}</div>
+
+      <div class="timestamp">
+        <span>🕐 ${escapeHtml(m.last_self_update || '—')} 自助更新</span>
+        <button class="edit-btn" data-mid="${m.id}">✎ 編輯</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Bind edit buttons
+  grid.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => openEditModal(btn.dataset.mid));
+  });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
+}
+
+// =================== EDIT MODAL ===================
+function openEditModal(memberId) {
+  let member = STATE.teamData.members.find(m => m.id === memberId);
+  const isNew = !member;
+  if (isNew) {
+    member = { id: memberId, name: '', role: 'engineer', role_label: '', current_focus: '',
+               this_week: [], blocked_on: [], available_for_help_with: [], last_self_update: '' };
+  }
+
+  document.getElementById('edit-member-id').value = memberId;
+  document.getElementById('edit-name').value = member.name || '';
+  document.getElementById('edit-role-label').value = member.role_label || '';
+  document.getElementById('edit-focus').value = member.current_focus || '';
+  document.getElementById('edit-blocked').value = (member.blocked_on || []).join('\n');
+  document.getElementById('edit-help').value = (member.available_for_help_with || []).join('\n');
+
+  const tasksWrap = document.getElementById('edit-tasks');
+  tasksWrap.innerHTML = '';
+  (member.this_week || []).forEach(t => addTaskRow(t));
+  if ((member.this_week || []).length === 0) addTaskRow();
+
+  document.getElementById('edit-modal').classList.add('show');
+}
+
+function addTaskRow(task = {}) {
+  const wrap = document.getElementById('edit-tasks');
+  const row = document.createElement('div');
+  row.className = 'modal-task-row';
+  row.innerHTML = `
+    <input type="text" placeholder="要做什麼" value="${escapeHtml(task.what || '')}">
+    <input type="text" placeholder="YYYY-MM-DD" value="${escapeHtml(task.due || '')}">
+    <select>
+      <option value="pending"     ${task.status === 'pending' ? 'selected' : ''}>待辦</option>
+      <option value="in_progress" ${task.status === 'in_progress' ? 'selected' : ''}>進行中</option>
+      <option value="done"        ${task.status === 'done' ? 'selected' : ''}>完成</option>
+      <option value="blocked"     ${task.status === 'blocked' ? 'selected' : ''}>卡住</option>
+    </select>
+    <button class="remove-btn" type="button">×</button>
+  `;
+  row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
+  wrap.appendChild(row);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('add-task-btn').addEventListener('click', () => addTaskRow());
+  document.getElementById('cancel-btn').addEventListener('click', closeModal);
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('save-btn').addEventListener('click', saveAndDownload);
+});
+
+function closeModal() {
+  document.getElementById('edit-modal').classList.remove('show');
+}
+
+function saveAndDownload() {
+  const id = document.getElementById('edit-member-id').value;
+  const updated = {
+    id,
+    name: document.getElementById('edit-name').value.trim(),
+    role: STATE.teamData.members.find(m => m.id === id)?.role || 'engineer',
+    role_label: document.getElementById('edit-role-label').value.trim(),
+    current_focus: document.getElementById('edit-focus').value.trim(),
+    this_week: [],
+    blocked_on: document.getElementById('edit-blocked').value.split('\n').map(l => l.trim()).filter(Boolean),
+    available_for_help_with: document.getElementById('edit-help').value.split('\n').map(l => l.trim()).filter(Boolean),
+    last_self_update: new Date().toISOString().slice(0, 10)
+  };
+  document.querySelectorAll('#edit-tasks .modal-task-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const select = row.querySelector('select');
+    const what = inputs[0].value.trim();
+    if (!what) return;
+    updated.this_week.push({
+      what,
+      due: inputs[1].value.trim(),
+      status: select.value
+    });
+  });
+
+  // Replace or append in teamData
+  const idx = STATE.teamData.members.findIndex(m => m.id === id);
+  if (idx >= 0) STATE.teamData.members[idx] = { ...STATE.teamData.members[idx], ...updated };
+  else STATE.teamData.members.push(updated);
+  STATE.teamData.last_updated_at = new Date().toISOString().slice(0, 10);
+
+  // Trigger download
+  const json = JSON.stringify(STATE.teamData, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'team-status.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  closeModal();
+  renderTeam();
+  showToast(`已下載 team-status.json — 請覆蓋 <code>~/VOXEN/team-status.json</code> 並 <code>git commit</code>`);
+}
+
+// =================== TOAST ===================
+function showToast(htmlMsg, durationMs = 5000) {
+  const el = document.getElementById('toast');
+  el.innerHTML = htmlMsg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), durationMs);
+}
+
+// =================== COUNTDOWNS ===================
+function updateCountdowns() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const targets = [
+    { date: new Date('2026-05-08'), ids: ['cd-meeting', 'cd-meeting2'] },
+    { date: new Date('2026-06-30'), ids: ['cd-golive',  'cd-golive2']  },
+    { date: new Date('2026-11-01'), ids: ['cd-eol',     'cd-eol2']     }
+  ];
+  targets.forEach(t => {
+    const days = Math.max(0, Math.ceil((t.date - today) / 86400000));
+    t.ids.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = days; });
+  });
+}
+
+// =================== Run ===================
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

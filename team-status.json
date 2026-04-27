@@ -1,0 +1,63 @@
+{
+  "$schema": "./docs/internal/team-status.schema.json",
+  "_comment": "VOXEN 團隊每週狀態。每位成員每週一早上 5 分鐘自己更新一次。dashboard 的『團隊』tab 會 render 這個檔案。",
+  "_format_version": "v0.1",
+  "last_updated_at": "2026-04-27",
+  "members": [
+    {
+      "id": "laurence",
+      "name": "Laurence Lin",
+      "role": "engineer + pm",
+      "role_label": "工程 + Engagement Manager",
+      "current_focus": "VOXEN Platform 從 SRS 走到能跑的 code · E.SUN Outreach Project (玉山 Phase 6)會議準備",
+      "this_week": [
+        { "what": "寄玉山 IT 主管 outreach email", "due": "2026-04-28", "status": "pending" },
+        { "what": "VOXEN platform-dashboard v0.2 重構", "due": "2026-04-27", "status": "in_progress" },
+        { "what": "M2 IVR Active Routing webhook 設計", "due": "2026-05-05", "status": "pending" }
+      ],
+      "blocked_on": [],
+      "available_for_help_with": [
+        "VOXEN core 設計與架構",
+        "玉山 Pitch / SOW / Q&A 內容",
+        "TypeScript / Adapter pattern"
+      ],
+      "last_self_update": "2026-04-27"
+    },
+    {
+      "id": "eric",
+      "name": "Eric Lin",
+      "role": "sales director",
+      "role_label": "業務總監",
+      "current_focus": "E.SUN Outreach Project (玉山 Phase 6)商業條款與議價策略",
+      "this_week": [
+        { "what": "review 玉山 outreach email 草稿", "due": "2026-04-28", "status": "pending" },
+        { "what": "TCO 試算表內部審核", "due": "2026-05-01", "status": "pending" }
+      ],
+      "blocked_on": [],
+      "available_for_help_with": [
+        "客戶關係 / 政治判斷",
+        "商業條款議約框架",
+        "競品定價情報"
+      ],
+      "last_self_update": "2026-04-27"
+    }
+  ],
+  "_template_for_new_members": {
+    "id": "<short-id>",
+    "name": "<姓名>",
+    "role": "<engineer | pm | sales | legal | designer | ops | other>",
+    "role_label": "<中文職稱>",
+    "current_focus": "<一句話：你現在主要在投入什麼>",
+    "this_week": [
+      { "what": "<本週要完成的具體任務>", "due": "<YYYY-MM-DD>", "status": "<pending | in_progress | done | blocked>" }
+    ],
+    "blocked_on": [
+      "<等什麼人 / 什麼決定 / 什麼資料>"
+    ],
+    "available_for_help_with": [
+      "<你願意被找的領域 1>",
+      "<你願意被找的領域 2>"
+    ],
+    "last_self_update": "<YYYY-MM-DD>"
+  }
+}
