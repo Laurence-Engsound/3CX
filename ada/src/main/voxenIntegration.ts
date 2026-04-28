@@ -31,15 +31,41 @@ const KEYCHAIN_SERVICE = 'ada-xapi'
 
 let eventBus: IEventBus | null = null
 let pbxAdapter: PBXAdapter | null = null
+let customer360: Customer360Service | null = null
 let barWindow: BrowserWindow | null = null
+
+/**
+ * W2D3 — Ring buffer of recent canonical events. When a Bar window opens
+ * after some events have already fired (e.g., system.adapter.started fires
+ * during ada boot, before Bar finishes mount), we replay the buffer so the
+ * Bar's evt counter and any UI state-machine catches up.
+ */
+const EVENT_BUFFER_SIZE = 50
+const eventBuffer: unknown[] = []
 
 /**
  * Register the Bar window so voxenIntegration can forward EventBus events
  * to it via IPC ('voxen:event' channel). Called by main/index.ts after
  * createBarWindow(). Pass null to detach (e.g., on window close).
+ *
+ * W2D3: also replay the recent-event buffer to the Bar after its content
+ * finishes loading — fixes the "evt 0 even though events fired" issue.
  */
 export function setBarWindow(win: BrowserWindow | null): void {
   barWindow = win
+  if (!win) return
+
+  const replay = (): void => {
+    if (!barWindow || barWindow.isDestroyed()) return
+    for (const event of eventBuffer) {
+      barWindow.webContents.send('voxen:event', event)
+    }
+  }
+  if (win.webContents.isLoading()) {
+    win.webContents.once('did-finish-load', replay)
+  } else {
+    replay()
+  }
 }
 
 /**
@@ -55,22 +81,46 @@ export function initVoxenIntegration(): void {
   console.log('🟢 VOXEN integration starting...')
   console.log('   ✓ EventBus ready')
 
-  // W1D6 + W2D1: Subscribe to ALL canonical events.
+  // W1D6 + W2D1 + W2D3: Subscribe to ALL canonical events.
   //   1. Pretty-print to main console (dev-time visibility)
-  //   2. Forward to Bar window via IPC ('voxen:event' channel)
-  // Bar window listens via window.voxen.onEvent() (see preload).
+  //   2. Buffer for late-mounting consumers (W2D3 — Bar opens after boot)
+  //   3. Forward to Bar window via IPC ('voxen:event' channel)
+  //   4. If event is a call.* with a phone in payload, auto-lookup customer
+  //      and push the profile to Bar (W2D3 — real call → customer card)
   eventBus.subscribe('*', (event) => {
     const refStr = Object.entries(event.refs)
       .map(([k, v]) => `${k}=${String(v).slice(-12)}`)
       .join(' ')
     console.log(`[bus] ${event.type.padEnd(36)} ${refStr || '-'}`)
 
-    // Forward to Bar window (W2D1). Skip if no window or already destroyed.
+    // (2) Append to ring buffer for late subscribers
+    eventBuffer.push(event)
+    if (eventBuffer.length > EVENT_BUFFER_SIZE) eventBuffer.shift()
+
+    // (3) Live forward to Bar window
     if (barWindow && !barWindow.isDestroyed()) {
       barWindow.webContents.send('voxen:event', event)
     }
+
+    // (4) On call.* events, look up customer + push profile
+    if (event.type.startsWith('call.') && customer360) {
+      const phone = extractPhoneFromEvent(event)
+      if (phone) {
+        void (async () => {
+          try {
+            const profile = await customer360!.getProfileByPhone(phone)
+            if (profile && barWindow && !barWindow.isDestroyed()) {
+              barWindow.webContents.send('voxen:customer-profile', profile)
+              console.log(`   📞 ${event.type} → customer lookup: ${profile.customer.displayName}`)
+            }
+          } catch (err) {
+            console.log(`   ✗ Customer-360 lookup failed:`, (err as Error).message)
+          }
+        })()
+      }
+    }
   })
-  console.log('   ✓ EventBus subscriber attached (console + Bar IPC forward)')
+  console.log('   ✓ EventBus subscriber attached (console + buffer + Bar IPC + auto-lookup)')
 
   // Background async: read settings → OAuth → start adapter.
   // Fire-and-forget — never throws to caller, never crashes ada.
@@ -176,7 +226,7 @@ async function setupCustomer360(): Promise<void> {
   console.log('   ✓ Wiring @voxen/crm-mock + Customer360Service...')
   const crmMock = createEsunMockAdapter()
   await crmMock.start()
-  const customer360 = new Customer360Service({
+  customer360 = new Customer360Service({
     customerLookup: crmMock,
     callHistory: crmMock,
   })
@@ -186,6 +236,7 @@ async function setupCustomer360(): Promise<void> {
   // Proves the platform-to-UI chain works without needing real 3CX activity.
   setTimeout(() => {
     void (async () => {
+      if (!customer360) return
       const profile = await customer360.getProfileByPhone('+886912345001')
       if (!profile) {
         console.log('   ⚠️  W2D2 synthetic test: 王先生 not found in mock')
@@ -198,6 +249,27 @@ async function setupCustomer360(): Promise<void> {
       }
     })()
   }, 3000).unref()
+}
+
+/**
+ * W2D3 — try to extract a caller phone number from a canonical Event's
+ * payload. Defensive about field names since different vendor adapters
+ * may use different payload shapes (3CX, Genesys, Asterisk, ...).
+ *
+ * Returns null if no plausible phone field is found.
+ */
+function extractPhoneFromEvent(event: { payload?: Record<string, unknown> }): string | null {
+  const p = event.payload
+  if (!p) return null
+  const candidates = [
+    'caller', 'callerPhone', 'callerNumber', 'fromPhone',
+    'from', 'phoneNumber', 'phone', 'number',
+  ]
+  for (const key of candidates) {
+    const v = p[key]
+    if (typeof v === 'string' && v.length >= 8) return v
+  }
+  return null
 }
 
 /**
