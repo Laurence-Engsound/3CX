@@ -19,15 +19,89 @@
 | **玉山 Outreach Email + 議程** | 2026-04-26 下午 | ✅ 完成 | 待 Laurence 寄出 |
 | **VOXEN 整合架構文件** | 2026-04-26 下午-晚間 | ✅ 完成 | INTEGRATION-PATTERNS + CANONICAL-MODEL + RESOURCE-INVENTORY |
 | **VOXEN 平台 scaffold (P0–P5)** | 2026-04-26 晚間 | ✅ 完成 | monorepo + @voxen/core + @voxen/pbx-3cx，**37/37 tests 在 Mac 跑通** |
+| **eSun → ESUN 命名正名 + GitHub repo rename** | 2026-04-27 | ✅ 完成 | 130 處 text + 18 檔 + 1 資料夾；GitHub `3CX` → `VOXEN` |
+| **VOXEN scaffold push GitHub** | 2026-04-27 | ✅ 完成 | github.com/Laurence-Engsound/VOXEN (private) |
+| **VOXEN P6 — L5 Customer-360 service + crm-mock** | 2026-04-27 | ✅ 完成 | 第一個 L5 service；雙 contract pattern 驗證；**59/59 tests** |
+| **ada Phase 6 — Charter + ADR-0002 + PLAN v2** | 2026-04-27 | ✅ 完成 | ada 升格為 VOXEN L6 reference application |
+| **ada Phase 6 W1D1-D5 — VOXEN platform 真實連線** | 2026-04-28 上午 | ✅ 完成 | ada → @voxen/* → real 3CX V20 (HTTP + WS 雙綠) |
 | **M2 Active Routing webhook** | TBD | ⏳ 下一站 | 3CX IVR Forward to URL handler |
 | **OPEN/TeleSA Adapter** | TBD | ⏳ 排程中 | 玉山現有資產接入 |
+| **ada Phase 6 W1D6+ — Bar UI + EventBus 訂閱** | 2026-04-28+ | ⏳ 進行中 | 還剩 Week 1 後半 + Week 2-8 |
 | **Production Event Bus** | TBD | ⏳ 排程中 | NATS / Kafka / Redis Streams 選型 |
 | **玉山 Phase 6 Pilot** | 2026-05 ~ 06 | 🟡 等簽約 | 30-50 席 Pilot 上線 |
 | **玉山 Phase 6 Go-live** | 2026-06-30 | 🟡 排程 | 450 席全量切換 |
 
 ---
 
-## 2026-04-26（今日 — 從 SRS 到能跑的 code）
+## 2026-04-28（ada Phase 6 Week 1 D1–D5 — VOXEN platform 真實連線完成）
+
+### 早晨 06:00 → 06:35 ｜ 開機儀式 + dev-server fix
+
+| 時間 | 動作 | 產出 |
+|---|---|---|
+| 06:00 | 早安 + VOX/ZEN 哲學儀式（每日例行）| — |
+| 06:30 | 發現 dashboard 點 .md 連結中文亂碼（python http.server 沒送 utf-8 charset） | 診斷 |
+| 06:35 | 寫 `tools/dev-server.py` — 取代 http.server，14 種 text 檔強制 utf-8 + no-cache | commit `b747dbb` |
+
+### 早晨 06:35 → 08:05 ｜ ada Phase 6 Week 1 連衝 5 天進度
+
+| 時間 | 動作 | 產出 |
+|---|---|---|
+| 06:50 | **W1D1** — ada 接 pnpm monorepo + 加 `@voxen/core` + `@voxen/pbx-3cx` deps | commit `9332b9f` |
+| | ↳ 順手修 3 個 pre-existing typecheck bug（`webview-preload` DOM lib / `NodeJS.Platform` / settings type cast） | — |
+| 07:00 | **W1D2** — `voxenIntegration.ts` 第一個真實 `@voxen/*` import + `InProcessEventBus` 實例化；vite config 排除 `@voxen/*` from externalize（解決 ESM/CJS 衝突）| commit `c33f335` |
+| 07:08 | **W1D3** — 從 ada settings 讀 profile，組 `ThreeCXAdapterConfig`，實例化 `ThreeCXAdapter`（不啟動，待 token） | commit `b589f5d` |
+| 07:25 | **W1D4** — main 端自己跑 OAuth（從 keychain 讀 clientSecret → POST `/connect/token` → access_token）| commit `b28f11a` |
+| | ↳ 嘗試 `adapter.start()` 撞到三道牆：WebSocket global 不存在 / ws optional deps (bufferutil) / mock-only WS path → 標 W1D5 | — |
+| 07:45 | **W1D5** — 在 `@voxen/pbx-3cx` 加 `wsHeaders` config (Bearer 走 Upgrade header)、constructor safety net 'error' listener、ThreeCXAdapter 訂 client error → republish 為 `system.adapter.error` 事件 | commit `2f99aab` |
+| 07:55 | **W1D5 收尾** — 修 `pingPath` config + 順手修發現的 HTTPS-blind bug（`node:http.request` → `fetch`）| commit `15eb537` |
+| 08:03 | 🎉 **healthCheck 全綠**：`httpReachable: true` + `wsConnected: true` — ada → @voxen/pbx-3cx → real 3CX V20 雙通道完整 | — |
+
+### 早晨 06:32 → 06:42 ｜ 玉山 outreach PDF 產出
+
+| 時間 | 動作 | 產出 |
+|---|---|---|
+| 06:32 | Outreach readiness 盤點，所有 placeholder 待填 | — |
+| 06:42 | `MEETING-AGENDA-PROPOSAL.pdf` 產出（pandoc → docx → LibreOffice，與既有 SOW PDF 同工作流）| `01-meeting-pack/MEETING-AGENDA-PROPOSAL.pdf` |
+
+### 今日技術突破
+
+1. **ESM/CJS 邊界** — `@voxen/*` workspace packages 是 pure ESM，但 ada main 是 CJS。修法：vite `externalizeDepsPlugin({ exclude: ['@voxen/core', '@voxen/pbx-3cx'] })`，bundling 時做 ESM→CJS 轉換
+2. **Electron Node 20 沒有 WebSocket global** — `@voxen/pbx-3cx` 改 import `ws` 套件
+3. **EventEmitter unhandled 'error' 會 crash main process** — `ThreeCXClient` constructor 加 default no-op error listener 當 safety net
+4. **真 3CX V20 WebSocket 必須 Bearer in Upgrade header** — `ws` 套件支援 `new WebSocket(url, { headers: ... })`，比 ada 既有的 Electron webRequest hack 乾淨多了
+5. **`node:http` HTTPS-blind** — `ThreeCXClient.requestJson()` 改用 `fetch`（順手解：未來所有 REST 命令對 HTTPS 3CX 才能成功）
+
+### 影響
+
+- VOXEN 平台**第一次**從「規格 + 測試」進入「production-grade L6 consumer 真實連線」
+- 8 週 Charter 預估的 W2 ⭐ MVP demo milestone（「Ada/CRM + Softphone runnable」）— **Week 1 結束前已具備技術可行性**
+- ada bundle 11 → 244 kB（@voxen/* + ws 進入二進位）— **VOXEN platform 真實隨 ada 出貨**
+
+---
+
+## 2026-04-27（VOXEN P6 + ada Phase 6 規劃）
+
+### 早晨 → 中午 ｜ 玉山案命名正名 + GitHub 整理
+
+| 時間 | 動作 | 產出 |
+|---|---|---|
+| 早上 | eSun → ESUN 全面正名 — 130 處 text + 18 個檔案 + 1 資料夾 (`docs/proposals/eSun/` → `esun-outreach-project/`) | rename script + commits |
+| 中午 | VOXEN scaffold (P0-P5) + 玉山案資料夾首次 push GitHub | commit chain |
+| 下午 | GitHub repo rename `Laurence-Engsound/3CX` → `Laurence-Engsound/VOXEN` | repo rename + 本地 origin 更新 |
+
+### 下午 → 晚間 ｜ VOXEN P6 + ada Phase 6 規劃
+
+| 時間 | 動作 | 產出 |
+|---|---|---|
+| 下午 | 架構大討論 — 4 層金字塔（L1 core / L2 adapters / L3 apps / L4 deployments）；Copilot for Genesys Lab 規劃（暫緩）；Pattern 1 monorepo + CODEOWNERS 拍板 | 對話記錄 |
+| 晚間 | **VOXEN P6** — L5 Customer-360 service + `@voxen/crm-mock` adapter（10 玉山假客戶 + 30 CDR + last-agent map）；**59/59 tests 全綠**；驗證雙 contract pattern | commit `873390f` |
+| 晚間 | **ada Phase 6 PROJECT-CHARTER + ADR-0002 + PHASE6-PLAN v2** — ada 升格為 VOXEN L6 reference application；8 週路線圖；Week 2 為 ⭐ MVP demo milestone | commit `83a4c35` |
+| 晚間 | dashboard 加第 7 個 tab `ada Phase 6` — 倒數、8 週路線圖、success criteria、quick links | (在同一 commit) |
+
+---
+
+## 2026-04-26（從 SRS 到能跑的 code）
 
 ### 早晨 06:30 → 12:00 ｜ 玉山 SOW 迭代
 
@@ -159,6 +233,11 @@
 
 ---
 
-**文件版本**：v1.0
-**最後更新**：2026-04-26 20:15（瑛聲總部時區）
+**文件版本**：v1.2
+**最後更新**：2026-04-28 08:10（瑛聲總部時區）
 **維護人**：Laurence Lin
+
+**版本歷史**
+- v1.2 (2026-04-28) — 加 2026-04-28 (ada Phase 6 W1D1-D5 連衝)、加 2026-04-27 (P6 Customer-360 + ada-phase6 規劃)、整體里程碑表更新 6 列
+- v1.1 (2026-04-27) — eSun → ESUN 命名正名替換（隱含於 rename batch）
+- v1.0 (2026-04-26) — 初版
