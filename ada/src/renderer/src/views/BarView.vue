@@ -18,6 +18,7 @@ const settings = useSettingsStore()
 
 // W2D1: subscribe to canonical events forwarded from main process via IPC.
 // W2D2: also subscribe to customer profile lookups (e.g., on incoming call).
+// W2D6: derive a Bar status state machine from the same event stream.
 let unsubscribeEvent: (() => void) | null = null
 let unsubscribeProfile: (() => void) | null = null
 const eventCount = ref(0)
@@ -31,14 +32,100 @@ interface CustomerInfo {
 }
 const customer = ref<CustomerInfo | null>(null)
 
+// W2D6 — Bar status state machine.
+//
+//   offline ──[adapter.started / health=true]──> ready
+//   ready   ──[call.ringing]──> ringing
+//   ringing ──[call.answered]──> busy
+//   ringing ──[call.ended]──> ready (abandoned, no answer)
+//   busy    ──[call.hold/unhold/transferred]──> busy (stays)
+//   busy    ──[call.ended]──> acw ──[ACW_TIMEOUT_MS]──> ready
+//   any     ──[adapter.stopped/error/health=false]──> offline
+//
+// Initial = 'offline'. The W2D5 buffer replay flips us to 'ready' as soon
+// as system.adapter.started is replayed (or first arrives live).
+type BarStatus = 'offline' | 'ready' | 'ringing' | 'busy' | 'acw'
+const status = ref<BarStatus>('offline')
+
+const ACW_TIMEOUT_MS = 5_000
+let acwTimer: ReturnType<typeof setTimeout> | null = null
+
+interface VoxenEventLike {
+  type?: string
+  payload?: Record<string, unknown>
+}
+
+function applyEventToStatus(prev: BarStatus, event: VoxenEventLike): BarStatus {
+  const t = event.type ?? ''
+
+  // System events — connection / health
+  if (t === 'system.adapter.started') return 'ready'
+  if (t === 'system.adapter.stopped' || t === 'system.adapter.error') return 'offline'
+  if (t === 'system.adapter.health_changed') {
+    const healthy = (event.payload?.healthy as boolean | undefined) ?? false
+    return healthy ? (prev === 'offline' ? 'ready' : prev) : 'offline'
+  }
+
+  // Call lifecycle
+  if (t === 'call.ringing') {
+    // Ignore duplicate rings if we're already in a call (consultation, etc.)
+    return prev === 'busy' || prev === 'ringing' ? prev : 'ringing'
+  }
+  if (t === 'call.answered') return 'busy'
+  if (t === 'call.hold' || t === 'call.unhold' || t === 'call.transferred') {
+    return prev === 'busy' ? 'busy' : prev
+  }
+  if (t === 'call.ended') {
+    // Ringing → ended without answer = abandoned, back to ready (no ACW).
+    // Busy → ended = normal hangup, enter ACW for wrap-up.
+    if (prev === 'ringing') return 'ready'
+    if (prev === 'busy') return 'acw'
+    return prev
+  }
+
+  return prev  // unknown event — leave status unchanged
+}
+
+function transitionStatus(next: BarStatus): void {
+  if (next === status.value) return
+
+  // Clear any pending ACW timer when leaving ACW or moving sideways
+  if (acwTimer) {
+    clearTimeout(acwTimer)
+    acwTimer = null
+  }
+
+  // eslint-disable-next-line no-console
+  console.log(`[bar] status: ${status.value} → ${next}`)
+  status.value = next
+
+  // Auto-exit ACW after timeout
+  if (next === 'acw') {
+    acwTimer = setTimeout(() => {
+      if (status.value === 'acw') {
+        // eslint-disable-next-line no-console
+        console.log('[bar] ACW timeout → ready')
+        status.value = 'ready'
+        // Optionally clear the customer card after wrap-up (W3+ may want
+        // to keep history). For now keep it visible — agent still seeing
+        // the just-finished call's customer.
+      }
+      acwTimer = null
+    }, ACW_TIMEOUT_MS)
+  }
+}
+
 onMounted(async () => {
   await settings.load()
 
   if (window.voxen?.onEvent) {
     unsubscribeEvent = window.voxen.onEvent((event) => {
-      const e = event as { type?: string }
+      const e = event as VoxenEventLike
       eventCount.value++
       lastEventType.value = e.type ?? 'unknown'
+      // W2D6 — drive status state machine from this event
+      const next = applyEventToStatus(status.value, e)
+      transitionStatus(next)
       // eslint-disable-next-line no-console
       console.log('[bar] received voxen event:', event)
     })
@@ -63,18 +150,45 @@ onMounted(async () => {
 onUnmounted(() => {
   unsubscribeEvent?.()
   unsubscribeProfile?.()
+  if (acwTimer) {
+    clearTimeout(acwTimer)
+    acwTimer = null
+  }
 })
 
 const extension = computed(() => settings.state.profile?.extension ?? '----')
 const fqdn = computed(() => settings.state.profile?.pbxFqdn ?? '(no PBX)')
 
-// Placeholder — W1D8 wires this from EventBus / call state.
-const status = ref<'ready' | 'busy' | 'offline'>('ready')
-const statusLabel = computed(() => {
-  if (status.value === 'ready') return 'Ready'
-  if (status.value === 'busy') return 'Busy'
-  return 'Offline'
-})
+// W2D4 — Bar action invocation. Renderer → main → PBXAdapter (or stub).
+type BarAction = 'answer' | 'hold' | 'mute' | 'transfer' | 'keypad' | 'menu'
+const lastAction = ref<string>('—')
+const lastActionOk = ref<boolean | null>(null)
+
+async function invokeAction(action: BarAction): Promise<void> {
+  lastAction.value = action
+  // eslint-disable-next-line no-console
+  console.log('[bar] invokeAction →', action)
+  try {
+    const result = await window.voxen.invokeBarAction(action)
+    lastActionOk.value = result.ok
+    // eslint-disable-next-line no-console
+    console.log('[bar] result:', result)
+  } catch (err) {
+    lastActionOk.value = false
+    // eslint-disable-next-line no-console
+    console.error('[bar] invokeAction failed:', err)
+  }
+}
+
+// W2D6 — status label + dot class derived from the BarStatus state machine.
+const STATUS_LABELS: Record<BarStatus, string> = {
+  offline: 'Offline',
+  ready: 'Ready',
+  ringing: 'Ringing',
+  busy: 'Busy',
+  acw: 'ACW',
+}
+const statusLabel = computed(() => STATUS_LABELS[status.value])
 const statusDotClass = computed(() => `status-dot status-${status.value}`)
 </script>
 
@@ -110,6 +224,15 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
       <span class="ipc-count">{{ eventCount }}</span>
     </div>
 
+    <!-- W2D4 IPC verification: last action invoked + ok/err state -->
+    <div class="cell act-debug" :class="{
+        'act-ok': lastActionOk === true,
+        'act-err': lastActionOk === false,
+      }" :title="`Last action: ${lastAction}`">
+      <span class="act-label">act</span>
+      <span class="act-value">{{ lastAction }}</span>
+    </div>
+
     <!-- W2D2: customer info from Customer-360 lookup -->
     <div v-if="customer" class="cell customer-card" :title="`Last agent: ${customer.lastAgent ?? '—'}`">
       <span class="cust-icon">👤</span>
@@ -124,12 +247,12 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
     <div class="drag-handle"></div>
 
     <div class="actions">
-      <button class="action-btn" disabled title="Answer (W1D8)">📞</button>
-      <button class="action-btn" disabled title="Hold (W1D8)">⏸</button>
-      <button class="action-btn" disabled title="Mute (W1D8)">🔇</button>
-      <button class="action-btn" disabled title="Transfer (W1D8)">🔀</button>
-      <button class="action-btn" disabled title="Keypad (W1D8)">⌨</button>
-      <button class="action-btn" disabled title="Menu (W1D8)">☰</button>
+      <button class="action-btn" title="Answer" @click="invokeAction('answer')">📞</button>
+      <button class="action-btn" title="Hold" @click="invokeAction('hold')">⏸</button>
+      <button class="action-btn" title="Mute" @click="invokeAction('mute')">🔇</button>
+      <button class="action-btn" title="Transfer" @click="invokeAction('transfer')">🔀</button>
+      <button class="action-btn" title="Keypad" @click="invokeAction('keypad')">⌨</button>
+      <button class="action-btn" title="Menu" @click="invokeAction('menu')">☰</button>
     </div>
   </div>
 </template>
@@ -173,8 +296,21 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
   border-radius: 50%;
 }
 .status-ready { background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
-.status-busy { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
+.status-busy { background: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
 .status-offline { background: #94a3b8; }
+.status-ringing {
+  background: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+  animation: ring-pulse 1s ease-in-out infinite;
+}
+.status-acw {
+  background: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
+  50%      { transform: scale(1.25); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.30); }
+}
 .status-label {
   font-weight: 500;
   color: #475569;
@@ -235,6 +371,42 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
   min-width: 16px;
   text-align: right;
 }
+
+/* W2D4 — last-action indicator */
+.act-debug {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  align-items: baseline !important;
+  transition: background 0.15s, border-color 0.15s;
+}
+.act-debug.act-ok {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+.act-debug.act-err {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+.act-label {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.act-debug.act-ok .act-label { color: #047857; }
+.act-debug.act-err .act-label { color: #b91c1c; }
+.act-value {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 11px;
+  font-family: 'SF Mono', monospace;
+  min-width: 32px;
+  text-align: left;
+}
+.act-debug.act-ok .act-value { color: #047857; }
+.act-debug.act-err .act-value { color: #b91c1c; }
 
 /* W2D2 — customer card from Customer-360 lookup */
 .customer-card {

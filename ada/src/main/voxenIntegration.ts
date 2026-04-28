@@ -11,7 +11,7 @@
  * See ADR-0002 (ada as VOXEN L6 consumer) and PHASE6-PLAN.md v2.
  */
 
-import type { BrowserWindow } from 'electron'
+import { ipcMain, type BrowserWindow } from 'electron'
 import {
   Customer360Service,
   InProcessEventBus,
@@ -23,7 +23,14 @@ import { ThreeCXAdapter, type ThreeCXAdapterConfig } from '@voxen/pbx-3cx'
 import { createEsunMockAdapter } from '@voxen/crm-mock'
 import { getSetting } from './settings-store'
 import { loadCredential } from './credentials'
+import { normalizePhoneTW } from './phone'
+import { startDemoCallFlow } from './demoEvents'
 import type { ThreeCxProfile, XapiConfig } from '../shared/types'
+import type {
+  BarAction,
+  BarActionResult,
+  VoxenCustomerProfileLike,
+} from '../shared/ipc-api'
 
 const ENGSOUND_TENANT_ID = 'tnt_01HQR0WMRP4Y3M00000000ENG5' as TenantId
 const ADA_ADAPTER_ID = 'pbx_3cx_engsound_ada'
@@ -44,12 +51,26 @@ const EVENT_BUFFER_SIZE = 50
 const eventBuffer: unknown[] = []
 
 /**
+ * W2D5 — Cache the most recently resolved customer profile so the Bar can
+ * still show a card even when it mounts AFTER the Customer-360 lookup
+ * completed (e.g. user closes + reopens the Bar window mid-call).
+ *
+ * One-slot cache (vs. a buffer) is intentional: the Bar UI has room for
+ * exactly one customer card and shows the active call's customer. Real
+ * "multi-call awareness" lands in W2D6 with the call-state machine.
+ */
+let lastCustomerProfile: VoxenCustomerProfileLike | null = null
+
+/**
  * Register the Bar window so voxenIntegration can forward EventBus events
  * to it via IPC ('voxen:event' channel). Called by main/index.ts after
  * createBarWindow(). Pass null to detach (e.g., on window close).
  *
  * W2D3: also replay the recent-event buffer to the Bar after its content
  * finishes loading — fixes the "evt 0 even though events fired" issue.
+ *
+ * W2D5: also replay the last known customer profile (if any) so the Bar
+ * shows the active call's customer immediately on (re)mount.
  */
 export function setBarWindow(win: BrowserWindow | null): void {
   barWindow = win
@@ -59,6 +80,9 @@ export function setBarWindow(win: BrowserWindow | null): void {
     if (!barWindow || barWindow.isDestroyed()) return
     for (const event of eventBuffer) {
       barWindow.webContents.send('voxen:event', event)
+    }
+    if (lastCustomerProfile) {
+      barWindow.webContents.send('voxen:customer-profile', lastCustomerProfile)
     }
   }
   if (win.webContents.isLoading()) {
@@ -102,16 +126,29 @@ export function initVoxenIntegration(): void {
       barWindow.webContents.send('voxen:event', event)
     }
 
-    // (4) On call.* events, look up customer + push profile
+    // (4) On call.* events, look up customer + push profile.
+    // W2D5: phone goes through normalizePhoneTW first so different vendor
+    // formats (E.164, local 09xx, dashed, SIP URI, raw 886...) all hit
+    // the crm-mock E.164 keys consistently. Successful lookups also seed
+    // the lastCustomerProfile cache so a late-mounting Bar gets the card.
     if (event.type.startsWith('call.') && customer360) {
-      const phone = extractPhoneFromEvent(event)
+      const rawPhone = extractPhoneFromEvent(event)
+      const phone = normalizePhoneTW(rawPhone)
+      if (rawPhone && !phone) {
+        console.log(`   ⚠️  call.* phone "${rawPhone}" did not normalize (likely extension); skipping lookup`)
+      }
       if (phone) {
         void (async () => {
           try {
             const profile = await customer360!.getProfileByPhone(phone)
-            if (profile && barWindow && !barWindow.isDestroyed()) {
-              barWindow.webContents.send('voxen:customer-profile', profile)
-              console.log(`   📞 ${event.type} → customer lookup: ${profile.customer.displayName}`)
+            if (profile) {
+              lastCustomerProfile = profile
+              if (barWindow && !barWindow.isDestroyed()) {
+                barWindow.webContents.send('voxen:customer-profile', profile)
+              }
+              console.log(`   📞 ${event.type} → ${rawPhone}→${phone} → ${profile.customer.displayName}`)
+            } else {
+              console.log(`   ➖ ${event.type} → ${phone} → no customer match`)
             }
           } catch (err) {
             console.log(`   ✗ Customer-360 lookup failed:`, (err as Error).message)
@@ -122,11 +159,88 @@ export function initVoxenIntegration(): void {
   })
   console.log('   ✓ EventBus subscriber attached (console + buffer + Bar IPC + auto-lookup)')
 
+  // W2D4 — register Bar action IPC handler. Bar buttons send action names
+  // here; we route to PBXAdapter (when contract supports it) or stub-log.
+  registerBarActionHandler()
+
+  // W2D7 — optional synthetic call-flow driver for demos / screencasts /
+  // smoke testing without a real 3CX call. Off by default; opt in via
+  // VOXEN_DEMO_FLOW=1 in the launch env.
+  if (process.env.VOXEN_DEMO_FLOW === '1') {
+    startDemoCallFlow(eventBus)
+  }
+
   // Background async: read settings → OAuth → start adapter.
   // Fire-and-forget — never throws to caller, never crashes ada.
   void setupPbxAdapter().catch((err) => {
     console.log('   ✗ VOXEN adapter setup unexpected error:', err)
   })
+}
+
+/**
+ * W2D4 — Bar 6-button → IPC → PBXAdapter routing.
+ *
+ * Coverage today (PBXAdapter contract has makeCall/transferCall/hangupCall/
+ * IVR/getCall but NOT answer/hold/mute/unhold). For W2D4 we prove the IPC
+ * pipeline end-to-end; missing adapter methods log a TODO breadcrumb so
+ * W2D5+ can prioritise contract extensions.
+ *
+ * Idempotent — safe to call once during initVoxenIntegration().
+ */
+function registerBarActionHandler(): void {
+  ipcMain.handle('voxen:invoke-action', async (
+    _e,
+    action: BarAction,
+  ): Promise<BarActionResult> => {
+    console.log(`[bar→main] action received: ${action}`)
+
+    switch (action) {
+      case 'answer':
+        // PBXAdapter contract has no answerCall yet. Real impl needs SIP
+        // accept on the renderer's WebRTC stack OR a 3CX call control verb.
+        return stubLog('answer', 'PBXAdapter.answerCall pending (W2D5+ contract extension)')
+
+      case 'hold':
+        // No PBXAdapter.holdCall yet. 3CX REST has /callcontrol/{...}/hold,
+        // wrap in W2D5+ when adapter contract is extended.
+        return stubLog('hold', 'PBXAdapter.holdCall pending (W2D5+ contract extension)')
+
+      case 'mute':
+        // Mute is local to the SIP/WebRTC stack — no adapter call needed.
+        // Renderer-side toggle (W2D6 will route through SIP.js audio track).
+        return stubLog('mute', 'local SIP/WebRTC track toggle (W2D6 — not an adapter call)')
+
+      case 'transfer':
+        // PBXAdapter.transferCall(callId, target) EXISTS, but we have no
+        // active callId yet (no call state machine — W2D6) and no UI to
+        // pick a transfer target. For now: log + stub.
+        return stubLog(
+          'transfer',
+          `PBXAdapter.transferCall available, awaiting active callId + target picker UI (W2D6)`,
+        )
+
+      case 'keypad':
+        // UI-only — open a DTMF keypad sub-window. Will land in W2D6+.
+        return stubLog('keypad', 'open DTMF keypad sub-window (W2D6+ UI work)')
+
+      case 'menu':
+        // UI-only — open the Bar context menu. Will land in W2D6+.
+        return stubLog('menu', 'open Bar context menu (W2D6+ UI work)')
+
+      default:
+        // TS exhaustiveness guard — if BarAction grows we want a loud log.
+        console.log(`[bar→main] ⚠️  unknown action: ${String(action)}`)
+        return { ok: false, message: `unknown action: ${String(action)}` }
+    }
+  })
+  console.log('   ✓ Bar action IPC handler registered (voxen:invoke-action)')
+}
+
+function stubLog(action: BarAction, why: string): BarActionResult {
+  // Surface adapter availability so we can see when contract extensions land.
+  const adapterStatus = pbxAdapter ? 'adapter=ready' : 'adapter=null'
+  console.log(`   ⏭  [stub] ${action.padEnd(8)} ${adapterStatus}  why: ${why}`)
+  return { ok: true, message: `stub: ${why}` }
 }
 
 async function setupPbxAdapter(): Promise<void> {
@@ -234,6 +348,7 @@ async function setupCustomer360(): Promise<void> {
 
   // Synthetic test — 3 seconds after init, look up 王先生 and push to Bar.
   // Proves the platform-to-UI chain works without needing real 3CX activity.
+  // W2D5: also seeds lastCustomerProfile so reopening the Bar shows the card.
   setTimeout(() => {
     void (async () => {
       if (!customer360) return
@@ -242,6 +357,7 @@ async function setupCustomer360(): Promise<void> {
         console.log('   ⚠️  W2D2 synthetic test: 王先生 not found in mock')
         return
       }
+      lastCustomerProfile = profile
       console.log(`   📞 W2D2 synthetic lookup: ${profile.customer.displayName} ` +
         `(${profile.recentCalls.length} 通歷史 / lastAgent=${profile.lastAgent ?? 'none'})`)
       if (barWindow && !barWindow.isDestroyed()) {

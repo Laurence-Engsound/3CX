@@ -121,12 +121,40 @@ export interface VoxenCustomerProfileLike {
   fetchedAt: string
 }
 
+/**
+ * W2D4 — Softphone Bar action commands.
+ *
+ * The Bar's 6 action buttons map to these canonical action names. Renderer
+ * sends them via window.voxen.invokeBarAction(); main routes to either a
+ * PBXAdapter method (when one exists in the contract) or a stub log
+ * (placeholder until the adapter contract is extended in W2D5+).
+ *
+ * Coverage matrix (as of W2D4):
+ *   answer   — no PBXAdapter method (needs contract extension)
+ *   hold     — no PBXAdapter method (needs contract extension)
+ *   mute     — handled in renderer/SIP stack, not in adapter contract
+ *   transfer — PBXAdapter.transferCall exists, but needs callId + target UI
+ *   keypad   — UI-only (open DTMF keypad sub-window)
+ *   menu     — UI-only (open Bar menu)
+ */
+export type BarAction = 'answer' | 'hold' | 'mute' | 'transfer' | 'keypad' | 'menu'
+
+export interface BarActionResult {
+  /** True if the action was accepted (even if it's a stub). False on hard error. */
+  ok: boolean
+  /** Optional human-readable message (e.g., "stub: needs adapter contract extension"). */
+  message?: string
+}
+
 export interface VoxenApi {
   /** Subscribe to ALL canonical events forwarded from main's EventBus. */
   onEvent(handler: (event: unknown) => void): () => void
   /** Subscribe to customer profile lookups (W2D2). Fires when main resolves
    *  a customer for a phone number (e.g., on incoming call). */
   onCustomerProfile(handler: (profile: VoxenCustomerProfileLike) => void): () => void
+  /** W2D4 — Invoke a Bar action. Main routes to PBXAdapter or stub-logs.
+   *  Returns a BarActionResult so the Bar can show toast/error feedback. */
+  invokeBarAction(action: BarAction): Promise<BarActionResult>
 }
 
 declare global {

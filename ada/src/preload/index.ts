@@ -1,5 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { AdaApi, MainToRendererChannel, VoxenApi } from '../shared/ipc-api'
+import type {
+  AdaApi,
+  BarAction,
+  BarActionResult,
+  MainToRendererChannel,
+  VoxenApi,
+} from '../shared/ipc-api'
 import { IpcChannels } from '../shared/ipc-api'
 
 const allowedMainToRenderer: ReadonlySet<MainToRendererChannel> = new Set([
@@ -85,6 +91,10 @@ const voxenApi: VoxenApi = {
       handler(profile as Parameters<typeof handler>[0])
     ipcRenderer.on('voxen:customer-profile', listener)
     return () => ipcRenderer.removeListener('voxen:customer-profile', listener)
+  },
+  // W2D4 — Bar action invocation. Renderer → main → PBXAdapter (or stub).
+  invokeBarAction(action: BarAction): Promise<BarActionResult> {
+    return ipcRenderer.invoke('voxen:invoke-action', action)
   }
 }
 
