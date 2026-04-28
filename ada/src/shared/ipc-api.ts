@@ -109,8 +109,24 @@ export type IpcInvokeChannel = (typeof IpcChannels)[keyof typeof IpcChannels]
  * called with the canonical Event from @voxen/core (kept as `unknown` here
  * to keep this shared file independent of monorepo type imports).
  */
+/**
+ * Lightweight customer profile shape sent from main → Bar (W2D2).
+ * Mirror of @voxen/core's CustomerProfile but kept untyped here so this
+ * shared file doesn't need to import monorepo packages.
+ */
+export interface VoxenCustomerProfileLike {
+  customer: { id: string; displayName?: string; primaryPhone: string; segment?: string }
+  recentCalls: Array<{ callId: string; agentId?: string; durationSec?: number }>
+  lastAgent: string | null
+  fetchedAt: string
+}
+
 export interface VoxenApi {
+  /** Subscribe to ALL canonical events forwarded from main's EventBus. */
   onEvent(handler: (event: unknown) => void): () => void
+  /** Subscribe to customer profile lookups (W2D2). Fires when main resolves
+   *  a customer for a phone number (e.g., on incoming call). */
+  onCustomerProfile(handler: (profile: VoxenCustomerProfileLike) => void): () => void
 }
 
 declare global {

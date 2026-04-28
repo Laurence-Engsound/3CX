@@ -79,6 +79,12 @@ const voxenApi: VoxenApi = {
     const listener = (_e: unknown, event: unknown): void => handler(event)
     ipcRenderer.on('voxen:event', listener)
     return () => ipcRenderer.removeListener('voxen:event', listener)
+  },
+  onCustomerProfile(handler) {
+    const listener = (_e: unknown, profile: unknown): void =>
+      handler(profile as Parameters<typeof handler>[0])
+    ipcRenderer.on('voxen:customer-profile', listener)
+    return () => ipcRenderer.removeListener('voxen:customer-profile', listener)
   }
 }
 

@@ -13,12 +13,14 @@
 
 import type { BrowserWindow } from 'electron'
 import {
+  Customer360Service,
   InProcessEventBus,
   type IEventBus,
   type PBXAdapter,
   type TenantId,
 } from '@voxen/core'
 import { ThreeCXAdapter, type ThreeCXAdapterConfig } from '@voxen/pbx-3cx'
+import { createEsunMockAdapter } from '@voxen/crm-mock'
 import { getSetting } from './settings-store'
 import { loadCredential } from './credentials'
 import type { ThreeCxProfile, XapiConfig } from '../shared/types'
@@ -158,6 +160,44 @@ async function setupPbxAdapter(): Promise<void> {
     console.log('   ⚠️  adapter.start() did not complete:', (err as Error).message)
     console.log('     (ada continues normally; XAPI / Phase 1-5 features unaffected)')
   }
+
+  // W2D2 — wire @voxen/crm-mock + Customer360Service.
+  await setupCustomer360()
+}
+
+/**
+ * Phase 6 W2D2 — instantiate the mock CRM adapter (玉山 demo dataset)
+ * and Customer360Service. Run a synthetic lookup after 3 seconds to
+ * push a customer profile to the Bar window — proves the full chain
+ * (crm-mock → Customer360Service → IPC → Bar UI) before real call.*
+ * events arrive (which require live 3CX activity).
+ */
+async function setupCustomer360(): Promise<void> {
+  console.log('   ✓ Wiring @voxen/crm-mock + Customer360Service...')
+  const crmMock = createEsunMockAdapter()
+  await crmMock.start()
+  const customer360 = new Customer360Service({
+    customerLookup: crmMock,
+    callHistory: crmMock,
+  })
+  console.log('   ✓ Customer360Service ready (10 玉山 demo customers loaded)')
+
+  // Synthetic test — 3 seconds after init, look up 王先生 and push to Bar.
+  // Proves the platform-to-UI chain works without needing real 3CX activity.
+  setTimeout(() => {
+    void (async () => {
+      const profile = await customer360.getProfileByPhone('+886912345001')
+      if (!profile) {
+        console.log('   ⚠️  W2D2 synthetic test: 王先生 not found in mock')
+        return
+      }
+      console.log(`   📞 W2D2 synthetic lookup: ${profile.customer.displayName} ` +
+        `(${profile.recentCalls.length} 通歷史 / lastAgent=${profile.lastAgent ?? 'none'})`)
+      if (barWindow && !barWindow.isDestroyed()) {
+        barWindow.webContents.send('voxen:customer-profile', profile)
+      }
+    })()
+  }, 3000).unref()
 }
 
 /**

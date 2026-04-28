@@ -17,33 +17,52 @@ import { useSettingsStore } from '../stores/settings'
 const settings = useSettingsStore()
 
 // W2D1: subscribe to canonical events forwarded from main process via IPC.
-// For now: just console.log to prove the bridge works. W2D2 will translate
-// events to reactive UI state (status, customer info, call timer).
-let unsubscribe: (() => void) | null = null
+// W2D2: also subscribe to customer profile lookups (e.g., on incoming call).
+let unsubscribeEvent: (() => void) | null = null
+let unsubscribeProfile: (() => void) | null = null
 const eventCount = ref(0)
 const lastEventType = ref<string>('—')
+
+interface CustomerInfo {
+  displayName: string
+  segment?: string
+  recentCallsCount: number
+  lastAgent: string | null
+}
+const customer = ref<CustomerInfo | null>(null)
 
 onMounted(async () => {
   await settings.load()
 
   if (window.voxen?.onEvent) {
-    unsubscribe = window.voxen.onEvent((event) => {
+    unsubscribeEvent = window.voxen.onEvent((event) => {
       const e = event as { type?: string }
       eventCount.value++
       lastEventType.value = e.type ?? 'unknown'
       // eslint-disable-next-line no-console
       console.log('[bar] received voxen event:', event)
     })
+    unsubscribeProfile = window.voxen.onCustomerProfile((profile) => {
+      customer.value = {
+        displayName: profile.customer.displayName ?? profile.customer.primaryPhone,
+        segment: profile.customer.segment,
+        recentCallsCount: profile.recentCalls.length,
+        lastAgent: profile.lastAgent,
+      }
+      // eslint-disable-next-line no-console
+      console.log('[bar] customer profile received:', profile)
+    })
     // eslint-disable-next-line no-console
-    console.log('[bar] subscribed to voxen events via IPC')
+    console.log('[bar] subscribed to voxen events + customer profiles via IPC')
   } else {
     // eslint-disable-next-line no-console
-    console.warn('[bar] window.voxen.onEvent not available')
+    console.warn('[bar] window.voxen API not available')
   }
 })
 
 onUnmounted(() => {
-  unsubscribe?.()
+  unsubscribeEvent?.()
+  unsubscribeProfile?.()
 })
 
 const extension = computed(() => settings.state.profile?.extension ?? '----')
@@ -89,6 +108,16 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
     <div class="cell ipc-debug" :title="`Last: ${lastEventType}`">
       <span class="ipc-label">evt</span>
       <span class="ipc-count">{{ eventCount }}</span>
+    </div>
+
+    <!-- W2D2: customer info from Customer-360 lookup -->
+    <div v-if="customer" class="cell customer-card" :title="`Last agent: ${customer.lastAgent ?? '—'}`">
+      <span class="cust-icon">👤</span>
+      <span class="cust-name">{{ customer.displayName }}</span>
+      <span v-if="customer.segment" class="cust-segment" :class="`seg-${customer.segment.toLowerCase()}`">
+        {{ customer.segment }}
+      </span>
+      <span class="cust-history">{{ customer.recentCallsCount }} 通</span>
     </div>
 
     <!-- Drag handle fills remaining space. Explicit drag region. -->
@@ -205,6 +234,46 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
   font-family: 'SF Mono', monospace;
   min-width: 16px;
   text-align: right;
+}
+
+/* W2D2 — customer card from Customer-360 lookup */
+.customer-card {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 2px 8px;
+  gap: 6px !important;
+  margin-left: 4px;
+}
+.cust-icon {
+  font-size: 12px;
+}
+.cust-name {
+  font-weight: 600;
+  color: #92400e;
+  font-size: 13px;
+}
+.cust-segment {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background: #fff;
+  color: #475569;
+}
+.cust-segment.seg-vip {
+  background: #f59e0b;
+  color: #fff;
+}
+.cust-segment.seg-risk {
+  background: #ef4444;
+  color: #fff;
+}
+.cust-history {
+  font-size: 10.5px;
+  color: #92400e;
+  font-family: 'SF Mono', monospace;
 }
 
 .drag-handle {

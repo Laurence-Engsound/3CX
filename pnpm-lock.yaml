@@ -17,6 +17,9 @@ importers:
       '@voxen/core':
         specifier: workspace:^
         version: link:../core
+      '@voxen/crm-mock':
+        specifier: workspace:^
+        version: link:../integrations/crm/mock
       '@voxen/pbx-3cx':
         specifier: workspace:^
         version: link:../integrations/pbx/3cx

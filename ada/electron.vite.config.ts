@@ -7,7 +7,7 @@ export default defineConfig({
     // @voxen/* are pure-ESM workspace packages; if externalised, Electron's
     // CJS loader can't require() them at runtime. Bundle them in instead so
     // vite handles the ESM-to-CJS transform at build time.
-    plugins: [externalizeDepsPlugin({ exclude: ['@voxen/core', '@voxen/pbx-3cx'] })],
+    plugins: [externalizeDepsPlugin({ exclude: ['@voxen/core', '@voxen/pbx-3cx', '@voxen/crm-mock'] })],
     resolve: {
       alias: {
         '@shared': resolve('src/shared'),
@@ -30,7 +30,7 @@ export default defineConfig({
   preload: {
     // Same reasoning — exclude @voxen/* from externalisation (preload doesn't
     // import them yet, but the rule is consistent across processes).
-    plugins: [externalizeDepsPlugin({ exclude: ['@voxen/core', '@voxen/pbx-3cx'] })],
+    plugins: [externalizeDepsPlugin({ exclude: ['@voxen/core', '@voxen/pbx-3cx', '@voxen/crm-mock'] })],
     resolve: {
       alias: {
         '@shared': resolve('src/shared')

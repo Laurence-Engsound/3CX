@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@voxen/core": "workspace:^",
+    "@voxen/crm-mock": "workspace:^",
     "@voxen/pbx-3cx": "workspace:^",
     "@vueuse/core": "^11.0.0",
     "electron-store": "^8.2.0",
