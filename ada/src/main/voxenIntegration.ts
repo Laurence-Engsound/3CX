@@ -79,6 +79,9 @@ async function setupPbxAdapter(): Promise<void> {
       baseUrl,
       authToken: token ?? '',
       wsUrl,
+      // Real 3CX V20 OData service root — always 200 with auth, used for
+      // HTTP reachability probe in healthCheck.
+      pingPath: '/xapi/v1',
       ...(token
         ? { wsHeaders: { Authorization: `Bearer ${token}` } }
         : {}),
