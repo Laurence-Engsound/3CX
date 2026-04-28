@@ -100,8 +100,22 @@ export const IpcChannels = {
 
 export type IpcInvokeChannel = (typeof IpcChannels)[keyof typeof IpcChannels]
 
+/**
+ * VOXEN platform events forwarded from main process to any window.
+ * Phase 6 W2D1+ — main's voxenIntegration subscribes to the canonical
+ * EventBus and pushes each event here via `webContents.send('voxen:event')`.
+ *
+ * Window code subscribes via `window.voxen.onEvent(handler)`. Handler is
+ * called with the canonical Event from @voxen/core (kept as `unknown` here
+ * to keep this shared file independent of monorepo type imports).
+ */
+export interface VoxenApi {
+  onEvent(handler: (event: unknown) => void): () => void
+}
+
 declare global {
   interface Window {
     ada: AdaApi
+    voxen: VoxenApi
   }
 }

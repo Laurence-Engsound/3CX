@@ -4,7 +4,7 @@ import { createBarWindow } from './barWindow'
 import { registerIpcHandlers } from './ipc'
 import { createTray, destroyTray } from './tray'
 import { setupAutoUpdater } from './updater'
-import { initVoxenIntegration } from './voxenIntegration'
+import { initVoxenIntegration, setBarWindow } from './voxenIntegration'
 
 // Enforce single-instance — second launch focuses the existing window instead.
 const gotLock = app.requestSingleInstanceLock()
@@ -38,14 +38,18 @@ app.whenReady().then(() => {
   initVoxenIntegration()  // Phase 6 W1D2 — wire VOXEN platform into ada
   registerIpcHandlers()
   mainWindow = createMainWindow()
-  createBarWindow()  // Phase 6 W1D7 — Softphone Bar (frameless, top, always-on-top)
+  const barWin = createBarWindow()  // Phase 6 W1D7 — Softphone Bar
+  setBarWindow(barWin)              // W2D1 — let voxenIntegration push events to Bar
+  barWin.on('closed', () => setBarWindow(null))
   createTray(mainWindow)
   setupAutoUpdater()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow = createMainWindow()
-      createBarWindow()
+      const reBar = createBarWindow()
+      setBarWindow(reBar)
+      reBar.on('closed', () => setBarWindow(null))
       createTray(mainWindow)
     }
   })

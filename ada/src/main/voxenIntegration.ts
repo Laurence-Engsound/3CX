@@ -11,6 +11,7 @@
  * See ADR-0002 (ada as VOXEN L6 consumer) and PHASE6-PLAN.md v2.
  */
 
+import type { BrowserWindow } from 'electron'
 import {
   InProcessEventBus,
   type IEventBus,
@@ -28,6 +29,16 @@ const KEYCHAIN_SERVICE = 'ada-xapi'
 
 let eventBus: IEventBus | null = null
 let pbxAdapter: PBXAdapter | null = null
+let barWindow: BrowserWindow | null = null
+
+/**
+ * Register the Bar window so voxenIntegration can forward EventBus events
+ * to it via IPC ('voxen:event' channel). Called by main/index.ts after
+ * createBarWindow(). Pass null to detach (e.g., on window close).
+ */
+export function setBarWindow(win: BrowserWindow | null): void {
+  barWindow = win
+}
 
 /**
  * Initialize VOXEN integration — sync portion. Always succeeds.
@@ -42,18 +53,22 @@ export function initVoxenIntegration(): void {
   console.log('🟢 VOXEN integration starting...')
   console.log('   ✓ EventBus ready')
 
-  // W1D6: Subscribe to ALL canonical events for dev-time visibility.
-  // Pretty-prints each event so during `npm run dev` you can see live
-  // call.* / system.* events flow as 3CX activity happens. This also
-  // proves the consumer side of the bus is wired (publishers exist via
-  // ThreeCXAdapter; until D6 nobody was listening).
+  // W1D6 + W2D1: Subscribe to ALL canonical events.
+  //   1. Pretty-print to main console (dev-time visibility)
+  //   2. Forward to Bar window via IPC ('voxen:event' channel)
+  // Bar window listens via window.voxen.onEvent() (see preload).
   eventBus.subscribe('*', (event) => {
     const refStr = Object.entries(event.refs)
       .map(([k, v]) => `${k}=${String(v).slice(-12)}`)
       .join(' ')
     console.log(`[bus] ${event.type.padEnd(36)} ${refStr || '-'}`)
+
+    // Forward to Bar window (W2D1). Skip if no window or already destroyed.
+    if (barWindow && !barWindow.isDestroyed()) {
+      barWindow.webContents.send('voxen:event', event)
+    }
   })
-  console.log('   ✓ EventBus subscriber attached (logs all events to main console)')
+  console.log('   ✓ EventBus subscriber attached (console + Bar IPC forward)')
 
   // Background async: read settings → OAuth → start adapter.
   // Fire-and-forget — never throws to caller, never crashes ada.

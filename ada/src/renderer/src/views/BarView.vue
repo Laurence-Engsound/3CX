@@ -11,13 +11,39 @@
  *
  * W1D8+: real call state, action handlers, EventBus subscription.
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useSettingsStore } from '../stores/settings'
 
 const settings = useSettingsStore()
 
+// W2D1: subscribe to canonical events forwarded from main process via IPC.
+// For now: just console.log to prove the bridge works. W2D2 will translate
+// events to reactive UI state (status, customer info, call timer).
+let unsubscribe: (() => void) | null = null
+const eventCount = ref(0)
+const lastEventType = ref<string>('—')
+
 onMounted(async () => {
   await settings.load()
+
+  if (window.voxen?.onEvent) {
+    unsubscribe = window.voxen.onEvent((event) => {
+      const e = event as { type?: string }
+      eventCount.value++
+      lastEventType.value = e.type ?? 'unknown'
+      // eslint-disable-next-line no-console
+      console.log('[bar] received voxen event:', event)
+    })
+    // eslint-disable-next-line no-console
+    console.log('[bar] subscribed to voxen events via IPC')
+  } else {
+    // eslint-disable-next-line no-console
+    console.warn('[bar] window.voxen.onEvent not available')
+  }
+})
+
+onUnmounted(() => {
+  unsubscribe?.()
 })
 
 const extension = computed(() => settings.state.profile?.extension ?? '----')
@@ -55,6 +81,14 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
 
     <div class="cell pbx-info">
       <span class="pbx-fqdn">{{ fqdn }}</span>
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- W2D1 IPC verification: visible event counter -->
+    <div class="cell ipc-debug" :title="`Last: ${lastEventType}`">
+      <span class="ipc-label">evt</span>
+      <span class="ipc-count">{{ eventCount }}</span>
     </div>
 
     <!-- Drag handle fills remaining space. Explicit drag region. -->
@@ -148,6 +182,29 @@ const statusDotClass = computed(() => `status-dot status-${status.value}`)
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* W2D1 IPC verification — visible event counter */
+.ipc-debug {
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 4px;
+  padding: 2px 8px;
+  align-items: baseline !important;
+}
+.ipc-label {
+  color: #0f766e;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.ipc-count {
+  color: #0f766e;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: 'SF Mono', monospace;
+  min-width: 16px;
+  text-align: right;
 }
 
 .drag-handle {

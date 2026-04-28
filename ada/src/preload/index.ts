@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { AdaApi, MainToRendererChannel } from '../shared/ipc-api'
+import type { AdaApi, MainToRendererChannel, VoxenApi } from '../shared/ipc-api'
 import { IpcChannels } from '../shared/ipc-api'
 
 const allowedMainToRenderer: ReadonlySet<MainToRendererChannel> = new Set([
@@ -69,3 +69,17 @@ const api: AdaApi = {
 }
 
 contextBridge.exposeInMainWorld('ada', api)
+
+// VOXEN platform events forwarded from main → renderer (any window).
+// W2D1: main's voxenIntegration subscribes to EventBus and webContents.send's
+// each canonical event on channel 'voxen:event'. Window subscribers attach
+// here via window.voxen.onEvent(handler).
+const voxenApi: VoxenApi = {
+  onEvent(handler) {
+    const listener = (_e: unknown, event: unknown): void => handler(event)
+    ipcRenderer.on('voxen:event', listener)
+    return () => ipcRenderer.removeListener('voxen:event', listener)
+  }
+}
+
+contextBridge.exposeInMainWorld('voxen', voxenApi)
