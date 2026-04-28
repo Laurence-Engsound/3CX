@@ -42,6 +42,19 @@ export function initVoxenIntegration(): void {
   console.log('🟢 VOXEN integration starting...')
   console.log('   ✓ EventBus ready')
 
+  // W1D6: Subscribe to ALL canonical events for dev-time visibility.
+  // Pretty-prints each event so during `npm run dev` you can see live
+  // call.* / system.* events flow as 3CX activity happens. This also
+  // proves the consumer side of the bus is wired (publishers exist via
+  // ThreeCXAdapter; until D6 nobody was listening).
+  eventBus.subscribe('*', (event) => {
+    const refStr = Object.entries(event.refs)
+      .map(([k, v]) => `${k}=${String(v).slice(-12)}`)
+      .join(' ')
+    console.log(`[bus] ${event.type.padEnd(36)} ${refStr || '-'}`)
+  })
+  console.log('   ✓ EventBus subscriber attached (logs all events to main console)')
+
   // Background async: read settings → OAuth → start adapter.
   // Fire-and-forget — never throws to caller, never crashes ada.
   void setupPbxAdapter().catch((err) => {

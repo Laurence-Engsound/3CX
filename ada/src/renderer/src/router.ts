@@ -26,6 +26,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('./views/SettingsView.vue'),
     meta: { title: '設定' }
   }
+  // NOTE: BarView is NOT a route in the main app's router — it has its
+  // own HTML entry (ada/src/renderer/bar.html → bar-main.ts) loaded in
+  // a separate BrowserWindow (see ada/src/main/barWindow.ts). This avoids
+  // App.vue's auto-redirect and layout interfering with the Bar.
 ]
 
 export const router = createRouter({

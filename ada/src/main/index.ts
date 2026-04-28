@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import { createMainWindow } from './window'
+import { createBarWindow } from './barWindow'
 import { registerIpcHandlers } from './ipc'
 import { createTray, destroyTray } from './tray'
 import { setupAutoUpdater } from './updater'
@@ -12,6 +13,7 @@ if (!gotLock) {
 }
 
 let mainWindow: BrowserWindow | null = null
+// barWindow reference will be added in W1D8 once we need IPC into it.
 
 app.on('second-instance', () => {
   if (mainWindow) {
@@ -36,12 +38,14 @@ app.whenReady().then(() => {
   initVoxenIntegration()  // Phase 6 W1D2 — wire VOXEN platform into ada
   registerIpcHandlers()
   mainWindow = createMainWindow()
+  createBarWindow()  // Phase 6 W1D7 — Softphone Bar (frameless, top, always-on-top)
   createTray(mainWindow)
   setupAutoUpdater()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow = createMainWindow()
+      createBarWindow()
       createTray(mainWindow)
     }
   })

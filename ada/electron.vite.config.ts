@@ -75,7 +75,10 @@ export default defineConfig({
       outDir: 'out/renderer',
       rollupOptions: {
         input: {
-          index: resolve('src/renderer/index.html')
+          // Main ADA window (Phase 1-5 layout)
+          index: resolve('src/renderer/index.html'),
+          // Phase 6 W1D7 — Softphone Bar window (separate entry, no router)
+          bar: resolve('src/renderer/bar.html')
         }
       }
     },

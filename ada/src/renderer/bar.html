@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://engsound.3cx.com.tw https://engsound.3cx.com.tw:* wss://engsound.3cx.com.tw wss://engsound.3cx.com.tw:*; img-src 'self' data:; font-src 'self' data:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VOXEN Softphone Bar</title>
+    <style>
+      html, body { height: 40px; margin: 0; padding: 0; overflow: hidden; }
+      body { background: transparent; }
+      #app { height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/bar-main.ts"></script>
+  </body>
+</html>
