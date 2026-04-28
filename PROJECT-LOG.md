@@ -26,14 +26,46 @@
 | **ada Phase 6 W1D1-D5 — VOXEN platform 真實連線** | 2026-04-28 上午 | ✅ 完成 | ada → @voxen/* → real 3CX V20 (HTTP + WS 雙綠) |
 | **M2 Active Routing webhook** | TBD | ⏳ 下一站 | 3CX IVR Forward to URL handler |
 | **OPEN/TeleSA Adapter** | TBD | ⏳ 排程中 | 玉山現有資產接入 |
-| **ada Phase 6 W1D6+ — Bar UI + EventBus 訂閱** | 2026-04-28+ | ⏳ 進行中 | 還剩 Week 1 後半 + Week 2-8 |
+| **ada Phase 6 W1D6 → W2D7 — Bar 完整鏈路 + ⭐ MVP demo milestone** | 2026-04-28 上午 | ✅ 完成 | Week 1+2 一日連衝完成；charter T+14 → 實際 T+0；W2-ACCEPTANCE.md 驗收通過 |
 | **Production Event Bus** | TBD | ⏳ 排程中 | NATS / Kafka / Redis Streams 選型 |
 | **玉山 Phase 6 Pilot** | 2026-05 ~ 06 | 🟡 等簽約 | 30-50 席 Pilot 上線 |
 | **玉山 Phase 6 Go-live** | 2026-06-30 | 🟡 排程 | 450 席全量切換 |
 
 ---
 
-## 2026-04-28（ada Phase 6 Week 1 D1–D5 — VOXEN platform 真實連線完成）
+## 2026-04-28（ada Phase 6 Week 1+2 完整連衝 — ⭐ MVP demo milestone 達成 14× 提前）
+
+### 上午 08:30 → 11:30 ｜ ada Phase 6 W1D6 → W2D7 一日衝完 9 天份進度
+
+| 時間 | 動作 | 產出 |
+|---|---|---|
+| 08:30 | **W1D6** — ada main subscribe EventBus '*'，每筆 canonical event console log | (in voxenIntegration.ts) |
+| 08:50 | **W1D7** — Softphone Bar 視窗骨架（820×40 frameless always-on-top, screen-saver z-order）+ bar.html 獨立 entry + Vue3 BarView 第一刀 | barWindow.ts / bar.html / bar-main.ts / BarView.vue |
+| | ↳ 三輪 UX 修：寬度 600→820、`<button>` 取代 `<span>`、explicit `<div class="drag-handle">` 解 6 buttons + draggable 並存問題 | — |
+| 09:15 | **W2D1** — main → Bar IPC 橋接（'voxen:event' channel 經 contextBridge 暴露 `window.voxen.onEvent`）；evt counter 即時跳動 | preload + ipc-api 加 VoxenApi |
+| 09:35 | **W2D2** — 接 `@voxen/crm-mock` + `Customer360Service`；boot 後 3 秒 synthetic lookup 王先生 → 推 customer card 到 Bar | setupCustomer360() in voxenIntegration |
+| 09:55 | **W2D3** — event buffer (50 events ring) 解「Bar mount 在 system.adapter.started 之後 evt=0」；EventBus subscriber 加 call.* → 自動 Customer-360 lookup | replay on did-finish-load |
+| 10:15 | **W2D4** — Bar 6 button 全部接通 `window.voxen.invokeBarAction(action)` → `ipcMain.handle('voxen:invoke-action')` → PBXAdapter (transfer 已存在) 或 stub log；Bar 加 `act` debug cell 顯示 ok/err | shared/ipc-api 加 BarAction type |
+| 10:35 | **W2D5** — `src/main/phone.ts` 純函式 `normalizePhoneTW`：E.164/TW intl/local 09xx/landline/SIP+tel URI/extension 過濾；**22/22 smoke test 過**；voxenIntegration 加 `lastCustomerProfile` 一格快取，setBarWindow did-finish-load 重播（Bar 重開後客戶卡立刻回來）| phone.ts + test/phone.smoke.mjs |
+| 10:50 | **W2D6** — BarView 從 3 態硬編 → 5 態 state machine（`offline/ready/ringing/busy/acw`）；純函式 `applyEventToStatus` 18 條轉換；ringing 黃色 1Hz 脈動動畫；ACW 5s timer auto→ready；**18/18 FSM smoke test 過** | BarView.vue (+90) + test/bar-status-fsm.smoke.mjs |
+| 11:15 | **W2D7** — synthetic call-flow driver `src/main/demoEvents.ts`（VOXEN_DEMO_FLOW=1 啟動，63s 跑完王先生 + 李太太 兩 case）；`docs/W2-ACCEPTANCE.md` 完整驗收報告（5-min screencast runbook 含時間軸） | demoEvents.ts + W2-ACCEPTANCE.md |
+| 11:30 | 🎉 **Week 2 MVP demo milestone 達成** — Charter 預估 T+14（2026-05-12），實際 T+0；驗收 3 項：玉山 10 客戶 ✅ / 通話 5 動作 IPC ✅（contract 擴充 W3+）/ 5 分鐘可開展示 ✅ | — |
+
+### 今日技術突破（W1D6 → W2D7）
+
+1. **Vite multi-entry frameless window** — `bar.html` 獨立 input 繞過 App.vue 的 router redirect 與 layout 干擾；preload 共用，window-scoped 邏輯走 `window.voxen.*`
+2. **Drag region + clickable button 並存** — 整 bar `-webkit-app-region: drag`，`.actions/.action-btn` opt-out `no-drag`，explicit `<div class="drag-handle">` 占滿剩餘空間（解了「找不到地方拖」）
+3. **Late-mount race condition 雙料解法** — event ring buffer (50) + lastCustomerProfile 一格快取，都在 `did-finish-load` 重播（Bar 在 system.adapter.started 之後才掛上、客戶卡在電話進行中重開 Bar 都不再消失）
+4. **Phone normalization 兩相設計** — `@voxen/core/utils/phone` 是「knowingly phone, throw on invalid」；ada/main/phone.ts 是「unknown payload, return null」（IPC event payload 不可信）。Code comment 說明關係，避免重複/漂移
+5. **State machine 用純函式** — `applyEventToStatus(prev, event) → next` 完全 side-effect free，可單獨拿出來跑 18-case smoke test 不用 JSDOM
+6. **Synthetic event driver = 銷售級利器** — `VOXEN_DEMO_FLOW=1 pnpm dev` 63 秒可跑完整 demo（包含 hold/unhold/abandoned/ACW timer），不用協調活線路。Pitch deck 直接配影片
+
+### 關鍵架構價值
+
+- **VOXEN 標準路徑全程驗證**：platform → IPC → renderer 全綠，跨 PBX 換 adapter 完全不影響上層
+- **Charter 8 週路線圖第 2 週 ⭐ MVP milestone 從 T+14 提前到 T+0 — 14× 加速**
+- **ada bundle 含 @voxen/* + ws + crm-mock** — VOXEN platform 跟 ada 一起 ship，後續開源也是同一 bundle
+- **Customer-360 全鏈路證明**：crm-mock 10 玉山客戶 → phone normalize → Customer360Service → IPC → Bar 渲染卡片，整條沒有手動接線
 
 ### 早晨 06:00 → 06:35 ｜ 開機儀式 + dev-server fix
 
